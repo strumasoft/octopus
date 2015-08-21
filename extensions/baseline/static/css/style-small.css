@@ -1,0 +1,40 @@
+/* skel-baseline v2.0.3 | (c) n33 | getskel.com | MIT licensed */
+
+/* Basic */
+
+	body, input, select, textarea {
+		font-size: 12pt;
+	}
+
+/* Banner */
+
+	#banner {
+		padding: 5em 2em 4em 2em;
+	}
+
+		#banner h2 {
+			font-size: 2.25em;
+		}
+
+		#banner p {
+			font-size: 1.25em;
+		}
+
+/* Main */
+
+	#main {
+		padding: 2em 0;
+	}
+
+/* Footer */
+
+	#footer {
+		padding: 2em 0;
+	}
+
+		#footer .copyright li {
+			border-left: 0;
+			margin-left: 0;
+			padding-left: 0;
+			display: block;
+		}

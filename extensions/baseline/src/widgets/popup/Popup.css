@@ -1,0 +1,26 @@
+.overlay {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0.5;
+    background-color: black;
+    z-index: 100000;
+}
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    padding: 30px 30px 30px 30px;
+    border-radius: 4px;
+    background-color: white;
+    z-index: 100001;
+}
+
+.spaced-down {
+	margin: 0px 0px 9px 0px;
+}

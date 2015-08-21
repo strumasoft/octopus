@@ -1,0 +1,69 @@
+@import 'vars';
+@import 'mixins';
+
+/* skel-baseline v2.0.3 | (c) n33 | getskel.com | MIT licensed */
+
+/* Basic */
+
+	html, body {
+		min-width: 320px;
+	}
+
+	body, input, select, textarea {
+		font-size: 12pt;
+	}
+
+/* List */
+
+	ul {
+		&.actions {
+			margin: 0 0 $size-element-margin 0;
+
+			li {
+				padding: ($size-element-margin * 0.5) 0 0 0;
+				display: block;
+				text-align: center;
+				width: 100%;
+
+				&:first-child {
+					padding-top: 0;
+				}
+
+				> * {
+					width: 100%;
+					margin: 0 !important;
+
+					&.icon {
+						&:before {
+							margin-left: -2em;
+						}
+					}
+				}
+			}
+
+			&.small {
+				li {
+					padding: ($size-element-margin * 0.25) 0 0 0;
+
+					&:first-child {
+						padding-top: 0;
+					}
+				}
+			}
+		}
+	}
+
+/* Button */
+
+	input[type="submit"],
+	input[type="reset"],
+	input[type="button"],
+	.button {
+		padding: 0;
+	}
+
+/* Banner */
+
+	#banner {
+		padding: 5em 2em 4em 2em;
+	}

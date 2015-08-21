@@ -1,0 +1,16 @@
+lua | http://www.lua.org/ | Copyright © 1994–2015 Lua.org, PUC-Rio.
+luajit | http://luajit.org/ | Copyright © 2005-2015 Mike Pall
+nginx | http://nginx.org/ | Copyright (C) 2011-2015 Nginx, Inc.
+lua-nginx-module | https://github.com/openresty/lua-nginx-module | Copyright (C) 2009-2015, by Yichun "agentzh" Zhang (章亦春) agentzh@gmail.com, CloudFlare Inc.
+lua-resty-mysql | https://github.com/openresty/lua-resty-mysql | Copyright (C) 2012-2013, by Yichun "agentzh" Zhang (章亦春) agentzh@gmail.com, CloudFlare Inc.
+lua-resty-postgres | https://github.com/azurewang/lua-resty-postgres | Copyright (C) 2013 Azure Wang(azure1st@gmail.com)
+lfs | https://github.com/keplerproject/luafilesystem | Copyright © 2003-2014 Kepler Project.
+persistence | http://the-color-black.net/blog/LuaTablePersistence | Copyright (c) 2010 Gerhard Roethlin
+dkjson | http://dkolf.de/src/dkjson-lua.fsl/home | Copyright (C) 2010-2013 David Heiko Kolf
+lua-resty-http | https://github.com/pintsized/lua-resty-http | Copyright (c) 2013, James Hurst
+lua-resty-cookie | https://github.com/cloudflare/lua-resty-cookie | Copyright (C) 2013 Jiale Zhi (calio), Cloudflare Inc.
+skel | https://github.com/n33/skel | Copyright (c) n33
+ace | https://github.com/ajaxorg/ace | Copyright (c) 2010, Ajax.org B.V.
+google-diff-match-patch | https://code.google.com/p/google-diff-match-patch/ | Apache License 2.0
+jQuery.PrettyTextDiff | https://github.com/arnab/jQuery.PrettyTextDiff | Copyright (c) 2013 Arnab Deka.
+jsdifflib | https://github.com/cemerick/jsdifflib | Copyright (c) 2007, Snowtide Informatics Systems, Inc.
