@@ -7,6 +7,7 @@ lua-resty-postgres | https://github.com/azurewang/lua-resty-postgres | Copyright
 lfs | https://github.com/keplerproject/luafilesystem | Copyright © 2003-2014 Kepler Project.
 persistence | http://the-color-black.net/blog/LuaTablePersistence | Copyright (c) 2010 Gerhard Roethlin
 dkjson | http://dkolf.de/src/dkjson-lua.fsl/home | Copyright (C) 2010-2013 David Heiko Kolf
+uuid | https://github.com/Tieske/uuid | Copyright 2012 Rackspace (original), 2013 Thijs Schreijer (modifications)
 lua-resty-http | https://github.com/pintsized/lua-resty-http | Copyright (c) 2013, James Hurst
 lua-resty-cookie | https://github.com/cloudflare/lua-resty-cookie | Copyright (C) 2013 Jiale Zhi (calio), Cloudflare Inc.
 skel | https://github.com/n33/skel | Copyright (c) n33
