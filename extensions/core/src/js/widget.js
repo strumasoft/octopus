@@ -1,8 +1,8 @@
-Widget = {} // namespace
+Widget = {id: '#widgets'} // namespace
 
 
 Widget.setHtmlToPage = function (html) {
-	$('#widgets').html(html)
+	$(Widget.id).html(html)
 }
 
 
@@ -142,6 +142,18 @@ Widget.setContainerToPage = function (rows) {
     html += '</div>'
     
 	Widget.setHtmlToPage(html)
+}
+
+
+Widget.setHeader = function (widget) {
+	var html = widget.html || widget // widget or plain string
+	$(html).insertBefore(Widget.id)
+}
+
+
+Widget.setFooter = function (widget) {
+	var html = widget.html || widget // widget or plain string
+	$(html).insertAfter(Widget.id)
 }
 
 
