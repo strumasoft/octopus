@@ -35,4 +35,4 @@ Also in the same direcotry `bin/unix` there is a file called `server.sh` which i
 Copyright and License
 =====================
 
-This module is licensed under the BSD license. Check `LICENSE.txt`
+This software is licensed under the BSD license. Check `LICENSE.txt`
