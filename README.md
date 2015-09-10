@@ -6,7 +6,7 @@ Created by [cyberz](http://cyberz.eu). Documentation at [cyberz](http://cyberz.e
 Introduction
 ============
 
-Octopus is automated process for creating configuration for the excellent nginx HttpLuaModule. It can host many aplications/sites. Every aplication/site hosted by octopus is made up of a number of extensions, where every extension is aggregation of logically connected files.
+Octopus is automated process for creating configuration for the excellent nginx [HttpLuaModule](http://wiki.nginx.org/HttpLuaModule). It can host many aplications/sites. Every aplication/site hosted by octopus is made up of a number of extensions, where every extension is aggregation of logically connected files.
 
 The heart of the system is the build process who creates all the necessary nginx configurations, create widgets, creates type system and autowire modules in dependency injection style.
 
@@ -17,7 +17,7 @@ Under `bin/unix` there is a file called `build.lua` where all the aplications/si
 lua build.lua
 ```
 
-Also in the same direcotry bin/unix there is a file called server.sh which is responsible for installing, starting, stoping and restarting the server:
+Also in the same direcotry `bin/unix` there is a file called `server.sh` which is responsible for installing, starting, stoping and restarting the server:
 
 ```bash
 # install nginx
