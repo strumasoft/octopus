@@ -7,8 +7,9 @@ return [[
 	<head>
 		<title id="title">{{title}}</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
+		<meta name="description" content="{{description}}" />
+		<meta name="keywords" content="{{keywords}}" />
+		<meta name="author" content="{{author}}">
 		
 		
 		<!--[if lte IE 8]><script src="/baseline/static/js/html5shiv.js"></script><![endif]-->
