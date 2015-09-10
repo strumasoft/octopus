@@ -1,7 +1,9 @@
 Octopus - The Lua Web Platform
 ==============================
 
-Created by [cyberz](http://cyberz.eu). Documentation at [cyberz](http://cyberz.eu/documentation).
+Created by [cyberz.eu](http://cyberz.eu)
+
+Documentation at [cyberz.eu](http://cyberz.eu/documentation)
 
 Introduction
 ============
