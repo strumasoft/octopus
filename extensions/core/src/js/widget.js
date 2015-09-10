@@ -170,3 +170,28 @@ Widget.validateRadioButton = function (name) {
     }
 }
 
+
+function escapeRegExp(string) {
+    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+}
+
+
+function replaceAll(string, find, replace) {
+  return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
+
+Widget.escapeHtml = function (str) {
+    if (!isEmpty(str)) {
+        //str = str.replace(/&lt;/g, "&amp;lt;")
+        //str = str.replace(/&gt;/g, "&amp;gt;")
+        
+        // escape HTML tags
+        str = replaceAll(str, "&lt;", "&amp;lt;")
+        str = replaceAll(str, "&gt;", "&amp;gt;")
+        
+        // escape BD string
+        str = replaceAll(str, "'", "''")
+    }
+    return str
+}

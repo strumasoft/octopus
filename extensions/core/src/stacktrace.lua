@@ -6,7 +6,8 @@ return function (err)
     
     if err then
         if type(err) == "table" then
-            ngx.log(ngx.ERR, next(err) .. "\n\t" .. debug.traceback())
+            local k,v = next(err)
+            ngx.log(ngx.ERR, v .. "\n\t" .. debug.traceback())
         else
             ngx.log(ngx.ERR, err .. "\n\t" .. debug.traceback())
         end

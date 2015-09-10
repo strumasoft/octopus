@@ -376,6 +376,40 @@ local function generateStaticConfig ()
 end -- end generateStaticConfig
 
 
+local function generateForbidStaticConfig ()
+
+	local persistence = require "persistence"
+	
+	local staticDirs = {}
+	
+	staticDirs[#staticDirs + 1] = "\\.lua$"
+	
+	for i=1, #extensions do
+		local extensionName = extensions[i]
+		local extensionDir = extensionsDir .. "/" .. extensionName
+		
+		staticDirs[#staticDirs + 1] = "/" .. extensionName .. "/src/"
+		
+		local config = evalConfig(extensionDir)
+		
+		if config.forbidStatic then
+			for j=1, #config.forbidStatic do
+				local staticDirName = config.static[j]
+				
+				local staticDirPath = "/" .. extensionName .. "/" .. staticDirName .. "/"
+				
+				staticDirs[#staticDirs + 1] = staticDirPath
+			end
+		end
+	end
+	
+	persistence.store(extensionsDir .. "/core/src/forbidStatic.lua", staticDirs);
+	
+	return staticDirs
+	
+end -- end generateForbidStaticConfig
+
+
 local function generateNginxConfig ()
 
 	local parse = require "parse"
@@ -395,7 +429,11 @@ local function generateNginxConfig ()
 		    extensionsDir = extensionsDir,
 	    }
 	    if scripts[1].requestBody then
-	        data.requestBody = requestBody 
+	        if type(scripts[1].requestBody) == "boolean" then
+	            data.requestBody = parse(requestBody, {maxBodySize = maxBodySize})
+            else
+                data.requestBody = parse(requestBody, {maxBodySize = scripts[1].requestBody})
+            end
 	    end
 	    if scripts[1].access then
 	        local accessScriptFileNames = accessScripts[scripts[1].access]
@@ -422,6 +460,17 @@ local function generateNginxConfig ()
 	end
 	
 	
+	local forbidStaticLocations = {}
+	
+	local forbidStaticDirs = generateForbidStaticConfig()
+	
+	for i=1, #forbidStaticDirs do
+		local forbidStaticDir = forbidStaticDirs[i]
+
+		forbidStaticLocations[#forbidStaticLocations + 1] = parse(nginxForbidStaticLocationTemplate, {url = forbidStaticDir})
+	end
+	
+	
 	local t = parse(nginxConfigTemplate, {
 		port = port,
 		server_name = server_name,
@@ -436,6 +485,7 @@ local function generateNginxConfig ()
 		rootPath = rootPath,
 		staticLocation = staticLocation,
 		staticLocations = table.concat(staticLocations),
+		forbidStaticLocations = table.concat(forbidStaticLocations),
 		includeDrop = includeDrop
 	})
 	
@@ -512,6 +562,7 @@ m.aggregateOverrideTable = aggregateOverrideTable
 m.generateOverrideTypesTable = generateOverrideTypesTable
 m.generateDatabaseListeners = generateDatabaseListeners
 m.generateStaticConfig = generateStaticConfig
+m.generateForbidStaticConfig = generateForbidStaticConfig
 m.generateNginxConfig = generateNginxConfig
 m.generateModulesConfig = generateModulesConfig
 m.generateJavaScriptConfig = generateJavaScriptConfig

@@ -2,16 +2,17 @@ local config = {} -- extension configuration
 
 config.modules = {
 	{name = "access", script = "access.lua"},
-	{name = "cookie", script = "cookie.lua"},
-	--autowire
 	--builder
+	{name = "cookie", script = "cookie.lua"},
 	{name = "databaseListeners", script = "databaseListeners.lua"},
 	{name = "dkjson", script = "dkjson.lua"},
 	{name = "eval", script = "eval.lua"},
 	{name = "exception", script = "exception.lua"},
 	{name = "exit", script = "exit.lua"},
+	--forbidStatic
 	{name = "http", script = "http.lua"},
 	{name = "http_headers", script = "http_headers.lua"},
+	{name = "import", script = "import.lua"},
 	--javascripts
 	{name = "localization", script = "localization.lua"},
 	--locations

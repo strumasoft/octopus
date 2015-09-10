@@ -3,22 +3,31 @@ local oldRequire = require
 
 
 local function newModuleName (moduleName, moduleType)
+    local extensionsDir = ngx.var.extensionsDir
+    
     if moduleType then
-        return moduleType .. ":" .. moduleName
+        return extensionsDir .. ":" .. moduleType .. ":" .. moduleName
     else
-        return "modules" .. ":" .. moduleName
+        return extensionsDir .. ":" .. "modules" .. ":" .. moduleName
     end
 end
 
 
 -- cache modules, locations and access
-local CACHE = {}
+package.loaded.MODULES = {}
 local function loadModules (moduleType)
-    if CACHE[moduleType] then
-        return CACHE[moduleType]
+    local extensionsDir = ngx.var.extensionsDir
+    local MODULES = package.loaded.MODULES
+    
+    if not MODULES[extensionsDir] then
+        MODULES[extensionsDir] = {}
+    end
+    
+    if MODULES[extensionsDir][moduleType] then
+        return MODULES[extensionsDir][moduleType]
     else
-        local modules = dofile(ngx.var.extensionsDir .. "/core/src/" .. moduleType ..".lua")
-        CACHE[moduleType] = modules
+        local modules = dofile(extensionsDir .. "/core/src/" .. moduleType ..".lua")
+        MODULES[extensionsDir][moduleType] = modules
         return modules
     end
 end
@@ -28,7 +37,7 @@ local function newRequire (moduleName, moduleType)
 	if package.loaded[newModuleName(moduleName, moduleType)] then
 		return package.loaded[newModuleName(moduleName, moduleType)] 
 	end
-
+    
     if moduleType then
         local modules = loadModules(moduleType)
         
@@ -37,7 +46,6 @@ local function newRequire (moduleName, moduleType)
     	    local lastModule = dofile(scripts[#scripts]) -- use only last script
     	        
             package.loaded[newModuleName(moduleName, moduleType)] = lastModule
-       		_G[newModuleName(moduleName, moduleType)] = lastModule
        		
        		return lastModule
         end
@@ -62,7 +70,6 @@ local function newRequire (moduleName, moduleType)
     		end
     		
     		package.loaded[newModuleName(moduleName, moduleType)] = lastModule
-       		_G[newModuleName(moduleName, moduleType)] = lastModule
        		
        		return lastModule
     	else

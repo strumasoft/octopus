@@ -7,6 +7,7 @@ accessLog = "access_log off;"
 rootPath = "root " .. extensionsDir .. ";"
 staticLocation = [[location /static/ {}]]
 includeDrop = [[#include drop.conf;]]
+maxBodySize = "50k"
 minifyJavaScript = false
 minifyCommand = [[java -jar ../yuicompressor-2.4.8.jar %s -o %s]]
 databaseConnection = {
@@ -34,8 +35,8 @@ requestBody = [[
 
     # force reading request body (default off)
 	lua_need_request_body on;
-	client_max_body_size 50k;
-	client_body_buffer_size 50k;
+	client_max_body_size {{maxBodySize}};
+	client_body_buffer_size {{maxBodySize}};
 
 ]]
 
@@ -64,6 +65,13 @@ nginxStaticLocationTemplate = [[
 		
 	location {{url}} {}
 		
+]]
+
+
+nginxForbidStaticLocationTemplate = [[
+
+    location ~* {{url}} {access_log off; log_not_found off; deny all;}
+    
 ]]
 
 
@@ -101,6 +109,8 @@ nginxConfigTemplate = [[
     		{{ssl_certificate}}
     		
     		{{rootPath}}
+    		
+    		{{forbidStaticLocations}}
     		
     		# This block will catch static file requests, such as images, css, js
     		# The ?: prefix is a 'non-capturing' mark, meaning we do not require

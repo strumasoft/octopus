@@ -8,7 +8,8 @@ return function (err)
     ngx.status = ngx.HTTP_INTERNAL_SERVER_ERROR
     
     if type(err) == "table" then
-        ngx.say(next(err))
+        local k,v = next(err)
+        ngx.say(v)
     else
         ngx.say(err)
     end
