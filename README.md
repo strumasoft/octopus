@@ -35,4 +35,6 @@ Also in the same direcotry `bin/unix` there is a file called `server.sh` which i
 Copyright and License
 =====================
 
-This software is licensed under the BSD license. Check `LICENSE.txt`
+Copyright (C) 2015, Lazar Gyulev, cyberz.eu@gmail.com, www.cyberz.eu
+
+All rights reserved. BSD license.
