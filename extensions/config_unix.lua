@@ -5,8 +5,8 @@ local parse = require "parse"
 extensions = {"core", "baseline", "demo"}
 
 
-port = 2525
-securePort = 32525
+port = 7878
+securePort = 37878
 errorLog = "#error_log stderr;"
 accessLog = "access_log off;"
 rootPath = "root " .. extensionsDir .. ";"

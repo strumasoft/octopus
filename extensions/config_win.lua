@@ -1,7 +1,7 @@
 extensions = {"core", "baseline", "demo"}
 
 
-port = 2525
+port = 7878
 errorLog = "#error_log stderr;"
 accessLog = "access_log off;"
 rootPath = "root " .. extensionsDir .. ";"

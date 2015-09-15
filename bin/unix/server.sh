@@ -140,8 +140,8 @@ function nginx_restart {
             ./nginx -s stop
             ./nginx -c nginx.conf
             
-            # [TODO] i want to see the error
             echo "" > logs/error.log
+            echo "" > logs/access.log
             tail -f logs/error.log
         fi
     else
