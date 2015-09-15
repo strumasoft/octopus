@@ -36,7 +36,7 @@ Widget.ProductDetail = function (product) {
                     <i class="fa fa-minus-square"></i>
                     
                     <button id="add-to-cart" class="button special" type="button"
-                        onclick='Widget.ProductDetail.addToCart("{{product.code}}", 1);'>{{@localize("addToCart")}}</button>
+                        onclick='Widget.ProductDetail.addToCart("{{product.code}}", "{{product.price}}");'>{{@localize("addToCart")}}</button>
                 
                     <i class="fa fa-heart"></i>
                     <i class="fa fa-refresh"></i>
@@ -74,6 +74,6 @@ Widget.ProductDetail.prototype = {
 	constructor: Widget.ProductDetail
 }
 
-Widget.ProductDetail.addToCart = function (productCode, quantity) {
-    var infoPopup = new Widget.InfoPopup({info: localize("addToCart") + " " + quantity + " x " + productCode})
+Widget.ProductDetail.addToCart = function (productCode, price) {
+    var infoPopup = new Widget.InfoPopup({info: "Buy product '" + productCode + "' for " + price})
 }

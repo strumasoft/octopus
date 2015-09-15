@@ -7,6 +7,9 @@ Widget.Header = function (data) {
 			<nav id="nav">
 				<ul>
 				    <li><a class="button special hand" style="color: white;"
+				        href="/">{{@localize("index")}}</a>
+				    </li>
+				    <li><a class="button special hand" style="color: white;"
 				        href="">{{@localize("reload")}}</a>
 				    </li>
 				    <li><a class="button special hand" style="color: white;"
