@@ -82,6 +82,48 @@ local function createDirectory (path)
 end
 
 
+local function quoteCommandlineArgument (str)
+    if str then
+        return [[']] .. str:replace([[']], [['\'']], true) .. [[']]
+    else
+        return ""
+    end
+end
+
+
+local specialCharacters = {
+    [[\]], -- must be first
+    [[`]], [[~]], [[!]], [[@]], [[#]], [[$]], [[%]], [[^]], [[&]], [[*]], [[(]], [[)]],
+    [=[]]=], [=[[]=], [[{]], [[}]], 
+    [[:]], [[;]], [["]], [[']], [[|]], 
+    [[>]], [[<]], [[.]], [[,]], [[?]], [[/]],
+    [[ ]], -- space must be last
+}
+        
+
+local function escapeCommandlineSpecialCharacters (str)
+    if str then
+        for i=1,#specialCharacters do
+            str = str:replace(specialCharacters[i], "\\" .. specialCharacters[i], true)
+        end
+        return str
+    else
+        return ""
+    end
+end
+
+
+local function noCommandlineSpecialCharacters (str)
+    if str then
+        for i=1,#specialCharacters do
+            if str:find(specialCharacters[i], 1, true) then 
+                exception("no command line special characters")
+            end
+        end
+    end
+end
+
+
 return {
     noBackDirectory = noBackDirectory,
     countBackDirectories = countBackDirectories,
@@ -90,4 +132,8 @@ return {
     removeFile = remove,
     removeDirectory = remove,
     createDirectory = createDirectory,
+    
+    quoteCommandlineArgument = quoteCommandlineArgument,
+    escapeCommandlineSpecialCharacters = escapeCommandlineSpecialCharacters,
+    noCommandlineSpecialCharacters = noCommandlineSpecialCharacters,
 }

@@ -1,10 +1,9 @@
 #! /bin/bash
 
-### install ssl ###
+### prerequisites ###
 # sudo apt-get install libssl-dev
-
-### permissions ###
-# sudo chmod 777 -R .
+# sudo apt-get install gcc g++ build-essential
+# sudo apt-get install lua5.1
 
 ### nginx process ###
 # ps aux | grep nginx
@@ -131,9 +130,10 @@ function nginx_stop {
 }
 
 
+# $1 is the name of the build
 function nginx_restart {
     if [ -e "build.lua" ]; then
-        lua build.lua
+        lua build.lua $1
         
         if [ $? -eq 0 ]; then
             export LD_LIBRARY_PATH="$LUAJIT_LIB":$LD_LIBRARY_PATH
@@ -172,7 +172,7 @@ elif [ "$1" == "stop" ]; then
     nginx_stop
 elif [ "$1" == "restart" ]; then
     echo "restart server..."
-    nginx_restart
+    nginx_restart $2
 else
     echo "unknown operation!"
 fi
