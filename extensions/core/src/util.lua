@@ -74,6 +74,27 @@ local function remove (file)
 end
 
 
+local function filterFiles (dir, f)
+    if dir then
+        for entry in lfs.dir(dir) do
+            if entry ~= "." and entry ~= ".." then
+                local path
+    			if dir ~= "/" then 
+    				path = dir .. "/" .. entry
+    			else
+    				path = "/" .. entry
+    			end
+    			
+    			local attr = lfs.attributes(path)
+    			if attr and attr.mode == "file" then
+    			    f(path)
+    		    end
+            end
+        end
+    end
+end
+    
+
 local function createDirectory (path)
     local ok, err = lfs.mkdir(path)
     if not ok then
@@ -132,6 +153,8 @@ return {
     removeFile = remove,
     removeDirectory = remove,
     createDirectory = createDirectory,
+    
+    filterFiles = filterFiles,
     
     quoteCommandlineArgument = quoteCommandlineArgument,
     escapeCommandlineSpecialCharacters = escapeCommandlineSpecialCharacters,
