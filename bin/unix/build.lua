@@ -49,20 +49,6 @@ http {
         image/x-icon ico;
     }
 	
-	# Default server
-    server {
-        listen {{port}};
-        
-        listen {{sslPort}} ssl;
-		
-    	ssl_certificate     ./ssl_certificate/server.crt;
-        ssl_certificate_key ./ssl_certificate/server.key;
-        ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
-        ssl_ciphers         HIGH:!aNULL:!MD5;
-        
-        return 404;
-    }
-	
 	# Regular servers
 	include nginx.config.*;
 	
@@ -108,10 +94,23 @@ local originalPackageCPath = package.cpath
 loadCPath("luajit/lib/?.so;")
 loadExtension("../../extensions", "core")
 
-local util = require "util"
-util.filterFiles(".", function (fileName)
-    if fileName:find("nginx.config.", 1, true) then os.remove(fileName) end
-end)
+local lfs = require "lfs"
+local dir = "."
+for entry in lfs.dir(dir) do
+    if entry ~= "." and entry ~= ".." then
+        local path
+		if dir ~= "/" then 
+			path = dir .. "/" .. entry
+		else
+			path = "/" .. entry
+		end
+		
+		local attr = lfs.attributes(path)
+		if attr and attr.mode == "file" then
+		    if path:find("nginx.config.", 1, true) then os.remove(path) end
+	    end
+    end
+end
 
 local parse = require "parse"
 local file = assert(io.open("nginx.conf", "w"))
