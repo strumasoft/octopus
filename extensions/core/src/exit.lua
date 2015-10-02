@@ -1,10 +1,4 @@
-local stacktrace = require "stacktrace"
-
-
-
 return function (err)
-    stacktrace(err)
-    
     ngx.status = ngx.HTTP_INTERNAL_SERVER_ERROR
     
     if type(err) == "table" then

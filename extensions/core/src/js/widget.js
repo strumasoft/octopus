@@ -195,3 +195,23 @@ Widget.escapeHtml = function (str) {
     }
     return str
 }
+
+Widget.successHandler = function (data, info) {
+    if (!isEmpty(data)) {
+        var infoPopup = new Widget.InfoPopup({info: "<pre>" + data + "</pre>"})
+    } else if (!isEmpty(info)) {
+        var infoPopup = new Widget.InfoPopup({info: "<pre>" + info + "</pre>"})
+    } else {
+        var infoPopup = new Widget.InfoPopup({info: "Done!"})
+    }
+}
+
+Widget.errorHandler = function (jqXHR, textStatus, errorThrown) {
+    if (!isEmpty(jqXHR.responseText)) {
+        var infoPopup = new Widget.InfoPopup({info: jqXHR.responseText})
+    } else if (!isEmpty(textStatus)) {
+        var infoPopup = new Widget.InfoPopup({info: textStatus})
+    } else {
+        var infoPopup = new Widget.InfoPopup({info: "Error"})
+    }
+}

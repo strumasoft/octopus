@@ -9,6 +9,11 @@
 # ps aux | grep nginx
 
 
+### sudo ###
+# export LD_LIBRARY_PATH="$LUAJIT_LIB":$LD_LIBRARY_PATH
+# sudo LD_LIBRARY_PATH="$LD_LIBRARY_PATH" ./nginx -s stop
+# sudo LD_LIBRARY_PATH="$LD_LIBRARY_PATH" ./nginx -c nginx.conf
+
 
 
 

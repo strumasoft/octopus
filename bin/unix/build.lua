@@ -1,29 +1,23 @@
--- load functions --
+-- set up build names --
 
-local loadExtension = function (extensionsDir, extensionName)
-	package.path = package.path .. ";" .. extensionsDir .. "/" .. extensionName .. "/src/?.lua"
-end
+local octopus = {
+    port = 7878,
+    sslPort = 37878,
+    process = {
+        extensions = {"../../extensions", "/config_unix.lua"},
+    }
+}
 
-local loadPath = function (path)
-	package.path = package.path .. ";" .. path
-end
-
-local loadCPath = function (cpath)
-	package.cpath = package.cpath .. ";" .. cpath
-end
-
-local function loadedPackages ()
-    local packages = {}
-    for k,v in pairs(package.loaded) do packages[k] = k end
-    return packages
-end
-
-local function unloadPackages (whitelistedPackages)
-    for k,v in pairs(package.loaded) do
-        if whitelistedPackages[k] == nil then
-            package.loaded[k] = nil
-        end
+-- arg[1] is the name of the build
+if arg[1] then
+    print("[" .. arg[1] .. "]")
+    if arg[1] == "octopus" then 
+        config = octopus
+    else 
+        error(arg[1] .. " is not name of build")
     end
+else
+    config = octopus
 end
 
 
@@ -62,26 +56,32 @@ worker_processes 2;
 ]]
 
 
--- set up build names --
+-- load functions --
 
-local octopus = {
-    port = 7878,
-    sslPort = 37878,
-    process = {
-        extensions = {"../../extensions", "/config_unix.lua"},
-    }
-}
+local loadExtension = function (extensionsDir, extensionName)
+	package.path = package.path .. ";" .. extensionsDir .. "/" .. extensionName .. "/src/?.lua"
+end
 
--- arg[1] is the name of the build
-if arg[1] then
-    print("[" .. arg[1] .. "]")
-    if arg[1] == "octopus" then 
-        config = octopus
-    else 
-        error(arg[1] .. " is not name of build")
+local loadPath = function (path)
+	package.path = package.path .. ";" .. path
+end
+
+local loadCPath = function (cpath)
+	package.cpath = package.cpath .. ";" .. cpath
+end
+
+local function loadedPackages ()
+    local packages = {}
+    for k,v in pairs(package.loaded) do packages[k] = k end
+    return packages
+end
+
+local function unloadPackages (whitelistedPackages)
+    for k,v in pairs(package.loaded) do
+        if whitelistedPackages[k] == nil then
+            package.loaded[k] = nil
+        end
     end
-else
-    config = octopus
 end
 
 
