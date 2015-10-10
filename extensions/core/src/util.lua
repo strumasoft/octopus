@@ -50,7 +50,13 @@ local function remove (file)
     			end
     			
     			local attr = lfs.attributes(path)
-    			if attr.mode == "directory" then
+    			if not attr then 
+			        attr = lfs.symlinkattributes(path)
+			    end
+    			
+    			if not attr then
+    			    exception(path .. " has no attributes")
+    			elseif attr.mode == "directory" then
     			    remove(path)
     			else
         		    local ok, err = os.remove(path)
