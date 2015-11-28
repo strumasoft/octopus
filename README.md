@@ -8,7 +8,7 @@ Documentation at [cyberz.eu](http://cyberz.eu/documentation)
 Introduction
 ============
 
-Octopus is automated process for creating configuration for the excellent nginx [HttpLuaModule](http://wiki.nginx.org/HttpLuaModule). It can host many aplications/sites. Every aplication/site hosted by octopus is made up of a number of extensions, where every extension is aggregation of logically connected files.
+Octopus is automated process for creating configuration for the excellent [lua-nginx-module](https://github.com/openresty/lua-nginx-module). It can host many aplications/sites. Every aplication/site hosted by octopus is made up of a number of extensions, where every extension is aggregation of logically connected files.
 
 The heart of the system is the build process who creates all the necessary nginx configurations, create widgets, creates type system and autowire modules in dependency injection style.
 
