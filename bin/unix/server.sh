@@ -89,8 +89,8 @@ function nginx_install {
     
     # install PCRE
     pcre=pcre
-    pcre_version=8.36
-    pcre_url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.36.tar.gz
+    pcre_version=8.38
+    pcre_url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.38.tar.gz
     download $pcre tar.gz $pcre_url
     
     
