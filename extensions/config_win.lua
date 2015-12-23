@@ -1,4 +1,4 @@
-extensions = {"core", "baseline", "demo"}
+extensions = {"core", "baseline", "orm", "security", "editor", "repository", "database", "shop", "demo"}
 
 
 port = 7878
@@ -23,7 +23,7 @@ globalParameters = {
     extensionsDir = extensionsDir,
     sourceCtxPath = "",
     cryptoCommand = [[java -jar ../crypto.jar]],
-    requireSecurity = true,
+    requireSecurity = false,
     sessionTimeout = 3600, -- 1h
     domain = "", -- localhost / the host that sent it
     debugDB = false,

@@ -7,10 +7,10 @@ config.locations = {
 }
 
 config.javascripts = {
-	{name = "ProductDetail", script = "widgets/ProductDetail.js"},
-	{name = "Error", script = "widgets/Error.js"},
-	{name = "Header", script = "widgets/Header.js"},
-	{name = "Footer", script = "widgets/Footer.js"},
+	{name = "DemoProductDetail", script = "widgets/DemoProductDetail.js"},
+	{name = "DemoError", script = "widgets/DemoError.js"},
+	{name = "DemoHeader", script = "widgets/DemoHeader.js"},
+	{name = "DemoFooter", script = "widgets/DemoFooter.js"},
 }
 
 config.stylesheets = {
@@ -18,7 +18,7 @@ config.stylesheets = {
 }
 
 config.modules = {
-	{name = "ProductService", script = "modules/ProductService.lua"},
+	{name = "DemoProductService", script = "modules/DemoProductService.lua"},
 }
 
 config.static = {

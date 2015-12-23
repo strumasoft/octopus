@@ -4,7 +4,7 @@ local param = require "param"
 local property = require "property"
 local localization = require "localization"
 local exception = require "exception"
-local productService = require "ProductService"
+local productService = require "DemoProductService"
 
 
 
@@ -45,15 +45,15 @@ ngx.say(parse(require("BaselineHtmlTemplate"), {
     	
     	vars.locale = {{locale}}
     	
-    	Widget.setHeader(new Widget.Header())
+    	Widget.setHeader(new Widget.DemoHeader())
         Widget.setContainerToPage([
         	[
-        	    {size: "12u", widget: new Widget.Error({{error}})}
+        	    {size: "12u", widget: new Widget.DemoError({{error}})}
         	],
         	[
-        	    {size: "9u -3u", medium: "8u -4u", small: "12u", widget: new Widget.ProductDetail({{product}})}
+        	    {size: "9u -3u", medium: "8u -4u", small: "12u", widget: new Widget.DemoProductDetail({{product}})}
         	]
     	])
-    	Widget.setFooter(new Widget.Footer())
+    	Widget.setFooter(new Widget.DemoFooter())
     ]], json.encodeProperties(data))
 }))
