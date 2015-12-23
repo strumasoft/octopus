@@ -1,0 +1,25 @@
+.directory {
+	color: black;
+	cursor: pointer;
+}
+
+.file {
+	color: {{mainColor}};
+	cursor: pointer;
+}
+
+.unknown {
+	color: red;
+	cursor: pointer;
+}
+
+ul.no-bullets
+{
+    list-style-type: none;
+    padding-left: 0em;
+    margin: 0em;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
