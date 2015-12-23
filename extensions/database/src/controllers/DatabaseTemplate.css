@@ -1,0 +1,22 @@
+#main {
+	padding: 1em 0;
+}
+
+#directoryNavigation {
+	overflow-x: scroll;
+}
+
+.resultbox {
+    padding: 15px;
+    margin: 15px;
+    
+    color: #444;
+    font-size: 1em;
+    font-weight: normal;
+   
+    background: rgba(202, 210, 144, 0.075);
+    border-radius: 6px;
+    border: solid 1px rgba(144, 144, 144, 0.25);
+    
+    /* white-space: pre; */
+}
