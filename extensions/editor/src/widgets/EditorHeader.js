@@ -153,7 +153,7 @@ Widget.EditorHeader.search = function () {
 		if (!isEmpty(query)) {
 		    if (isEmpty(replace)) {
 			    $("#" + proceedButtonGuid).attr("href", Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorSearchUrl, 
-			        {directoryName: encodeURIComponent(directoryName), query: query, filter: filter, isRegex: isRegex, isFileName: isFileName}, true))
+			        {directoryName: encodeURIComponent(directoryName), query: query, filter: filter, isRegex: isRegex, isFileName: isFileName}))
 			} else {
 			    $("#" + proceedButtonGuid).attr("href", Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorSearchUrl, 
 			        {directoryName: encodeURIComponent(directoryName), query: query, replace: replace, filter: filter, isRegex: isRegex, isFileName: isFileName}))
@@ -271,12 +271,11 @@ Widget.EditorHeader.isRepositorySet = function () {
 Widget.EditorHeader.newSessionUrl = function (controller, data, noHiddenData) {
     var url = controller + "?session=new"
     
-    var repository = Widget.EditorHeader.getRepository() 
-    
     if (noHiddenData) {
         // do not include hidden data
     } else {
         // include repository
+        var repository = Widget.EditorHeader.getRepository() 
         for (var key in repository) {
             url += "&" + key + "=" + repository[key]
         }
@@ -291,6 +290,10 @@ Widget.EditorHeader.newSessionUrl = function (controller, data, noHiddenData) {
 
 Widget.EditorHeader.repositoryFileHistory = function () {
     var directoryName = editor.homeDirectory || editor.directoryName
+    
+    if (isEmpty(directoryName)) {
+        directoryName = getURLParameter("directoryName")
+    }
     
     var fileName = editor.fileName
     

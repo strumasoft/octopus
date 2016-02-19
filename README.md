@@ -42,7 +42,7 @@ cd octopus/bin/unix
 . ./server.sh install
 . ./server.sh restart
 ```
-then just open with browser page [localhost:7878](http://localhost:7878)
+then just open [localhost:7878](http://localhost:7878)
 
 Important configuration files: [config_unix.lua](extensions/config_unix.lua), [build.lua](bin/unix/build.lua), [server.sh](bin/unix/server.sh)
 

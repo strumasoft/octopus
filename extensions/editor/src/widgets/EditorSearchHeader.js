@@ -5,6 +5,13 @@ Widget.EditorSearchHeader = function (data) {
 			<h1><div id="menu" class="hand">Search</div></h1>
 			<nav id="nav">
 				<ul>
+				    <!-- View History -->
+				    <li><a id="repositoryFileHistoryAction" class="hand" style="color: white;" 
+				        href="javascript:;" target="_blank"
+				        onclick='return Widget.EditorHeader.repositoryFileHistory();'>
+					    <i class="fa fa-eye"></i> <i class="fa fa-file-o"></i></a>
+				    </li>
+				    
 				    <!-- Toggle -->
 					<li><div id="toggleAction" class="button special" 
 					    onclick='Widget.EditorSearchHeader.toggle();'>
