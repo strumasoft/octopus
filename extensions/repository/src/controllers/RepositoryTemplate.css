@@ -5,6 +5,7 @@ ins {
 
 del {
     background-color: #ffc6c6;
+    text-decoration: none;
 }
 
 .diffbox {

@@ -201,6 +201,9 @@ Widget.EditorHeader.setHomeDirectory = function () {
             		var subdirs = new Widget.EditorNavigation(Widget.json(dirs), {path: editor.directoryName, name: simpleDirectoryName})
             		editorTemplate.setDirectoryNavigation(subdirs.html)
             		editor.homeDirectory = editor.directoryName
+            		
+            		$("#title").html(simpleDirectoryName)
+            		$("#menu").html(simpleDirectoryName)
     			})
     			.error(Widget.errorHandler)
         	

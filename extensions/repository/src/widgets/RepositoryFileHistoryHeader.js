@@ -115,7 +115,7 @@ Widget.compareSVNRepositoryFileHistory = function (oldRevision, newRevision, fil
                     
                     $.get(fileDiffUrl)
                         .success(function (content) {
-                            $("#patch .diffbox").html(Widget.createHTML(content))
+                            $("#patch .diffbox").html(Widget.decoratePatch(Widget.createHTML(content)))
                             
                             $("#compareAction").html('Compare')
                         })
@@ -175,7 +175,7 @@ Widget.compareGITRepositoryFileHistory = function (oldRevision, oldFileName, new
                     
                     $.get(fileDiffUrl)
                         .success(function (content) {
-                            $("#patch .diffbox").html(Widget.createHTML(content))
+                            $("#patch .diffbox").html(Widget.decoratePatch(Widget.createHTML(content)))
                             
                             $("#compareAction").html('Compare')
                         })
@@ -193,4 +193,70 @@ Widget.compareGITRepositoryFileHistory = function (oldRevision, oldFileName, new
 		    Widget.errorHandler(jqXHR, textStatus, errorThrown)
 		    $("#compareAction").html('Compare')
 		})
+}
+
+Widget.decoratePatch = function (text) {
+    var delimiters = [
+        {open: "<br>+", close: "<br>", bypass: "<br>+++"}, 
+        {open: "<br>-", close: "<br>", bypass: "<br>---"}
+    ]
+    var wrappers = [{open: "<ins>", close: "</ins>"}, {open: "<del>", close: "</del>"}]
+    
+    var substrings = []
+    
+    var iteratorIndex = 0
+    
+    do {
+        var startDelimiterIndex, index, delimiter, wrapper
+        
+        // find the closest delimiter index
+        var closestDelimiterIndex = text.length
+        for (var i = 0; i < delimiters.length; i++) {
+            startDelimiterIndex = text.indexOf(delimiters[i].open, iteratorIndex)
+            if (startDelimiterIndex >= 0 && startDelimiterIndex < closestDelimiterIndex) {
+                closestDelimiterIndex = startDelimiterIndex
+                index = i
+            }
+        }
+        
+        // get closest index, delimiter and wrapper
+        startDelimiterIndex = closestDelimiterIndex
+        delimiter = delimiters[index]
+        wrapper = wrappers[index]
+        
+        // bypass beggining headers
+        if (startDelimiterIndex < text.length 
+            && startDelimiterIndex == text.indexOf(delimiter.bypass, iteratorIndex)) {
+            
+            substrings.push(text.substring(iteratorIndex, startDelimiterIndex + delimiter.bypass.length))
+            
+            iteratorIndex = startDelimiterIndex + delimiter.bypass.length
+            
+            continue
+        }
+        
+		if (startDelimiterIndex >= 0 && startDelimiterIndex < text.length) {
+            substrings.push(text.substring(iteratorIndex, startDelimiterIndex))
+            
+            var startExpressionIndex = startDelimiterIndex + delimiter.open.length
+			var endDelimiterIndex = text.indexOf(delimiter.close, startExpressionIndex)
+			
+			if (endDelimiterIndex < 0) {
+			    endDelimiterIndex = text.length
+			}
+			
+			// from beginning of delimiter.open (inclusive) to beginning of delimiter.close (exclusive)
+			var line = text.substring(startDelimiterIndex, endDelimiterIndex)
+			
+			substrings.push(wrapper.open + line + wrapper.close)
+			
+			// continue from beginning of delimiter.close
+			iteratorIndex = endDelimiterIndex
+		} else {
+			substrings.push(text.substring(iteratorIndex, text.length))
+		}
+	} while (startDelimiterIndex >= 0 && startDelimiterIndex < text.length)
+	
+	// concat substrings
+	return substrings.join("")
 }
