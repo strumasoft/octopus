@@ -11,6 +11,11 @@ local externalJS = [[
 ]]
 
 
+local externalCSS = [[
+	<link href="/database/static/database-favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+]]
+
+
 local initJSTemplate = [[
 	var vars = {}
 	
@@ -80,6 +85,7 @@ end
 local page = parse(require("BaselineHtmlTemplate"), {
 	title = "Database", 
 	externalJS = externalJS,
+	externalCSS = externalCSS,
 	initJS = parse(initJSTemplate, {
 		types = json.encode(types)
 	})

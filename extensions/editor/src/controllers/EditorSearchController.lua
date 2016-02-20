@@ -4,6 +4,7 @@ local exit = require "exit"
 local editor = require "Editor"
 local parse = require "parse"
 local directory = require "Directory"
+local util = require "util"
 
 
 
@@ -13,12 +14,17 @@ local externalJS = [[
 ]]
 
 
+local externalCSS = [[
+	<link href="/editor/static/search-favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+]]
+
+
 local initJSTemplate = [[
 	var vars = {}
 	
 	var editor = new Widget.Editor({id: "editor"})
 	var editorSearchResult = new Widget.EditorSearchResult({{files}})
-	var editorSearchHeader = new Widget.EditorSearchHeader({})
+	var editorSearchHeader = new Widget.EditorSearchHeader("{{title}}")
 	
 	var editorSearchTemplate = new Widget.EditorSearchTemplate({
 		searchResult: editorSearchResult.html,
@@ -103,7 +109,9 @@ local function process ()
     return parse(require("BaselineHtmlTemplate"), {
     	title = query, 
     	externalJS = externalJS,
+    	externalCSS = externalCSS,
     	initJS = parse(initJSTemplate, {
+    	    title = util.escapeCommandlineSpecialCharacters(query), 
     		files = json.encode(files)
     	})
     })

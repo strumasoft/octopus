@@ -58,6 +58,7 @@ config.modules = {
 }
 
 config.static = {
+    "static"
 }
 
 return config -- return extension configuration

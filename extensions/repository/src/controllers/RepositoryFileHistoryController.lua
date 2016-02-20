@@ -16,6 +16,11 @@ local externalJS = [[
 ]]
 
 
+local externalCSS = [[
+	<link href="/repository/static/repository-favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+]]
+
+
 local customJS = [[
     function diffUsingJS(viewType, originalContent, changedContent) {
     	"use strict";
@@ -67,9 +72,13 @@ local function process ()
     local fileName = param.fileName
     local directoryName = param.directoryName
     
+    local paths = param.split(fileName, "/")
+    local title = paths[#paths]
+    
     return parse(require("BaselineHtmlTemplate"), {
-    	title = "RepositoryFileHistory", 
+    	title = title, 
     	externalJS = externalJS,
+    	externalCSS = externalCSS,
     	customJS = customJS,
     	initJS = parse(initJSTemplate, json.encodeProperties({
     		revisions = repository.fileHistory(username, password, fileName, directoryName),

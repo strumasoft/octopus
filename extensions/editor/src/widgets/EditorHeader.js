@@ -1,8 +1,10 @@
-Widget.EditorHeader = function (data) {
+Widget.EditorHeader = function (title) {
+    var data = {title: title}
+    
 	this.data = data
 	this.html = parse(function(){/*!
 		<header id="header" class="skel-layers-fixed">
-			<h1><div id="menu" class="hand">Editor</div></h1>
+			<h1><div id="menu" class="hand">{{title}}</div></h1>
 			<nav id="nav">
 				<ul>
 				    <!-- Login -->

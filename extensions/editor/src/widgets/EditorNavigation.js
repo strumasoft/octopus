@@ -84,7 +84,7 @@ Widget.EditorNavigation.openFile = function (fileName, guid) {
     		
     		var paths = fileName.split('/');
 		    var simpleFileName = paths[paths.length - 1]
-		    $("#title").html(simpleFileName)
+		    $("#menu").html(simpleFileName)
     	})
     	.error(Widget.errorHandler)
 }
