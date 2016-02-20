@@ -155,10 +155,23 @@ Widget.EditorHeader.search = function () {
 		if (!isEmpty(query)) {
 		    if (isEmpty(replace)) {
 			    $("#" + proceedButtonGuid).attr("href", Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorSearchUrl, 
-			        {directoryName: encodeURIComponent(directoryName), query: query, filter: filter, isRegex: isRegex, isFileName: isFileName}))
+			        {
+			            directoryName: encodeURIComponent(directoryName), 
+			            query: encodeURIComponent(query), 
+			            filter: encodeURIComponent(filter), 
+			            isRegex: isRegex, 
+			            isFileName: isFileName
+			        }))
 			} else {
 			    $("#" + proceedButtonGuid).attr("href", Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorSearchUrl, 
-			        {directoryName: encodeURIComponent(directoryName), query: query, replace: replace, filter: filter, isRegex: isRegex, isFileName: isFileName}))
+			        {
+			            directoryName: encodeURIComponent(directoryName), 
+			            query: encodeURIComponent(query), 
+			            replace: encodeURIComponent(replace), 
+			            filter: encodeURIComponent(filter), 
+			            isRegex: isRegex, 
+			            isFileName: isFileName
+			        }))
 			}
     	} else {
             this.delete()
