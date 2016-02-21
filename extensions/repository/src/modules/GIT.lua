@@ -122,9 +122,9 @@ local function logHistory (directoryName, limit)
     util.noCommandlineSpecialCharacters(limit)
     
     if limit then
-        return string.format([[cd %s && git log --oneline --decorate --graph --all -n %s]] .. property.redirectErrorToOutputStream, directoryName, limit)
+        return string.format([[cd %s && git log --name-status --decorate --graph --all -n %s]] .. property.redirectErrorToOutputStream, directoryName, limit)
     else
-        return string.format([[cd %s && git log --oneline --decorate --graph --all]] .. property.redirectErrorToOutputStream, directoryName)
+        return string.format([[cd %s && git log --name-status --decorate --graph --all]] .. property.redirectErrorToOutputStream, directoryName)
     end
 end
 
@@ -138,6 +138,31 @@ function m.logHistory (username, password, directoryName, limit)
     f:close()
     
     return content
+end
+
+
+--
+-- commitHistory
+--
+
+local function commitHistory (directoryName, commit)
+    directoryName = util.quoteCommandlineArgument(directoryName)
+    
+    util.noCommandlineSpecialCharacters(commit)
+    
+    return string.format([[cd %s && git show %s]] .. property.redirectErrorToOutputStream, directoryName, commit)
+end
+
+function m.commitHistory (username, password, directoryName, newRevision, oldRevision)
+    util.noBackDirectory(directoryName)
+    
+    local command = commitHistory(sourceCtxPath .. directoryName, newRevision)
+
+    local f = assert(io.popen(command, "r"))
+    local content = f:read("*all")
+    f:close()
+    
+    return content, "diff --git"
 end
 
 

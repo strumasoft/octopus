@@ -5,9 +5,10 @@ config.property = {
     
     repositoryUrl = "/repository",
     
-    repositoryLogHistoryUrl = "/logHistory",
     repositoryStatusUrl = "/status",
     repositoryFileHistoryUrl = "/fileHistory",
+    repositoryLogHistoryUrl = "/logHistory",
+    repositoryCommitHistoryUrl = "/commitHistory",
     repositoryFileRevisionContentUrl = "/fileRevisionContent",
     repositoryFileDiffUrl = "/fileDiff",
     repositoryCommitUrl = "/commit",
@@ -20,9 +21,10 @@ config.property = {
 }
 
 config.locations = {
-	{name = property.repositoryUrl .. property.repositoryLogHistoryUrl, script = "controllers/RepositoryLogHistoryController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.repositoryUrl .. property.repositoryStatusUrl, script = "controllers/RepositoryStatusController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 	{name = property.repositoryUrl .. property.repositoryFileHistoryUrl, script = "controllers/RepositoryFileHistoryController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
+	{name = property.repositoryUrl .. property.repositoryLogHistoryUrl, script = "controllers/RepositoryLogHistoryController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
+	{name = property.repositoryUrl .. property.repositoryCommitHistoryUrl, script = "controllers/RepositoryCommitHistoryController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 	{name = property.repositoryUrl .. property.repositoryFileRevisionContentUrl, script = "controllers/operations/FileRevisionContentController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.repositoryUrl .. property.repositoryFileDiffUrl, script = "controllers/operations/FileDiffController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.repositoryUrl .. property.repositoryCommitUrl, script = "controllers/operations/CommitController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
@@ -41,6 +43,7 @@ config.javascripts = {
 	{name = "RepositoryFileHistoryNavigation", script = "widgets/RepositoryFileHistoryNavigation.js"},
 	{name = "RepositoryFileHistoryHeader", script = "widgets/RepositoryFileHistoryHeader.js"},
 	{name = "RepositoryDiff", script = "widgets/RepositoryDiff.js"},
+	{name = "RepositoryPatch", script = "widgets/RepositoryPatch.js"},
 }
 
 config.stylesheets = {

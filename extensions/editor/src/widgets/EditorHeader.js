@@ -57,7 +57,11 @@ Widget.EditorHeader = function (title) {
 				        onclick='return Widget.EditorHeader.repositoryLogHistory();'>
 					    <i class="fa fa-eye"></i> <i class="fa fa-bars"></i></div>
 				    </li>
-					
+				    <li><div id="repositoryCommitHistoryAction" class="hand"
+				        onclick='Widget.EditorHeader.repositoryCommitHistory();'>
+				        <i class="fa fa-eye"></i> <i class="fa fa-random"></i></div>
+				    </li>
+				    
 					<!-- Create -->
 					<li><div id="createFileAction" class="hand" 
 					    onclick='Widget.EditorHeader.createFileName();'>
@@ -215,7 +219,6 @@ Widget.EditorHeader.setHomeDirectory = function () {
 }
 
 
-
 //
 // newWindow
 //
@@ -358,6 +361,65 @@ Widget.EditorHeader.repositoryLogHistory = function () {
     			.error(Widget.errorHandler)
         	
             this.delete()
+        }})
+    } else {
+        var infoPopup = new Widget.InfoPopup({info: "repository and directory are required!"})
+        return false
+    }
+}
+
+Widget.EditorHeader.repositoryCommitHistory = function () {
+    if (getURLParameter("repository") == "SVN") {
+        Widget.EditorHeader.repositoryCommitHistorySVN()
+    } else if (getURLParameter("repository") == "GIT") {
+        Widget.EditorHeader.repositoryCommitHistoryGIT()
+    }
+}
+
+Widget.EditorHeader.repositoryCommitHistorySVN = function () {
+    var directoryName = editor.homeDirectory || editor.directoryName
+    
+    if (Widget.EditorHeader.isRepositorySet() && !isEmpty(directoryName)) {
+        var commitHistoryPopup = new Widget.TwoFieldsPopup({placeholder1: "New revision", placeholder2: "Old revision", proceed: function (newRevisionGuid, oldRevisionGuid) {
+            var newRevision = $("#" + newRevisionGuid).val()
+            var oldRevision = $("#" + oldRevisionGuid).val()
+            
+            this.delete()
+            
+            if (!isEmpty(newRevision) && !isEmpty(oldRevision)) {
+                var newSessionUrl = Widget.EditorHeader.newSessionUrl(
+                    property.repositoryUrl + property.repositoryCommitHistoryUrl, 
+                    {directoryName: encodeURIComponent(directoryName), newRevision: newRevision, oldRevision: oldRevision})
+                
+                window.open(newSessionUrl)
+            } else {
+                var infoPopup = new Widget.InfoPopup({info: "new and old revisions is required!"})
+            }
+        }})
+    } else {
+        var infoPopup = new Widget.InfoPopup({info: "repository and directory are required!"})
+        return false
+    }
+}
+
+Widget.EditorHeader.repositoryCommitHistoryGIT = function () {
+    var directoryName = editor.homeDirectory || editor.directoryName
+    
+    if (Widget.EditorHeader.isRepositorySet() && !isEmpty(directoryName)) {
+        var commitHistoryPopup = new Widget.OneFieldPopup({placeholder: "Commit", proceed: function (guid) {
+            var commit = $("#" + guid).val()
+            
+            this.delete()
+            
+            if (!isEmpty(commit)) {
+                var newSessionUrl = Widget.EditorHeader.newSessionUrl(
+                    property.repositoryUrl + property.repositoryCommitHistoryUrl, 
+                    {directoryName: encodeURIComponent(directoryName), newRevision: commit})
+                
+                window.open(newSessionUrl)
+            } else {
+                var infoPopup = new Widget.InfoPopup({info: "commit number is required!"})
+            }
         }})
     } else {
         var infoPopup = new Widget.InfoPopup({info: "repository and directory are required!"})

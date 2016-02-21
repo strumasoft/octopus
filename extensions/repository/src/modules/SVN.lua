@@ -150,6 +150,35 @@ end
 
 
 --
+-- commitHistory
+--
+
+local function commitHistory (username, password, directoryName, newRevision, oldRevision)
+    username = util.quoteCommandlineArgument(username)
+    password = util.quoteCommandlineArgument(password)
+    directoryName = util.quoteCommandlineArgument(directoryName)
+    
+    util.noCommandlineSpecialCharacters(newRevision)
+    util.noCommandlineSpecialCharacters(oldRevision)
+    
+    return string.format(svn .. [[diff -r %s:%s %s]] .. property.redirectErrorToOutputStream, 
+        username, password, oldRevision, newRevision, directoryName)
+end
+
+function m.commitHistory (username, password, directoryName, newRevision, oldRevision)
+    util.noBackDirectory(directoryName)
+    
+    local command = commitHistory(username, password, sourceCtxPath .. directoryName, newRevision, oldRevision)
+
+    local f = assert(io.popen(command, "r"))
+    local content = f:read("*all")
+    f:close()
+    
+    return content, "Index: "
+end
+
+
+--
 -- fileRevisionContent
 --
 
