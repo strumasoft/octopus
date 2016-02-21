@@ -225,17 +225,12 @@ Widget.decoratePatch = function (text) {
         wrapper = wrappers[index]
         
         // bypass beggining headers
-        if (startDelimiterIndex < text.length 
-            && startDelimiterIndex == text.indexOf(delimiter.bypass, iteratorIndex)) {
+        if (startDelimiterIndex < text.length && startDelimiterIndex == text.indexOf(delimiter.bypass, iteratorIndex)) {
             
             substrings.push(text.substring(iteratorIndex, startDelimiterIndex + delimiter.bypass.length))
             
             iteratorIndex = startDelimiterIndex + delimiter.bypass.length
-            
-            continue
-        }
-        
-		if (startDelimiterIndex >= 0 && startDelimiterIndex < text.length) {
+        } else if (startDelimiterIndex >= 0 && startDelimiterIndex < text.length) {
             substrings.push(text.substring(iteratorIndex, startDelimiterIndex))
             
             var startExpressionIndex = startDelimiterIndex + delimiter.open.length
