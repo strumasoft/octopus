@@ -81,7 +81,7 @@ local function process ()
         return json.encode(splitPatch(patch, delimiter))
     else
         local title
-        if oldRevision then
+        if param.isNotEmpty(oldRevision) then
             title = oldRevision .. ":" .. newRevision
         else
             title = newRevision

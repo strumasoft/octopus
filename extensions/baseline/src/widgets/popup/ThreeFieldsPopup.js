@@ -4,6 +4,10 @@ Widget.ThreeFieldsPopup = function (data) {
     data.guid3 = Widget.guid()
 		
     var info = parse(function(){/*!
+		{{?@ !isEmpty(data.info)
+	        <h1>{{info}}</h1>
+	    }}?
+		    
 		<input class="spaced-down"
 		    {{? password == 1
 		        type="password"

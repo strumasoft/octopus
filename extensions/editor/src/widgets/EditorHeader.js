@@ -54,7 +54,7 @@ Widget.EditorHeader = function (title) {
 					    <i class="fa fa-eye"></i> <i class="fa fa-folder-open"></i></a>
 				    </li>
 				    <li><div id="repositoryLogHistoryAction" class="hand"
-				        onclick='return Widget.EditorHeader.repositoryLogHistory();'>
+				        onclick='Widget.EditorHeader.repositoryLogHistory();'>
 					    <i class="fa fa-eye"></i> <i class="fa fa-bars"></i></div>
 				    </li>
 				    <li><div id="repositoryCommitHistoryAction" class="hand"
@@ -91,6 +91,12 @@ Widget.EditorHeader = function (title) {
 					    onclick='Widget.EditorHeader.renameDirectoryName();'>
 					    <i class="fa fa-wrench"></i> <i class="fa fa-folder-open"></i></div>
 					</li>
+					
+					<!-- Edit -->
+					<li><div id="editFileAction" class="hand" 
+					    onclick='Widget.EditorHeader.editFile();'>
+					    <i class="fa fa-pencil-square-o"></i></div>
+				    </li>
 				    
 				    <!-- Save -->
 					<li><div id="saveAction" class="button special" 
@@ -117,22 +123,27 @@ Widget.EditorHeader.height = function () {
 //
 
 Widget.EditorHeader.login = function () {
-    var loginPopup = new Widget.TwoFieldsPopup({placeholder1: "Email", placeholder2: "Password", password: 2, proceed: function (emailGuid, passwordGuid) {
-		var email = $("#" + emailGuid).val()
-		var password = $("#" + passwordGuid).val()
-		
-		if (!isEmpty(email) && !isEmpty(password)) {
-		    $.post(property.securityLoginUserUrl, {email: email, password: password})
-        		.success(function (data) {
-    		        Widget.successHandler(data)
-    			})
-    			.error(Widget.errorHandler)
+    var loginPopup = new Widget.TwoFieldsPopup({
+        info:"Set login credentials.", 
+        placeholder1: "Email", 
+        placeholder2: "Password", 
+        password: 2, 
+        proceed: function (emailGuid, passwordGuid) {
+    		var email = $("#" + emailGuid).val()
+    		var password = $("#" + passwordGuid).val()
     		
-    		this.delete()
-		} else {
-		    this.delete()
-		    var infoPopup = new Widget.InfoPopup({info: "Email and Password are required!"})
-		}
+    		if (!isEmpty(email) && !isEmpty(password)) {
+    		    $.post(property.securityLoginUserUrl, {email: email, password: password})
+            		.success(function (data) {
+        		        Widget.successHandler(data)
+        			})
+        			.error(Widget.errorHandler)
+        		
+        		this.delete()
+    		} else {
+    		    this.delete()
+    		    var infoPopup = new Widget.InfoPopup({info: "Email and Password are required!"})
+    		}
 	}})
 }
 
@@ -149,40 +160,40 @@ Widget.EditorHeader.search = function () {
         return false
     }
     
-    var searchPopup = new Widget.EditorSearchPopup({proceed: function (proceedButtonGuid, queryGuid, replaceGuid, filterGuid, isRegexGuid, isFileNameGuid) {
-		var query = $("#" + queryGuid).val()
-		var replace = $("#" + replaceGuid).val()
-		var filter = $("#" + filterGuid).val()
-		var isRegex = $("#" + isRegexGuid).is(':checked')
-		var isFileName = $("#" + isFileNameGuid).is(':checked')
-		
-		if (!isEmpty(query)) {
-		    if (isEmpty(replace)) {
-			    $("#" + proceedButtonGuid).attr("href", Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorSearchUrl, 
-			        {
-			            directoryName: encodeURIComponent(directoryName), 
-			            query: encodeURIComponent(query), 
-			            filter: encodeURIComponent(filter), 
-			            isRegex: isRegex, 
-			            isFileName: isFileName
-			        }))
-			} else {
-			    $("#" + proceedButtonGuid).attr("href", Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorSearchUrl, 
-			        {
-			            directoryName: encodeURIComponent(directoryName), 
-			            query: encodeURIComponent(query), 
-			            replace: encodeURIComponent(replace), 
-			            filter: encodeURIComponent(filter), 
-			            isRegex: isRegex, 
-			            isFileName: isFileName
-			        }))
-			}
-    	} else {
-            this.delete()
-            
-            var infoPopup = new Widget.InfoPopup({info: "query is required!"})
-            return false
-        }
+    var searchPopup = new Widget.EditorSearchPopup({
+        info:"Search.", 
+        proceed: function (proceedButtonGuid, queryGuid, replaceGuid, filterGuid, isRegexGuid, isFileNameGuid) {
+    		var query = $("#" + queryGuid).val()
+    		var replace = $("#" + replaceGuid).val()
+    		var filter = $("#" + filterGuid).val()
+    		var isRegex = $("#" + isRegexGuid).is(':checked')
+    		var isFileName = $("#" + isFileNameGuid).is(':checked')
+    		
+    		if (!isEmpty(query)) {
+    		    if (isEmpty(replace)) {
+    			    $("#" + proceedButtonGuid).attr("href", Widget.EditorHeader.newSessionUrl(
+    			        property.editorUrl + property.editorSearchUrl, 
+    			        {directoryName: encodeURIComponent(directoryName), 
+    			            query: encodeURIComponent(query), 
+    			            filter: encodeURIComponent(filter), 
+    			            isRegex: isRegex, 
+    			            isFileName: isFileName}))
+    			} else {
+    			    $("#" + proceedButtonGuid).attr("href", Widget.EditorHeader.newSessionUrl(
+    			        property.editorUrl + property.editorSearchUrl, 
+    			        {directoryName: encodeURIComponent(directoryName), 
+    			            query: encodeURIComponent(query), 
+    			            replace: encodeURIComponent(replace), 
+    			            filter: encodeURIComponent(filter), 
+    			            isRegex: isRegex, 
+    			            isFileName: isFileName}))
+    			}
+        	} else {
+                this.delete()
+                
+                var infoPopup = new Widget.InfoPopup({info: "query is required!"})
+                return false
+            }
 	}})
 }
 
@@ -197,21 +208,27 @@ Widget.EditorHeader.setHomeDirectory = function () {
 	    var paths = editor.directoryName.split('/');
 		var simpleDirectoryName = paths[paths.length - 1]
 		
-		var questionPopup = new Widget.QuestionPopup({question: "Set " + simpleDirectoryName + " as home directory?", proceed: function () {
-    		var newSessionUrl = Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorDirectoryUrl, {d: encodeURIComponent(editor.directoryName)}, true)
-    		
-    		$.get(newSessionUrl)
-    	        .success(function (dirs) {
-            		var subdirs = new Widget.EditorNavigation(Widget.json(dirs), {path: editor.directoryName, name: simpleDirectoryName})
-            		editorTemplate.setDirectoryNavigation(subdirs.html)
-            		editor.homeDirectory = editor.directoryName
-            		
-            		$("#title").html(simpleDirectoryName)
-            		$("#menu").html(simpleDirectoryName)
-    			})
-    			.error(Widget.errorHandler)
-        	
-        	this.delete()
+		var questionPopup = new Widget.QuestionPopup({
+		    question: "Set " + simpleDirectoryName + " as home directory?", 
+		    proceed: function () {
+        		var newSessionUrl = Widget.EditorHeader.newSessionUrl(
+        		    property.editorUrl + property.editorDirectoryUrl, 
+        		    {d: encodeURIComponent(editor.directoryName)}, true)
+        		
+        		$.get(newSessionUrl)
+        	        .success(function (dirs) {
+                		var subdirs = new Widget.EditorNavigation(Widget.json(dirs), 
+                		    {path: editor.directoryName, name: simpleDirectoryName})
+                		    
+                		editorTemplate.setDirectoryNavigation(subdirs.html)
+                		editor.homeDirectory = editor.directoryName
+                		
+                		$("#title").html(simpleDirectoryName)
+                		$("#menu").html(simpleDirectoryName)
+        			})
+        			.error(Widget.errorHandler)
+            	
+            	this.delete()
 		}})
 	} else {
 		var infoPopup = new Widget.InfoPopup({info: "Select directory!"})
@@ -227,7 +244,9 @@ Widget.EditorHeader.openNewWindow = function () {
     var directoryName = editor.homeDirectory || editor.directoryName
     
     if (!isEmpty(directoryName)) {
-        var newSessionUrl = Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorHomeUrl, {directoryName: encodeURIComponent(directoryName)})
+        var newSessionUrl = Widget.EditorHeader.newSessionUrl(
+            property.editorUrl + property.editorHomeUrl, 
+            {directoryName: encodeURIComponent(directoryName)})
         
         $("#openNewWindowAction").attr("href", newSessionUrl)
     } else {
@@ -243,6 +262,7 @@ Widget.EditorHeader.openNewWindow = function () {
 
 Widget.EditorHeader.setRepository = function () {
     var repositoryPopup = new Widget.ThreeFieldsPopup({
+        info:"Set repository credentials.", 
         placeholder1: "Repository Name", 
         placeholder2: "User Name", 
         placeholder3: "Password", 
@@ -319,7 +339,10 @@ Widget.EditorHeader.repositoryFileHistory = function () {
     var fileName = editor.fileName
     
     if (Widget.EditorHeader.isRepositorySet() && !isEmpty(fileName)) {
-        var newSessionUrl = Widget.EditorHeader.newSessionUrl(property.repositoryUrl + property.repositoryFileHistoryUrl, {fileName: encodeURIComponent(fileName), directoryName: encodeURIComponent(directoryName)})
+        var newSessionUrl = Widget.EditorHeader.newSessionUrl(
+            property.repositoryUrl + property.repositoryFileHistoryUrl, 
+            {fileName: encodeURIComponent(fileName), 
+                directoryName: encodeURIComponent(directoryName)})
         
         $("#repositoryFileHistoryAction").attr("href", newSessionUrl)
     } else {
@@ -332,7 +355,9 @@ Widget.EditorHeader.repositoryStatus = function () {
     var directoryName = editor.homeDirectory || editor.directoryName
     
     if (Widget.EditorHeader.isRepositorySet() && !isEmpty(directoryName)) {
-        var newSessionUrl = Widget.EditorHeader.newSessionUrl(property.repositoryUrl + property.repositoryStatusUrl, {directoryName: encodeURIComponent(directoryName)})
+        var newSessionUrl = Widget.EditorHeader.newSessionUrl(
+            property.repositoryUrl + property.repositoryStatusUrl, 
+            {directoryName: encodeURIComponent(directoryName)})
         
         $("#repositoryStatusAction").attr("href", newSessionUrl)
     } else {
@@ -345,22 +370,19 @@ Widget.EditorHeader.repositoryLogHistory = function () {
     var directoryName = editor.homeDirectory || editor.directoryName
     
     if (Widget.EditorHeader.isRepositorySet() && !isEmpty(directoryName)) {
-        var limitLogHistoryPopup = new Widget.OneFieldPopup({placeholder: "Number of revisions", proceed: function (guid) {
-            var limit = $("#" + guid).val()
-            
-            var newSessionUrl = Widget.EditorHeader.newSessionUrl(property.repositoryUrl + property.repositoryLogHistoryUrl, {directoryName: encodeURIComponent(directoryName), limit: limit})
-            
-            $.get(newSessionUrl)
-                .success(function (content) {
-            		editor.fileName = null
-            		Widget.EditorNavigation.selectFileName(null)
-            		
-            		editor.setValue(content)
-            		editor.setMode("txt")
-    			})
-    			.error(Widget.errorHandler)
-        	
-            this.delete()
+        var limitLogHistoryPopup = new Widget.OneFieldPopup({
+            info:"Repository log history.", 
+            placeholder: "Number of revisions", 
+            proceed: function (guid) {
+                var limit = $("#" + guid).val()
+                
+                this.delete()
+                
+                var newSessionUrl = Widget.EditorHeader.newSessionUrl(
+                    property.repositoryUrl + property.repositoryLogHistoryUrl, 
+                    {directoryName: encodeURIComponent(directoryName), limit: limit})
+                
+                window.open(newSessionUrl)
         }})
     } else {
         var infoPopup = new Widget.InfoPopup({info: "repository and directory are required!"})
@@ -380,21 +402,26 @@ Widget.EditorHeader.repositoryCommitHistorySVN = function () {
     var directoryName = editor.homeDirectory || editor.directoryName
     
     if (Widget.EditorHeader.isRepositorySet() && !isEmpty(directoryName)) {
-        var commitHistoryPopup = new Widget.TwoFieldsPopup({placeholder1: "New revision", placeholder2: "Old revision", proceed: function (newRevisionGuid, oldRevisionGuid) {
-            var newRevision = $("#" + newRevisionGuid).val()
-            var oldRevision = $("#" + oldRevisionGuid).val()
-            
-            this.delete()
-            
-            if (!isEmpty(newRevision) && !isEmpty(oldRevision)) {
-                var newSessionUrl = Widget.EditorHeader.newSessionUrl(
-                    property.repositoryUrl + property.repositoryCommitHistoryUrl, 
-                    {directoryName: encodeURIComponent(directoryName), newRevision: newRevision, oldRevision: oldRevision})
+        var commitHistoryPopup = new Widget.TwoFieldsPopup({
+            info:"Repository commit history.", 
+            placeholder1: "New revision", 
+            placeholder2: "Old revision", 
+            proceed: function (newRevisionGuid, oldRevisionGuid) {
+                var newRevision = $("#" + newRevisionGuid).val()
+                var oldRevision = $("#" + oldRevisionGuid).val()
                 
-                window.open(newSessionUrl)
-            } else {
-                var infoPopup = new Widget.InfoPopup({info: "new and old revisions is required!"})
-            }
+                this.delete()
+                
+                if (!isEmpty(newRevision) && !isEmpty(oldRevision)) {
+                    var newSessionUrl = Widget.EditorHeader.newSessionUrl(
+                        property.repositoryUrl + property.repositoryCommitHistoryUrl, 
+                        {directoryName: encodeURIComponent(directoryName), 
+                            newRevision: newRevision, oldRevision: oldRevision})
+                    
+                    window.open(newSessionUrl)
+                } else {
+                    var infoPopup = new Widget.InfoPopup({info: "new and old revisions is required!"})
+                }
         }})
     } else {
         var infoPopup = new Widget.InfoPopup({info: "repository and directory are required!"})
@@ -406,20 +433,26 @@ Widget.EditorHeader.repositoryCommitHistoryGIT = function () {
     var directoryName = editor.homeDirectory || editor.directoryName
     
     if (Widget.EditorHeader.isRepositorySet() && !isEmpty(directoryName)) {
-        var commitHistoryPopup = new Widget.OneFieldPopup({placeholder: "Commit", proceed: function (guid) {
-            var commit = $("#" + guid).val()
-            
-            this.delete()
-            
-            if (!isEmpty(commit)) {
-                var newSessionUrl = Widget.EditorHeader.newSessionUrl(
-                    property.repositoryUrl + property.repositoryCommitHistoryUrl, 
-                    {directoryName: encodeURIComponent(directoryName), newRevision: commit})
+        var commitHistoryPopup = new Widget.TwoFieldsPopup({
+            info:"Repository commit history.", 
+            placeholder1: "New commit", 
+            placeholder2: "Old commit", 
+            proceed: function (newRevisionGuid, oldRevisionGuid) {
+                var newRevision = $("#" + newRevisionGuid).val()
+                var oldRevision = $("#" + oldRevisionGuid).val()
                 
-                window.open(newSessionUrl)
-            } else {
-                var infoPopup = new Widget.InfoPopup({info: "commit number is required!"})
-            }
+                this.delete()
+                
+                if (!isEmpty(newRevision)) {
+                    var newSessionUrl = Widget.EditorHeader.newSessionUrl(
+                        property.repositoryUrl + property.repositoryCommitHistoryUrl, 
+                        {directoryName: encodeURIComponent(directoryName), 
+                            newRevision: newRevision, oldRevision: oldRevision})
+                    
+                    window.open(newSessionUrl)
+                } else {
+                    var infoPopup = new Widget.InfoPopup({info: "commit number is required!"})
+                }
         }})
     } else {
         var infoPopup = new Widget.InfoPopup({info: "repository and directory are required!"})
@@ -434,19 +467,24 @@ Widget.EditorHeader.repositoryCommitHistoryGIT = function () {
 
 Widget.EditorHeader.createFileName = function () {
 	if (!isEmpty(editor.directoryName)) {
-		var createFileNamePopup = new Widget.OneFieldPopup({placeholder: "File Name", proceed: function (guid) {
-			var name = $("#" + guid).val()
-			if (!isEmpty(name)) {
-				var paths = editor.directoryName.split('/');
-				paths.push(name)
-				$.get(Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorCreateFileUrl, {fileName: encodeURIComponent(paths.join('/'))}))
-    				.success(function (data) {
-    			        Widget.successHandler(data, name + " created!")
-    				})
-    				.error(Widget.errorHandler)
-			}
-			
-			this.delete()
+		var createFileNamePopup = new Widget.OneFieldPopup({
+		    info:"Create file.",
+		    placeholder: "File Name", 
+		    proceed: function (guid) {
+    			var name = $("#" + guid).val()
+    			if (!isEmpty(name)) {
+    				var paths = editor.directoryName.split('/');
+    				paths.push(name)
+    				$.get(Widget.EditorHeader.newSessionUrl(
+    				    property.editorUrl + property.editorCreateFileUrl, 
+    				    {fileName: encodeURIComponent(paths.join('/'))}))
+        				.success(function (data) {
+        			        Widget.successHandler(data, name + " created!")
+        				})
+        				.error(Widget.errorHandler)
+    			}
+    			
+    			this.delete()
 		}})
 	} else {
 		var infoPopup = new Widget.InfoPopup({info: "Select parent directory!"})
@@ -455,19 +493,24 @@ Widget.EditorHeader.createFileName = function () {
 
 Widget.EditorHeader.createDirectoryName = function () {
 	if (!isEmpty(editor.directoryName)) {
-		var createDirectoryNamePopup = new Widget.OneFieldPopup({placeholder: "Directory Name", proceed: function (guid) {
-			var name = $("#" + guid).val()
-			if (!isEmpty(name)) {
-				var paths = editor.directoryName.split('/');
-				paths.push(name)
-				$.get(Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorCreateDirectoryUrl, {directoryName: encodeURIComponent(paths.join('/'))})) 
-    				.success(function (data) {
-    			        Widget.successHandler(data, name + " created!")
-    				})
-    				.error(Widget.errorHandler)
-			}
-			
-			this.delete()
+		var createDirectoryNamePopup = new Widget.OneFieldPopup({
+		    info:"Create directory.", 
+		    placeholder: "Directory Name", 
+		    proceed: function (guid) {
+    			var name = $("#" + guid).val()
+    			if (!isEmpty(name)) {
+    				var paths = editor.directoryName.split('/');
+    				paths.push(name)
+    				$.get(Widget.EditorHeader.newSessionUrl(
+    				    property.editorUrl + property.editorCreateDirectoryUrl, 
+    				    {directoryName: encodeURIComponent(paths.join('/'))})) 
+        				.success(function (data) {
+        			        Widget.successHandler(data, name + " created!")
+        				})
+        				.error(Widget.errorHandler)
+    			}
+    			
+    			this.delete()
 		}})
 	} else {
 		var infoPopup = new Widget.InfoPopup({info: "Select parent directory!"})
@@ -486,18 +529,22 @@ Widget.EditorHeader.removeFileName = function () {
 		var paths = editor.fileName.split('/');
 		var simpleFileName = paths[paths.length - 1]
 		
-		var questionPopup = new Widget.QuestionPopup({question: "Delete " + simpleFileName + "?", proceed: function () {
-			$.get(Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorRemoveUrl, {path: encodeURIComponent(fileName), isFile: "true"}))
-    			.success(function (data) {
-    		        Widget.successHandler(data, simpleFileName + " deleted!")
-    		        
-    	            $("#" + editor.fileGuid).hide()
-    	            editor.fileName = null
-    	            editor.fileGuid = null
-    			})
-    			.error(Widget.errorHandler)
-			
-			this.delete()
+		var questionPopup = new Widget.QuestionPopup({
+		    question: "Delete " + simpleFileName + "?", 
+		    proceed: function () {
+    			$.get(Widget.EditorHeader.newSessionUrl(
+    			    property.editorUrl + property.editorRemoveUrl, 
+    			    {path: encodeURIComponent(fileName), isFile: "true"}))
+        			.success(function (data) {
+        		        Widget.successHandler(data, simpleFileName + " deleted!")
+        		        
+        	            $("#" + editor.fileGuid).hide()
+        	            editor.fileName = null
+        	            editor.fileGuid = null
+        			})
+        			.error(Widget.errorHandler)
+    			
+    			this.delete()
 		}})
 	} else {
 		var infoPopup = new Widget.InfoPopup({info: "Select file to delete!"})
@@ -511,18 +558,22 @@ Widget.EditorHeader.removeDirectoryName = function () {
 		var paths = editor.directoryName.split('/');
 		var simpleDirectoryName = paths[paths.length - 1]
 		
-		var questionPopup = new Widget.QuestionPopup({question: "Delete " + simpleDirectoryName + "?", proceed: function () {
-			$.get(Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorRemoveUrl, {path: encodeURIComponent(directoryName), isFile: "false"}))
-			    .success(function (data) {
-    				Widget.successHandler(data, simpleDirectoryName + " deleted!")
-    			   	
-    	            $("#" + editor.directoryGuid).parent().hide() // hide directory list element
-    	            editor.directoryName = null
-    	            editor.directoryGuid = null
-    			})
-    			.error(Widget.errorHandler)
-			
-			this.delete()
+		var questionPopup = new Widget.QuestionPopup({
+		    question: "Delete " + simpleDirectoryName + "?", 
+		    proceed: function () {
+    			$.get(Widget.EditorHeader.newSessionUrl(
+    			    property.editorUrl + property.editorRemoveUrl, 
+    			    {path: encodeURIComponent(directoryName), isFile: "false"}))
+    			    .success(function (data) {
+        				Widget.successHandler(data, simpleDirectoryName + " deleted!")
+        			   	
+        	            $("#" + editor.directoryGuid).parent().hide() // hide directory list element
+        	            editor.directoryName = null
+        	            editor.directoryGuid = null
+        			})
+        			.error(Widget.errorHandler)
+    			
+    			this.delete()
 		}})
 	} else {
 		var infoPopup = new Widget.InfoPopup({info: "Select directory to delete!"})
@@ -540,24 +591,27 @@ Widget.EditorHeader.renameFileName = function () {
 	    var paths = editor.fileName.split('/');
 		var simpleFileName = paths[paths.length - 1]
 		
-		var renameFileNamePopup = new Widget.OneFieldPopup({placeholder: "", value: simpleFileName, proceed: function (guid) {
-			var name = $("#" + guid).val()
-			if (!isEmpty(name)) {
-			
-				paths[paths.length - 1] = name
-				
-				$.get(Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorRenameUrl, {
-				    oldName: encodeURIComponent(editor.fileName), 
-				    newName: encodeURIComponent(paths.join('/')), 
-				    directoryName: encodeURIComponent(editor.homeDirectory)
-				}))
-    				.success(function (data) {
-    			        Widget.successHandler(data, simpleFileName + " renamed to " + name)
-    				})
-    				.error(Widget.errorHandler)
-			}
-			
-			this.delete()
+		var renameFileNamePopup = new Widget.OneFieldPopup({
+		    info:"Rename.", 
+		    placeholder: "", value: simpleFileName, 
+		    proceed: function (guid) {
+    			var name = $("#" + guid).val()
+    			if (!isEmpty(name)) {
+    			
+    				paths[paths.length - 1] = name
+    				
+    				$.get(Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorRenameUrl, {
+    				    oldName: encodeURIComponent(editor.fileName), 
+    				    newName: encodeURIComponent(paths.join('/')), 
+    				    directoryName: encodeURIComponent(editor.homeDirectory)
+    				}))
+        				.success(function (data) {
+        			        Widget.successHandler(data, simpleFileName + " renamed to " + name)
+        				})
+        				.error(Widget.errorHandler)
+    			}
+    			
+    			this.delete()
 		}})
 	} else {
 		var infoPopup = new Widget.InfoPopup({info: "Select file!"})
@@ -570,27 +624,53 @@ Widget.EditorHeader.renameDirectoryName = function () {
 	    var paths = editor.directoryName.split('/');
 		var simpleDirectoryName = paths[paths.length - 1]
 	    
-		var renameDirectoryNamePopup = new Widget.OneFieldPopup({placeholder: "", value: simpleDirectoryName, proceed: function (guid) {
-			var name = $("#" + guid).val()
-			if (!isEmpty(name)) {
-				
-				paths[paths.length - 1] = name
-				
-				$.get(Widget.EditorHeader.newSessionUrl(property.editorUrl + property.editorRenameUrl, {
-				    oldName: encodeURIComponent(editor.directoryName), 
-				    newName: encodeURIComponent(paths.join('/')),
-				    directoryName: encodeURIComponent(editor.homeDirectory)
-				}))
-    				.success(function (data) {
-    			        Widget.successHandler(data, simpleDirectoryName + " renamed to " + name)
-    				})
-    				.error(Widget.errorHandler)
-			}
-			
-			this.delete()
+		var renameDirectoryNamePopup = new Widget.OneFieldPopup({
+		    info:"Rename.",
+		    placeholder: "", 
+		    value: simpleDirectoryName, 
+		    proceed: function (guid) {
+    			var name = $("#" + guid).val()
+    			if (!isEmpty(name)) {
+    				
+    				paths[paths.length - 1] = name
+    				
+    				$.get(Widget.EditorHeader.newSessionUrl(
+    				    property.editorUrl + property.editorRenameUrl, 
+    				    {oldName: encodeURIComponent(editor.directoryName), 
+    				        newName: encodeURIComponent(paths.join('/')),
+    				        directoryName: encodeURIComponent(editor.homeDirectory)}))
+        				.success(function (data) {
+        			        Widget.successHandler(data, simpleDirectoryName + " renamed to " + name)
+        				})
+        				.error(Widget.errorHandler)
+    			}
+    			
+    			this.delete()
 		}})
 	} else {
 		var infoPopup = new Widget.InfoPopup({info: "Select directory!"})
+	}
+}
+
+
+//
+// edit
+//
+
+Widget.EditorHeader.editFile = function () {
+    var directoryName = editor.homeDirectory || editor.directoryName
+    
+    if (isEmpty(directoryName)) {
+        var infoPopup = new Widget.InfoPopup({info: "Select directory!"})
+    } else if (isEmpty(editor.fileName)) {
+        var infoPopup = new Widget.InfoPopup({info: "Select file!"})
+    } else {
+	    var newSessionUrl = Widget.EditorHeader.newSessionUrl(
+            property.editorUrl + property.editorEditFileUrl, 
+            {directoryName: encodeURIComponent(directoryName), 
+                fileName: encodeURIComponent(editor.fileName)})
+        
+        window.open(newSessionUrl)
 	}
 }
 

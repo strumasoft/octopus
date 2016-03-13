@@ -13,17 +13,17 @@ Widget.EditorSearchHeader = function (title) {
 				        onclick='return Widget.EditorHeader.repositoryFileHistory();'>
 					    <i class="fa fa-eye"></i> <i class="fa fa-file-o"></i></a>
 				    </li>
-				    
-				    <!-- Toggle -->
-					<li><div id="toggleAction" class="button special" 
-					    onclick='Widget.EditorSearchHeader.toggle();'>
-				        Narrow</div>
-					</li>
-				    
+
 				    <!-- Save -->
 					<li><div id="saveAction" class="button special" 
 					    onclick='Widget.EditorHeader.save();'>
 				        Save</div>
+					</li>
+					
+					<!-- Toggle -->
+					<li><div id="toggleAction" class="button special" 
+					    onclick='Widget.EditorSearchHeader.toggle();'>
+				        <i class="fa fa-compress"></i></div>
 					</li>
 				</ul>
 			</nav>
@@ -37,7 +37,7 @@ Widget.EditorSearchHeader.prototype = {
 
 Widget.EditorSearchHeader.toggleNavigation = "3u 12u(medium)"
 Widget.EditorSearchHeader.toggleEditor = "9u 12u(medium)"
-Widget.EditorSearchHeader.toggleName = "Wide"
+Widget.EditorSearchHeader.toggleName = '<i class="fa fa-expand"></i>'
 
 Widget.EditorSearchHeader.toggle = function () {
     var navigationClass = $("#editorSearchTemplateNavigation").attr("class")

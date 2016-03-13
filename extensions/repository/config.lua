@@ -44,6 +44,7 @@ config.javascripts = {
 	{name = "RepositoryFileHistoryHeader", script = "widgets/RepositoryFileHistoryHeader.js"},
 	{name = "RepositoryDiff", script = "widgets/RepositoryDiff.js"},
 	{name = "RepositoryPatch", script = "widgets/RepositoryPatch.js"},
+	{name = "RepositoryLog", script = "widgets/RepositoryLog.js"},
 }
 
 config.stylesheets = {

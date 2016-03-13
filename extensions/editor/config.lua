@@ -15,6 +15,7 @@ config.property = {
     editorRemoveUrl = "/remove",
     editorCreateFileUrl = "/createFile",
     editorCreateDirectoryUrl = "/createDirectory",
+    editorEditFileUrl = "/editFile",
 }
 
 config.locations = {
@@ -27,6 +28,7 @@ config.locations = {
 	{name = property.editorUrl .. property.editorRemoveUrl, script = "controllers/operations/RemoveController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorCreateFileUrl, script = "controllers/operations/CreateFileController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorCreateDirectoryUrl, script = "controllers/operations/CreateDirectoryController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
+	{name = property.editorUrl .. property.editorEditFileUrl, script = "controllers/EditorEditFileController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 }
 
 config.access = {

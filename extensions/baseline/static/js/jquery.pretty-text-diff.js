@@ -62,7 +62,7 @@ See https://github.com/arnab/jQuery.PrettyTextDiff/
     pattern_gt = />/g;
     pattern_para = /\n/g;
     operation = diff[0], data = diff[1];
-    text = data.replace(pattern_amp, '&amp;').replace(pattern_lt, '&lt;').replace(pattern_gt, '&gt;').replace(pattern_para, '<br>');
+    text = data.replace(pattern_amp, '&amp;').replace(pattern_lt, '&lt;').replace(pattern_gt, '&gt;').replace(pattern_para, '\n<br>');
     switch (operation) {
       case DIFF_INSERT:
         return '<ins>' + text + '</ins>';

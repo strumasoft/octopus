@@ -2,6 +2,10 @@ Widget.OneFieldPopup = function (data) {
     data.guid = Widget.guid()
 		
     var info = parse(function(){/*!
+        {{?@ !isEmpty(data.info)
+	        <h1>{{info}}</h1>
+	    }}?
+		    
 		<input class="spaced-down"
 		    {{? password == 1
 		        type="password"

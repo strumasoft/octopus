@@ -7,7 +7,11 @@ Widget.EditorSearchPopup = function (data) {
     data.isFileNameGuid = Widget.guid()
 		
     var info = parse(function(){/*!
-		<input class="spaced-down" type="text" id="{{queryGuid}}" placeholder="Search" />
+		{{?@ !isEmpty(data.info)
+	        <h1>{{info}}</h1>
+	    }}?
+	    
+		<input class="spaced-down" type="text" id="{{queryGuid}}" placeholder="Query" />
 			
 		<input class="spaced-down" type="text" id="{{replaceGuid}}" placeholder="Replace" />
 		
@@ -31,7 +35,7 @@ Widget.EditorSearchPopup = function (data) {
 		    id="{{proceedButtonGuid}}"
 		    href="javascript:;" target="_blank"
 			onclick='return vars.editorSearchPopup.proceed("{{proceedButtonGuid}}", "{{queryGuid}}", "{{replaceGuid}}", "{{filterGuid}}", "{{isRegexGuid}}", "{{isFileNameGuid}}")'>
-			Search
+			Search / Replace
 		</a>
 	*/}, data)
 	

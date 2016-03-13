@@ -14,10 +14,12 @@ Widget.RepositoryStatusHeader = function (directoryName) {
 				    </li>
 				
 				    <!-- Update -->
+				    {{?@ getURLParameter("repository") == "SVN"
 					<li><div id="updateAction" class="hand" 
 					    onclick='Widget.RepositoryStatusHeader.update();'>
 					    <i class="fa fa-chevron-circle-down"></i></div>
 				    </li>
+				    }}?
 				    
 				    <!-- Revert/Reset -->
 					<li><div id="revertAction" class="hand" 
@@ -26,16 +28,26 @@ Widget.RepositoryStatusHeader = function (directoryName) {
 				    </li>
 				    
 				    <!-- Merge -->
+				    {{?@ getURLParameter("repository") == "SVN"
 					<li><div id="mergeAction" class="hand" 
 					    onclick='Widget.RepositoryStatusHeader.merge();'>
 					    <i class="fa fa-sitemap"></i></div>
 				    </li>
+				    }}?
 				    
 				    <!-- Refresh/Clean -->
+				    {{?@ getURLParameter("repository") == "SVN"
 					<li><div id="refreshAction" class="hand" 
 					    onclick='Widget.RepositoryStatusHeader.refresh();'>
 					    <i class="fa fa-refresh"></i></div>
 				    </li>
+				    }}?
+				    {{?@ getURLParameter("repository") == "GIT"
+					<li><div id="refreshAction" class="hand" 
+					    onclick='Widget.RepositoryStatusHeader.refresh();'>
+					    <i class="fa fa-eraser"></i></div>
+				    </li>
+				    }}?
 				
 				    <!-- Create/Add -->
 					<li><div id="addPathAction" class="hand" 
@@ -47,6 +59,12 @@ Widget.RepositoryStatusHeader = function (directoryName) {
 					<li><div id="deletePathAction" class="hand" 
 					    onclick='Widget.RepositoryStatusHeader.deletePath();'>
 					    <i class="fa fa-minus"></i></div>
+				    </li>
+				    
+				    <!-- Edit -->
+					<li><div id="editFileAction" class="hand" 
+					    onclick='Widget.RepositoryStatusHeader.editFile();'>
+					    <i class="fa fa-pencil-square-o"></i></div>
 				    </li>
 				
 				    <!-- Compare -->
@@ -102,7 +120,7 @@ Widget.RepositoryStatusHeader.commit = function () {
         return
     }
     
-    var commitPopup = new Widget.OneFieldPopup({placeholder: "Message", proceed: function (guid) {
+    var commitPopup = new Widget.OneFieldPopup({info:"Commit code.", placeholder: "Message", proceed: function (guid) {
         var message = $("#" + guid).val()
 		if (!isEmpty(message)) {
             params.message = encodeURIComponent(message)
@@ -140,7 +158,7 @@ Widget.RepositoryStatusHeader.update = function () {
     }
     
     if (!isEmpty(directoryName)) {
-        var updatePopup = new Widget.OneFieldPopup({placeholder: "Revision", proceed: function (guid) {
+        var updatePopup = new Widget.OneFieldPopup({info:"Update to revision.", placeholder: "Revision", proceed: function (guid) {
             var params = {}
             params.path = encodeURIComponent(directoryName)
             
@@ -212,7 +230,7 @@ Widget.RepositoryStatusHeader.merge = function () {
 	var directoryName = getURLParameter("directoryName")
     
     if (!isEmpty(directoryName)) {
-    	var updatePopup = new Widget.TwoFieldsPopup({placeholder1: "From Revision", placeholder2: "To Revision", proceed: function (fromRevisionGuid, toRevisionGuid) {
+    	var updatePopup = new Widget.TwoFieldsPopup({info:"Merge revisions.", placeholder1: "From Revision", placeholder2: "To Revision", proceed: function (fromRevisionGuid, toRevisionGuid) {
     		var fromRevision = $("#" + fromRevisionGuid).val()
     		var toRevision = $("#" + toRevisionGuid).val()
     		
@@ -248,6 +266,7 @@ Widget.RepositoryStatusHeader.refresh = function () {
     var directoryName = getURLParameter("directoryName")
     
     var path
+    var isDir
     
     var paths = []
     Widget.RepositoryStatusHeader.ifCheckboxIsChecked(function (checkbox) {
@@ -259,8 +278,10 @@ Widget.RepositoryStatusHeader.refresh = function () {
         return
     } else if (paths.length == 1) {
         path = paths[0]
+        isDir = false
     } else {
         path = directoryName
+        isDir = true
     }
     
     if (!isEmpty(path)) {
@@ -268,7 +289,11 @@ Widget.RepositoryStatusHeader.refresh = function () {
         if (getURLParameter("repository") == "SVN") {
             refreshOrClean = "Refresh "
         } else if (getURLParameter("repository") == "GIT") {
-            refreshOrClean = "Clean "
+            if (isDir) {
+                refreshOrClean = "Remove untracked files in "
+            } else {
+                refreshOrClean = "Remove untracked "
+            }
         }
         
         var refreshPopup = new Widget.QuestionPopup({question: refreshOrClean + path + "?", proceed: function () {
@@ -354,6 +379,42 @@ Widget.RepositoryStatusHeader.deletePath = function () {
     		
     		this.delete()
     	}})
+    }
+}
+
+//
+// edit
+//
+
+Widget.RepositoryStatusHeader.editFile = function () {
+    var directoryName = getURLParameter("directoryName")
+    
+    var paths = []
+    Widget.RepositoryStatusHeader.ifCheckboxIsChecked(function (checkbox) {
+        if (isEmpty(checkbox.attr("newFileName"))) {
+            paths.push(checkbox.attr("fileName"))
+        } else {
+            paths.push(checkbox.attr("newFileName"))
+        }
+    })
+    
+    if (paths.length != 1) {
+        var infoPopup = new Widget.InfoPopup({info: "Select 1 file to edit!"})
+    } else {
+        var path = paths[0]
+        
+        var fileName
+        if (getURLParameter("repository") == "SVN") {
+            fileName = path
+        } else if (getURLParameter("repository") == "GIT") {
+            fileName = directoryName + "/" + path
+        }
+        
+        var newSessionUrl = Widget.EditorHeader.newSessionUrl(
+            property.editorUrl + property.editorEditFileUrl, 
+            {directoryName: encodeURIComponent(directoryName), fileName: encodeURIComponent(fileName)})
+        
+        window.open(newSessionUrl)
     }
 }
 

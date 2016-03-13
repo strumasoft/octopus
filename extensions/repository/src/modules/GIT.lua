@@ -145,18 +145,23 @@ end
 -- commitHistory
 --
 
-local function commitHistory (directoryName, commit)
+local function commitHistory (directoryName, newRevision, oldRevision)
     directoryName = util.quoteCommandlineArgument(directoryName)
     
-    util.noCommandlineSpecialCharacters(commit)
+    util.noCommandlineSpecialCharacters(newRevision)
+    util.noCommandlineSpecialCharacters(oldRevision)
     
-    return string.format([[cd %s && git show %s]] .. property.redirectErrorToOutputStream, directoryName, commit)
+    if param.isNotEmpty(oldRevision) then
+        return string.format([[cd %s && git diff %s..%s]] .. property.redirectErrorToOutputStream, directoryName, oldRevision, newRevision)
+    else
+        return string.format([[cd %s && git show %s]] .. property.redirectErrorToOutputStream, directoryName, newRevision)
+    end
 end
 
 function m.commitHistory (username, password, directoryName, newRevision, oldRevision)
     util.noBackDirectory(directoryName)
     
-    local command = commitHistory(sourceCtxPath .. directoryName, newRevision)
+    local command = commitHistory(sourceCtxPath .. directoryName, newRevision, oldRevision)
 
     local f = assert(io.popen(command, "r"))
     local content = f:read("*all")
