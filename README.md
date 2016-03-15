@@ -51,6 +51,12 @@ Database, users and security
 ============
 * Set up database connection - databaseConnection object in [config_unix.lua](extensions/config_unix.lua)
 * Import test user from security extension [import.lua](extensions/security/src/import.lua) file in [localhost:7878/database](http://localhost:7878/database)
+```lua
+db:dropAllTables()
+db:createAllTables()
+db:import("securityImport")
+db:import("shopImport")
+```
 * Enable security - set `requireSecurity = true` in globalParameters object in [config_unix.lua](extensions/config_unix.lua)
 
 Copyright and License
