@@ -4,7 +4,7 @@ Widget.RepositoryTemplate = function (data) {
 		<div id="main" class="container">
 			<!-- Header -->
 			{{header}}
-		
+
 			<div class="row">
 				<div class="12u">
 					{{navigation}}

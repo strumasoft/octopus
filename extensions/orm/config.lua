@@ -1,7 +1,7 @@
 local config = {} -- extension configuration
 
 config.property = {
-    usePreparedStatement = true,
+	usePreparedStatement = true,
 }
 
 config.modules = {

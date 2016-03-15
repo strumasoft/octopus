@@ -3,7 +3,7 @@ local m = {} -- module table
 function m.parse(text)
 	local wrapper = {} -- wrapper holding the interface to the array with substrings
 	local substrings = {} -- array with substrings
-	
+
 	local iteratorIndex = 0
 	repeat
 		local dollarIndex, openBracketIndex = text:find("${", iteratorIndex)

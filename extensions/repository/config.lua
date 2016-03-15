@@ -1,23 +1,23 @@
 local config = {} -- extension configuration
 
 config.property = {
-    redirectErrorToOutputStream = " 2>&1",
-    
-    repositoryUrl = "/repository",
-    
-    repositoryStatusUrl = "/status",
-    repositoryFileHistoryUrl = "/fileHistory",
-    repositoryLogHistoryUrl = "/logHistory",
-    repositoryCommitHistoryUrl = "/commitHistory",
-    repositoryFileRevisionContentUrl = "/fileRevisionContent",
-    repositoryFileDiffUrl = "/fileDiff",
-    repositoryCommitUrl = "/commit",
-    repositoryUpdateUrl = "/update",
-    repositoryRevertUrl = "/revert",
-    repositoryAddUrl = "/add",
-    repositoryDeleteUrl = "/delete",
-    repositoryRefreshUrl = "/refresh",
-    repositoryMergeUrl = "/merge",
+	redirectErrorToOutputStream = " 2>&1",
+
+	repositoryUrl = "/repository",
+
+	repositoryStatusUrl = "/status",
+	repositoryFileHistoryUrl = "/fileHistory",
+	repositoryLogHistoryUrl = "/logHistory",
+	repositoryCommitHistoryUrl = "/commitHistory",
+	repositoryFileRevisionContentUrl = "/fileRevisionContent",
+	repositoryFileDiffUrl = "/fileDiff",
+	repositoryCommitUrl = "/commit",
+	repositoryUpdateUrl = "/update",
+	repositoryRevertUrl = "/revert",
+	repositoryAddUrl = "/add",
+	repositoryDeleteUrl = "/delete",
+	repositoryRefreshUrl = "/refresh",
+	repositoryMergeUrl = "/merge",
 }
 
 config.locations = {
@@ -57,7 +57,7 @@ config.modules = {
 }
 
 config.static = {
-    "static"
+	"static"
 }
 
 return config -- return extension configuration

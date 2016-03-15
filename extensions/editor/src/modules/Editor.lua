@@ -16,20 +16,20 @@ local sourceCtxPath = property.sourceCtxPath or ""
 --
 
 function m.createFile (fileName)
-    if fileName then
-        util.noBackDirectory(fileName)
-        
-        local file, err = io.open(sourceCtxPath .. fileName, "w")
-       
-        if file == nil then
-           exception(err)
-        end
-        
-        file:write("")
-        file:close()
-    else
-        exception("fileName is empty")
-    end
+	if fileName then
+		util.noBackDirectory(fileName)
+
+		local file, err = io.open(sourceCtxPath .. fileName, "w")
+
+		if file == nil then
+			exception(err)
+		end
+
+		file:write("")
+		file:close()
+	else
+		exception("fileName is empty")
+	end
 end
 
 
@@ -38,17 +38,17 @@ end
 --
 
 function m.createDirectory (directoryName)
-    if directoryName then
-        util.noBackDirectory(directoryName)
-        
-        local ok, err = lfs.mkdir(sourceCtxPath .. directoryName)
-       
-        if not ok then
-            exception(err)
-        end
-    else
-        exception("directoryName is empty")
-    end
+	if directoryName then
+		util.noBackDirectory(directoryName)
+
+		local ok, err = lfs.mkdir(sourceCtxPath .. directoryName)
+
+		if not ok then
+			exception(err)
+		end
+	else
+		exception("directoryName is empty")
+	end
 end
 
 
@@ -57,18 +57,18 @@ end
 --
 
 function m.rename (oldName, newName)
-    if oldName and newName then
-        util.noBackDirectory(oldName)
-        util.countBackDirectories(newName)
-        
-        local ok, err = os.rename(sourceCtxPath .. oldName, sourceCtxPath .. newName)
-       
-        if not ok then
-            exception(err)
-        end
-    else
-        exception("oldName/newName is empty")
-    end
+	if oldName and newName then
+		util.noBackDirectory(oldName)
+		util.countBackDirectories(newName)
+
+		local ok, err = os.rename(sourceCtxPath .. oldName, sourceCtxPath .. newName)
+
+		if not ok then
+			exception(err)
+		end
+	else
+		exception("oldName/newName is empty")
+	end
 end
 
 
@@ -77,13 +77,13 @@ end
 --
 
 function m.remove (path)
-    if path then
-        util.noBackDirectory(path)
-        
-        util.remove(sourceCtxPath .. path)
-    else
-        exception("path is empty")
-    end
+	if path then
+		util.noBackDirectory(path)
+
+		util.remove(sourceCtxPath .. path)
+	else
+		exception("path is empty")
+	end
 end
 
 
@@ -92,25 +92,25 @@ end
 --
 
 function m.save (fileName, content)
-    if fileName then
-        util.noBackDirectory(fileName)
-        
-    	local file, err = io.open(sourceCtxPath .. fileName, "w")
-    	
-    	if file == nil then
-           exception(err)
-        end
-    	
-    	if content then
-    	    file:write(content)
-	    else
-	        file:write("")
-        end
-    
-    	file:close()
-    else
-        exception("fileName is empty")
-    end
+	if fileName then
+		util.noBackDirectory(fileName)
+
+		local file, err = io.open(sourceCtxPath .. fileName, "w")
+
+		if file == nil then
+			exception(err)
+		end
+
+		if content then
+			file:write(content)
+		else
+			file:write("")
+		end
+
+		file:close()
+	else
+		exception("fileName is empty")
+	end
 end
 
 
@@ -119,22 +119,22 @@ end
 --
 
 function m.fileContent (fileName)
-    if fileName then
-        util.noBackDirectory(fileName)
-        
-    	local file, err = io.open(sourceCtxPath .. fileName, "r")
-    	
-    	if file == nil then
-           exception(err)
-        end
-    	
-    	local content = file:read("*all")
-    	file:close()
-    	
-    	return content
-    else
-    	exception("fileName is empty")
-    end
+	if fileName then
+		util.noBackDirectory(fileName)
+
+		local file, err = io.open(sourceCtxPath .. fileName, "r")
+
+		if file == nil then
+			exception(err)
+		end
+
+		local content = file:read("*all")
+		file:close()
+
+		return content
+	else
+		exception("fileName is empty")
+	end
 end
 
 

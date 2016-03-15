@@ -14,18 +14,18 @@ local cartService = require "cartService"
 
 
 local function process (db, data)
-    local op = db:operators()
-    
-    
-    local locale = localeService.getLocale(db)
-    data.locale = locale
-    
-    
-    if param.isNotEmpty(param.address) then
-        db:delete({address = {id = param.address}})
-    else
-        exception("address is required")
-    end
+	local op = db:operators()
+
+
+	local locale = localeService.getLocale(db)
+	data.locale = locale
+
+
+	if param.isNotEmpty(param.address) then
+		db:delete({address = {id = param.address}})
+	else
+		exception("address is required")
+	end
 end
 
 
@@ -36,8 +36,8 @@ db:close()
 
 
 if status then
-    return ngx.redirect(property.shopUrl .. property.accountAddressesUrl)
+	return ngx.redirect(property.shopUrl .. property.accountAddressesUrl)
 else
-    exception.toCookie(err)
-    return ngx.redirect(property.shopUrl .. property.accountAddressesUrl)
+	exception.toCookie(err)
+	return ngx.redirect(property.shopUrl .. property.accountAddressesUrl)
 end

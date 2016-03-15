@@ -1,8 +1,8 @@
 Widget.RegisterForm = function (data) {
-    this.data = data
+	this.data = data
 	this.html = parse(function(){/*!
 		<h3>Register</h3>
-								
+
 		<form method="post" action="/security/registerUser{{to}}">
 			<div class="row uniform">
 				<div class="6u$ 8u$(medium) 12u$(small)">

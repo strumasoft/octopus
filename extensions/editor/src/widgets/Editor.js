@@ -7,50 +7,50 @@ Widget.Editor = function (data) {
 
 Widget.Editor.prototype = {
 	constructor: Widget.Editor,
-	
+
 	init: function () {
 		var aceEditor = ace.edit(this.data.id)
-	    aceEditor.setTheme("ace/theme/chrome")
-	    aceEditor.getSession().setMode("ace/mode/text")
-	    
-	    aceEditor.setShowPrintMargin(false)
-	    aceEditor.getSession().setTabSize(4)
-	    aceEditor.getSession().setUseSoftTabs(false)
-	    //aceEditor.getSession().setUseWorker(false) // disable syntax checker and information
-	    
-	    document.getElementById(this.data.id).style.fontSize = "14px"
-	    document.getElementById(this.data.id).style.height = Widget.EditorTemplate.maxHeight()
-	    
-	    aceEditor.on('change', function (e) {
-	        // e.data.action - insertLines|insertText|removeLines|removeText
-	        Widget.EditorHeader.saved(false)
-	    })
-	    
-	    this.aceEditor = aceEditor
+		aceEditor.setTheme("ace/theme/chrome")
+		aceEditor.getSession().setMode("ace/mode/text")
+
+		aceEditor.setShowPrintMargin(false)
+		aceEditor.getSession().setTabSize(4)
+		aceEditor.getSession().setUseSoftTabs(false)
+		//aceEditor.getSession().setUseWorker(false) // disable syntax checker and information
+
+		document.getElementById(this.data.id).style.fontSize = "14px"
+		document.getElementById(this.data.id).style.height = Widget.EditorTemplate.maxHeight()
+
+		aceEditor.on('change', function (e) {
+			// e.data.action - insertLines|insertText|removeLines|removeText
+			Widget.EditorHeader.saved(false)
+		})
+
+		this.aceEditor = aceEditor
 	},
-	
+
 	setValue: function (content) {
-	    // delete previous and set new content
-	    this.aceEditor.removeLines()
+		// delete previous and set new content
+		this.aceEditor.removeLines()
 		this.aceEditor.setValue(content, -1)
-		
+
 		// remove last new line (added by ace)
 		this.aceEditor.navigateFileEnd()
 		this.aceEditor.navigateLeft(1)
 		this.aceEditor.removeToLineEnd()
 		this.aceEditor.navigateFileStart()
-		
+
 		// mark saved
 		Widget.EditorHeader.saved(true)
 	},
-	
+
 	getValue: function () {
 		return this.aceEditor.getValue()
 	},
-	
+
 	setMode: function (e) {
 		var mode
-		
+
 		if (e == "lua") {
 			mode = "ace/mode/lua"	
 		} else if (e == "js") {
@@ -88,7 +88,7 @@ Widget.Editor.prototype = {
 		} else {
 			mode = "ace/mode/text"
 		}
-		
+
 		this.aceEditor.getSession().setMode(mode)
 	}
 }

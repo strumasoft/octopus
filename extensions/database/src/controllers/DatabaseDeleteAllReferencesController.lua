@@ -16,26 +16,26 @@ local op = db:operators()
 
 
 local function f ()
-    local typeTo = param.split(to, ".")[1]
-    local typeFrom = param.split(from, ".")[1]
-    
-    if param.isNotEmpty(from) and param.isNotEmpty(to) and param.isNotEmpty(parentId) then
-        if typeTo == typeFrom then -- self referencing
-            if from < to then
-                db:delete({[from .. "-" .. to] = {value = parentId}})
-            else
-                db:delete({[to .. "-" .. from] = {key = parentId}}) 
-            end
-        else
-            if from < to then
-                db:delete({[from .. "-" .. to] = {key = parentId}})
-            else
-                db:delete({[to .. "-" .. from] = {value = parentId}}) 
-            end
-        end
-    else
-        exception("from, to or parentId is empty")
-    end
+	local typeTo = param.split(to, ".")[1]
+	local typeFrom = param.split(from, ".")[1]
+
+	if param.isNotEmpty(from) and param.isNotEmpty(to) and param.isNotEmpty(parentId) then
+		if typeTo == typeFrom then -- self referencing
+			if from < to then
+				db:delete({[from .. "-" .. to] = {value = parentId}})
+			else
+				db:delete({[to .. "-" .. from] = {key = parentId}}) 
+			end
+		else
+			if from < to then
+				db:delete({[from .. "-" .. to] = {key = parentId}})
+			else
+				db:delete({[to .. "-" .. from] = {value = parentId}}) 
+			end
+		end
+	else
+		exception("from, to or parentId is empty")
+	end
 end
 
 
@@ -44,7 +44,7 @@ db:close()
 
 
 if status then
-    ngx.say("Delete done!")
+	ngx.say("Delete done!")
 else
-    exit(res)
+	exit(res)
 end

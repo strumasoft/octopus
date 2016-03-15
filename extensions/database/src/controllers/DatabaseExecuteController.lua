@@ -10,8 +10,8 @@ local database = require "database"
 local script = ngx.req.get_body_data()
 
 local function f (env)
-    local res, typeName = eval.code(script, env)
-    return res, typeName
+	local res, typeName = eval.code(script, env)
+	return res, typeName
 end
 
 
@@ -28,26 +28,26 @@ db:close()
 -- write response
 
 if status then
-    if type(res) == "table" then
-        if #res > 0 then
-            local results = {}
-            for i=1,#res do
-               results[#results + 1] = res[i]
-            end
-            
-            results[#results + 1] = typeName -- last element is type name
-            
-            ngx.say(json.encode(results))
-        else    
-            if typeName then
-                ngx.say(json.encode({res, typeName}))
-            else
-                ngx.say(json.encode(res))
-            end
-        end
-    else
-        ngx.say(res)
-    end
+	if type(res) == "table" then
+		if #res > 0 then
+			local results = {}
+			for i=1,#res do
+				results[#results + 1] = res[i]
+			end
+
+			results[#results + 1] = typeName -- last element is type name
+
+			ngx.say(json.encode(results))
+		else    
+			if typeName then
+				ngx.say(json.encode({res, typeName}))
+			else
+				ngx.say(json.encode(res))
+			end
+		end
+	else
+		ngx.say(res)
+	end
 else
-    ngx.say(res)
+	ngx.say(res)
 end

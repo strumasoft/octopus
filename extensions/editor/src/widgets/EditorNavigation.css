@@ -15,11 +15,11 @@
 
 ul.no-bullets
 {
-    list-style-type: none;
-    padding-left: 0em;
-    margin: 0em;
+	list-style-type: none;
+	padding-left: 0em;
+	margin: 0em;
 }
 
 .nowrap {
-    white-space: nowrap;
+	white-space: nowrap;
 }

@@ -1,22 +1,22 @@
 local config = {} -- extension configuration
 
 config.property = {
-    mainColor = "#49bf9d",
-    selectedColor = "#1e90ff",
-    aceEditorVersion = "1.2.3",
-    
-    editorUrl = "/editor",
-    editorHomeUrl = "",
-    
-    editorFileContentUrl = "/fileContent",
-    editorDirectoryUrl = "/directory",
-    editorSaveUrl = "/save",
-    editorSearchUrl = "/search",
-    editorRenameUrl = "/rename",
-    editorRemoveUrl = "/remove",
-    editorCreateFileUrl = "/createFile",
-    editorCreateDirectoryUrl = "/createDirectory",
-    editorEditFileUrl = "/editFile",
+	mainColor = "#49bf9d",
+	selectedColor = "#1e90ff",
+	aceEditorVersion = "1.2.3",
+
+	editorUrl = "/editor",
+	editorHomeUrl = "",
+
+	editorFileContentUrl = "/fileContent",
+	editorDirectoryUrl = "/directory",
+	editorSaveUrl = "/save",
+	editorSearchUrl = "/search",
+	editorRenameUrl = "/rename",
+	editorRemoveUrl = "/remove",
+	editorCreateFileUrl = "/createFile",
+	editorCreateDirectoryUrl = "/createDirectory",
+	editorEditFileUrl = "/editFile",
 }
 
 config.locations = {
@@ -33,8 +33,8 @@ config.locations = {
 }
 
 config.access = {
-    {name = "EditorRedirectOnSessionTimeoutFilter", script = "filter/EditorRedirectOnSessionTimeoutFilter.lua"},
-    {name = "EditorThrowErrorOnSessionTimeoutFilter", script = "filter/EditorThrowErrorOnSessionTimeoutFilter.lua"},
+	{name = "EditorRedirectOnSessionTimeoutFilter", script = "filter/EditorRedirectOnSessionTimeoutFilter.lua"},
+	{name = "EditorThrowErrorOnSessionTimeoutFilter", script = "filter/EditorThrowErrorOnSessionTimeoutFilter.lua"},
 }
 
 config.javascripts = {
@@ -60,7 +60,7 @@ config.modules = {
 }
 
 config.static = {
-    "static"
+	"static"
 }
 
 return config -- return extension configuration

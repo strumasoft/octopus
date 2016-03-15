@@ -4,7 +4,7 @@ Widget.DatabaseTemplate = function (data) {
 		<div id="main" class="container">
 			<!-- Header -->
 			{{header}}
-		
+
 			<div class="row">
 				<div class="3u 12u(medium)">
 					<div id="directoryNavigation">
@@ -12,7 +12,7 @@ Widget.DatabaseTemplate = function (data) {
 					</div>
 				</div>
 				<div class="9u 12u(medium)">
-				    {{tabs}}
+					{{tabs}}
 				</div>
 			</div>
 		</div>

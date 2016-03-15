@@ -1,6 +1,6 @@
 function test1 ()
 {
-    console.log("test1: success")
+	console.log("test1: success")
 }
 
 
@@ -9,5 +9,5 @@ function test1 ()
 //
 function executeTests ()
 {
-    test1()
+	test1()
 }

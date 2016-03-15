@@ -4,7 +4,7 @@ Widget.EditorTemplate = function (data) {
 		<div id="main" class="container">
 			<!-- Header -->
 			{{header}}
-		
+
 			<div class="row">
 				<div class="3u 12u(medium)">
 					<div id="directoryNavigation">
@@ -21,9 +21,9 @@ Widget.EditorTemplate = function (data) {
 
 Widget.EditorTemplate.prototype = {
 	constructor: Widget.EditorTemplate,
-	
+
 	setDirectoryNavigation: function (html) {
-	    $("#directoryNavigation").html(html)
+		$("#directoryNavigation").html(html)
 	}
 }
 

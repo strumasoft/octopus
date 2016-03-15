@@ -5,15 +5,15 @@ local editor = require "Editor"
 
 
 local function process ()
-    local fileName = param.f
+	local fileName = param.f
 
-    return editor.fileContent(fileName)
+	return editor.fileContent(fileName)
 end
 
 
 local status, res = pcall(process)
 if status then
-    if res then ngx.say(res) end
+	if res then ngx.say(res) end
 else
-    exit(res)
+	exit(res)
 end

@@ -10,7 +10,7 @@ local util = require "util"
 
 
 local externalJS = parse([[
-    <script src="https://cdn.jsdelivr.net/ace/{{aceVersion}}/min/ace.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://cdn.jsdelivr.net/ace/{{aceVersion}}/min/ace.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="/baseline/static/js/init-baseline.js"></script>
 ]], {aceVersion = property.aceEditorVersion})
 
@@ -22,11 +22,11 @@ local externalCSS = [[
 
 local initJSTemplate = [[
 	var vars = {}
-	
+
 	var editor = new Widget.Editor({id: "editor"})
 	var editorSearchResult = new Widget.EditorSearchResult({{files}})
 	var editorSearchHeader = new Widget.EditorSearchHeader("{{title}}")
-	
+
 	var editorSearchTemplate = new Widget.EditorSearchTemplate({
 		searchResult: editorSearchResult.html,
 		editor: editor.html,
@@ -34,35 +34,35 @@ local initJSTemplate = [[
 	})
 
 	Widget.setHtmlToPage(editorSearchTemplate.html);
-	
+
 	editor.init()
 ]]
 
 
 local function process ()
-    local directoryName = param.directoryName
-    local fileName = param.fileName
-    
-    local files = {fileName}
-    
-    local paths = param.split(fileName, "/")
-    local title = paths[#paths]
-    
-    return parse(require("BaselineHtmlTemplate"), {
-    	title = title, 
-    	externalJS = externalJS,
-    	externalCSS = externalCSS,
-    	initJS = parse(initJSTemplate, {
-    	    title = util.escapeCommandlineSpecialCharacters(title), 
-    		files = json.encode(files)
-    	})
-    })
+	local directoryName = param.directoryName
+	local fileName = param.fileName
+
+	local files = {fileName}
+
+	local paths = param.split(fileName, "/")
+	local title = paths[#paths]
+
+	return parse(require("BaselineHtmlTemplate"), {
+		title = title, 
+		externalJS = externalJS,
+		externalCSS = externalCSS,
+		initJS = parse(initJSTemplate, {
+			title = util.escapeCommandlineSpecialCharacters(title), 
+			files = json.encode(files)
+		})
+	})
 end
 
 
 local status, res = pcall(process)
 if status then
-    if res then ngx.say(res) end
+	if res then ngx.say(res) end
 else
-    exit(res)
+	exit(res)
 end

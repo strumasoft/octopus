@@ -12,12 +12,12 @@ local cartService = require "cartService"
 
 
 local function process (db, data)
-    local locale = localeService.getLocale(db)
-    data.locale = locale
-    
-    
-    local cart = cartService.addToCart(db, param.productCode, param.quantity)
-    data.cart = cartService.convertCart(db, cart)
+	local locale = localeService.getLocale(db)
+	data.locale = locale
+
+
+	local cart = cartService.addToCart(db, param.productCode, param.quantity)
+	data.cart = cartService.convertCart(db, cart)
 end
 
 
@@ -28,7 +28,7 @@ db:close()
 
 
 if status then
-    ngx.say(json.encode(data))
+	ngx.say(json.encode(data))
 else
-    exit(err)
+	exit(err)
 end

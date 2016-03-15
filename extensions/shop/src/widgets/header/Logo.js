@@ -1,6 +1,6 @@
 Widget.Logo = function () {
 	var data = {logoUrl: property.shopUrl + property.shopHomeUrl}
-	
+
 	this.data = data
 	this.html = parse(function(){/*!
 		<div class="logo-image">

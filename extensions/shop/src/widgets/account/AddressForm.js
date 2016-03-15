@@ -1,10 +1,10 @@
 Widget.AddressForm = function (data) {
-    this.data = data
+	this.data = data
 	this.html = parse(function(){/*!
 		<form method="post" action="{{actionUrl}}">
 			<div class="row uniform">
 				<input type="hidden" name="id" id="id" value="{{address.id}}" />
-				
+
 				<div class="6u$ 8u$(medium) 12u$(small)">
 					<input type="text" name="firstName" id="firstName" value="{{address.firstName}}" placeholder="First Name" />
 				</div>
@@ -35,7 +35,7 @@ Widget.AddressForm = function (data) {
 				<div class="6u$ 8u$(medium) 12u$(small)">
 					<input type="text" name="country" id="country" value="{{address.country}}" placeholder="Country" />
 				</div>
-				
+
 				<div class="12u$">
 					<ul class="actions">
 						<li><input class="special" type="submit" value="{{actionName}}" /></li>

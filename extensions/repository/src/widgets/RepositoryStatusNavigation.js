@@ -1,10 +1,10 @@
 Widget.RepositoryStatusNavigation = function (statuses) {
 	statuses = statuses || []
-	
+
 	for (var i = 0; i < statuses.length; i++) {statuses[i].guid = Widget.guid()}
-	
+
 	var data = {statuses: statuses}
-	
+
 	this.data = data
 	if (getURLParameter("repository") == "SVN") {
 	this.html = parse(function(){/*!

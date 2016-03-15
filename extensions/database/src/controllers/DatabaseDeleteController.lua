@@ -11,9 +11,9 @@ local db = database.connect()
 local op = db:operators()
 
 local function f ()
-    for i=1,#instancesToDelete do
-        db:delete({[instancesToDelete[i].type] = {id = instancesToDelete[i].id}})
-    end
+	for i=1,#instancesToDelete do
+		db:delete({[instancesToDelete[i].type] = {id = instancesToDelete[i].id}})
+	end
 end
 
 local status, res = pcall(db.transaction, db, f)
@@ -21,7 +21,7 @@ db:close()
 
 
 if status then
-    ngx.say("Delete done!")
+	ngx.say("Delete done!")
 else
-    exit(res)
+	exit(res)
 end

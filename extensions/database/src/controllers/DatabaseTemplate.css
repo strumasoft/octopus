@@ -7,16 +7,16 @@
 }
 
 .resultbox {
-    padding: 15px;
-    margin: 15px;
-    
-    color: #333;
-    font-size: 1em;
-    font-weight: normal;
-   
-    background: #fff;
-    border-radius: 6px;
-    border: solid 1px #ddd;
-    
-    /* white-space: pre; */
+	padding: 15px;
+	margin: 15px;
+
+	color: #333;
+	font-size: 1em;
+	font-weight: normal;
+
+	background: #fff;
+	border-radius: 6px;
+	border: solid 1px #ddd;
+
+	/* white-space: pre; */
 }

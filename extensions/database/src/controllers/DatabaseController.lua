@@ -19,38 +19,38 @@ local externalCSS = [[
 
 local initJSTemplate = [[
 	var vars = {}
-	
-	
+
+
 	var editor = new Widget.DatabaseEditor({id: "editor"})
-	
+
 	vars.scriptTab = {   
-        guid: Widget.guid(),
-        id: Widget.guid(),
-        name: "Script",
-        html: editor.html
-    }
-    
-    vars.resultTab = {
-        guid: Widget.guid(),
-        id: Widget.guid(),
-        name: "Result",
-        html: '<div class="resultbox"></div>'
-    }
-    
-    vars.editTab = {
-        guid: Widget.guid(),
-        id: Widget.guid(),
-        name: "Edit",
-        html: '<div class="resultbox"></div>'
-    }
-    
+		guid: Widget.guid(),
+		id: Widget.guid(),
+		name: "Script",
+		html: editor.html
+	}
+
+	vars.resultTab = {
+		guid: Widget.guid(),
+		id: Widget.guid(),
+		name: "Result",
+		html: '<div class="resultbox"></div>'
+	}
+
+	vars.editTab = {
+		guid: Widget.guid(),
+		id: Widget.guid(),
+		name: "Edit",
+		html: '<div class="resultbox"></div>'
+	}
+
 	var tabs = [vars.scriptTab, vars.resultTab, vars.editTab]
-	
+
 	var databaseTabs = new Widget.DatabaseTabs({tabs: tabs})
-	
+
 	var databaseNavigation = new Widget.DatabaseNavigation({{types}})
 	var databaseHeader = new Widget.DatabaseHeader({tabs: tabs})
-	
+
 	var databaseTemplate = new Widget.DatabaseTemplate({
 		tabs: databaseTabs.html,
 		navigation: databaseNavigation.html, 
@@ -58,7 +58,7 @@ local initJSTemplate = [[
 	})
 
 	Widget.setHtmlToPage(databaseTemplate.html);
-	
+
 	editor.init()
 	databaseNavigation.init()
 ]]
@@ -77,8 +77,8 @@ table.sort(typeNames)
 -- wrap everything up --
 local types = {}
 for i=1,#typeNames do
-    local k = typeNames[i]
-    types[#types + 1] = {name = k}
+	local k = typeNames[i]
+	types[#types + 1] = {name = k}
 end
 
 
