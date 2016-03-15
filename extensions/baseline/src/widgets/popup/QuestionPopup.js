@@ -2,7 +2,7 @@ Widget.QuestionPopup = function (data) {
 	var info = parse(function(){/*!
 		<h1>{{question}}</h1>
 
-			<button class="button" 
+		<button class="button" 
 			onclick='vars.questionPopup.delete()'>
 			No
 		</button>

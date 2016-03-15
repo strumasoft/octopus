@@ -40,12 +40,12 @@ loadExtension(extensionsDir, "core")
 loadExtension(extensionsDir, "orm")
 
 local function build ()
-    print("build server from " .. extensionsDir .. configFileName)
-    
-    dofile(extensionsDir .. configFileName)
-    
-    local builder = require "builder"
-    builder.build()
+	print("build server from " .. extensionsDir .. configFileName)
+
+	dofile(extensionsDir .. configFileName)
+
+	local builder = require "builder"
+	builder.build()
 end
 local status, err = pcall(build)
 if not status then print(err) end
