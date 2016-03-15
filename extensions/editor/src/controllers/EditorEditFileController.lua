@@ -1,5 +1,6 @@
 local json = require "dkjson"
 local param = require "param"
+local property = require "property"
 local exit = require "exit"
 local editor = require "Editor"
 local parse = require "parse"
@@ -8,10 +9,10 @@ local util = require "util"
 
 
 
-local externalJS = [[
-    <script src="https://cdn.jsdelivr.net/ace/1.1.8/min/ace.js" type="text/javascript" charset="utf-8"></script>
+local externalJS = parse([[
+    <script src="https://cdn.jsdelivr.net/ace/{{aceVersion}}/min/ace.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="/baseline/static/js/init-baseline.js"></script>
-]]
+]], {aceVersion = property.aceEditorVersion})
 
 
 local externalCSS = [[

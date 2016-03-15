@@ -15,7 +15,7 @@ Widget.Editor.prototype = {
 	    
 	    aceEditor.setShowPrintMargin(false)
 	    aceEditor.getSession().setTabSize(4)
-	    aceEditor.getSession().setUseSoftTabs(true)
+	    aceEditor.getSession().setUseSoftTabs(false)
 	    //aceEditor.getSession().setUseWorker(false) // disable syntax checker and information
 	    
 	    document.getElementById(this.data.id).style.fontSize = "14px"
@@ -70,6 +70,8 @@ Widget.Editor.prototype = {
 		} else if (e == "h") {
 			mode = "ace/mode/c_cpp"
 		} else if (e == "hpp") {
+			mode = "ace/mode/c_cpp"
+		} else if (e == "ino") {
 			mode = "ace/mode/c_cpp"
 		} else if (e == "java") {
 			mode = "ace/mode/java"

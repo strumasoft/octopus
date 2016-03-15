@@ -1,6 +1,7 @@
 local json = require "dkjson"
 local parse = require "parse"
 local param = require "param"
+local property = require "property"
 local directory = require "Directory"
 local util = require "util"
 
@@ -55,10 +56,10 @@ end
 
 ngx.say(parse(require("BaselineHtmlTemplate"), {
 	title = title,
-	externalJS = [[
-    	<script src="https://cdn.jsdelivr.net/ace/1.1.8/min/ace.js" type="text/javascript" charset="utf-8"></script>
+	externalJS = parse([[
+    	<script src="https://cdn.jsdelivr.net/ace/{{aceVersion}}/min/ace.js" type="text/javascript" charset="utf-8"></script>
     	<script type="text/javascript" src="/baseline/static/js/init-baseline.js"></script>
-    ]],
+    ]], {aceVersion = property.aceEditorVersion}),
     externalCSS = [[
     	<link href="/editor/static/editor-favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
     ]],
