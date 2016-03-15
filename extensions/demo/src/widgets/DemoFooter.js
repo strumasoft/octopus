@@ -1,6 +1,6 @@
 Widget.DemoFooter = function (data) {
-    data = data || {}
-    
+	data = data || {}
+
 	this.data = data
 	this.html = parse(function(){/*!
 		<footer id="footer">

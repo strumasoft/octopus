@@ -1,7 +1,7 @@
 local config = {} -- extension configuration
 
 config.locations = {
-    {name = "/", script = "controllers/IndexController.lua"},
+	{name = "/", script = "controllers/IndexController.lua"},
 	{name = "/hello", script = "controllers/HelloWorldController.lua"},
 	{name = "/product", script = "controllers/ProductDetailController.lua"},
 }
@@ -14,7 +14,7 @@ config.javascripts = {
 }
 
 config.stylesheets = {
-	
+
 }
 
 config.modules = {
@@ -22,7 +22,7 @@ config.modules = {
 }
 
 config.static = {
-    "static"
+	"static"
 }
 
 config.types = {
@@ -34,16 +34,16 @@ config.tests = {
 }
 
 config.localization = {
-    helloMessage = {en = "Hello World", bg = "Здравейте!!!!"},
-    copyright = {
-        en = "&copy; cyberz.eu. All rights reserved.", 
-        bg = "&copy; cyberz.eu. Всички права запазени."},
-    reload = {en = "Reload", bg = "Презареди"},
-    showError = {en = "Show Error", bg = "Покажи Грешката"},
-    addToCart = {en = "Buy", bg = "Купи"},
-    clickToClose = {en = "click to close", bg = "натисни за да го скриеш"},
-    noErrors = {en = "no errors", bg = "няма грешки"},
-    index = {en = "Index", bg = "начало"},
+	helloMessage = {en = "Hello World", bg = "Здравейте!!!!"},
+	copyright = {
+		en = "&copy; cyberz.eu. All rights reserved.", 
+		bg = "&copy; cyberz.eu. Всички права запазени."},
+	reload = {en = "Reload", bg = "Презареди"},
+	showError = {en = "Show Error", bg = "Покажи Грешката"},
+	addToCart = {en = "Buy", bg = "Купи"},
+	clickToClose = {en = "click to close", bg = "натисни за да го скриеш"},
+	noErrors = {en = "no errors", bg = "няма грешки"},
+	index = {en = "Index", bg = "начало"},
 }
 
 return config -- return extension configuration

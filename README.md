@@ -49,9 +49,9 @@ Important configuration files: [config_unix.lua](extensions/config_unix.lua), [b
 
 Database, users and security
 ============
-1) Set up database connection - databaseConnection object in [config_unix.lua](extensions/config_unix.lua)
-2) Import test user from security extension [import.lua](extensions/security/src/import.lua) file in [localhost:7878/database](http://localhost:7878/database)
-3) Enable security - set `requireSecurity = true` in globalParameters object in [config_unix.lua](extensions/config_unix.lua)
+* Set up database connection - databaseConnection object in [config_unix.lua](extensions/config_unix.lua)
+* Import test user from security extension [import.lua](extensions/security/src/import.lua) file in [localhost:7878/database](http://localhost:7878/database)
+* Enable security - set `requireSecurity = true` in globalParameters object in [config_unix.lua](extensions/config_unix.lua)
 
 Copyright and License
 =====================
