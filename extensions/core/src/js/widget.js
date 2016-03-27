@@ -56,8 +56,8 @@ Widget.createHTML = function(text) {
 	var pattern_amp = /&/g;
 	var pattern_lt = /</g;
 	var pattern_gt = />/g;
-	var pattern_para = /\n/g;
-	var html = text.replace(pattern_amp, '&amp;').replace(pattern_lt, '&lt;').replace(pattern_gt, '&gt;').replace(pattern_para, '\n<br>');
+	var pattern_para = /\r\n/g;
+	var html = text.replace(pattern_amp, '&amp;').replace(pattern_lt, '&lt;').replace(pattern_gt, '&gt;').replace(pattern_para, '\n');
 	return html
 }
 

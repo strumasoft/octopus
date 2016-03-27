@@ -44,4 +44,4 @@ config.tests = {
 
 }
 
-return config -- return extension configuration
+return config -- return extension configuration

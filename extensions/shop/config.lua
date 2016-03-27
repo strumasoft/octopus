@@ -211,4 +211,4 @@ config.databaseListeners = {
 	price = {"databasePriceListener"}
 }
 
-return config -- return extension configuration
+return config -- return extension configuration

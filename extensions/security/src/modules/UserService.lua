@@ -236,4 +236,4 @@ return {
 	registerAndSetToken = registerAndSetToken,
 
 	redirectTo = redirectTo,
-}
+}

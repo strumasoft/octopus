@@ -23,4 +23,4 @@ if status and res then
 	end
 else
 	ngx.say("wrong credentials <br/>")
-end
+end

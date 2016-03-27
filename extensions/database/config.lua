@@ -62,4 +62,4 @@ config.static = {
 	"static"
 }
 
-return config -- return extension configuration
+return config -- return extension configuration

@@ -196,9 +196,13 @@ Widget.compareGITRepositoryFileHistory = function (oldRevision, oldFileName, new
 }
 
 Widget.decoratePatch = function (text) {
+	// baseline/static/js/jquery.pretty-text-diff.js
+	// core/src/js/widget.js
 	var delimiters = [
-		{open: "<br>+", close: "<br>", bypass: "<br>+++"}, 
-		{open: "<br>-", close: "<br>", bypass: "<br>---"}
+		{open: "\n+", close: "\n", bypass: "\n+++"}, 
+		{open: "\n-", close: "\n", bypass: "\n---"},
+		{open: "\r+", close: "\r", bypass: "\r+++"}, 
+		{open: "\r-", close: "\r", bypass: "\r---"}
 	]
 	var wrappers = [{open: "<ins>", close: "</ins>"}, {open: "<del>", close: "</del>"}]
 
