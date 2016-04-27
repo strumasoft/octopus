@@ -2,6 +2,18 @@ Widget.RepositoryDiff = function (data) {
 	var tabs = [
 		{   
 			guid: Widget.guid(),
+			id: "oldfilecontent",
+			name: "old",
+			html: '<pre class="diffbox"></pre>'
+		}, 
+		{   
+			guid: Widget.guid(),
+			id: "newfilecontent",
+			name: "new",
+			html: '<pre class="diffbox"></pre>'
+		}, 
+		{   
+			guid: Widget.guid(),
 			id: "diffoutput",
 			name: "diff",
 			html: ''

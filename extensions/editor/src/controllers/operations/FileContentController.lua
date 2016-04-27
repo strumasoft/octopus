@@ -4,6 +4,9 @@ local editor = require "Editor"
 
 
 
+ngx.header.content_type = 'text/plain'
+
+
 local function process ()
 	local fileName = param.f
 

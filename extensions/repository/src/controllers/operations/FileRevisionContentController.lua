@@ -3,6 +3,9 @@ local exit = require "exit"
 
 
 
+ngx.header.content_type = 'text/plain'
+
+
 local function process ()
 	local repository = require(param.repository)
 

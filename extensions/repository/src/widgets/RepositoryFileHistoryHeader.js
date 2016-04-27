@@ -43,7 +43,7 @@ Widget.RepositoryFileHistoryHeader.compareSVN = function () {
 	if (revisions.length == 2) {
 		oldRevision = revisions[1]
 		newRevision = revisions[0]
-		var fileName = getURLParameter("fileName")
+		fileName = getURLParameter("fileName")
 
 		Widget.compareSVNRepositoryFileHistory(oldRevision, newRevision, fileName)
 	} else {
@@ -103,6 +103,9 @@ Widget.compareSVNRepositoryFileHistory = function (oldRevision, newRevision, fil
 						originalContent = changedContent
 						changedContent = swap
 					}
+					
+					$("#oldfilecontent .diffbox").html(Widget.createHTML(originalContent))
+					$("#newfilecontent .diffbox").html(Widget.createHTML(changedContent))
 
 					diffUsingJS(0, originalContent, changedContent)
 
@@ -163,6 +166,9 @@ Widget.compareGITRepositoryFileHistory = function (oldRevision, oldFileName, new
 			$.get(newRevisionContenUrl) // newRevision
 				.success(function (content) {
 					changedContent = content
+					
+					$("#oldfilecontent .diffbox").html(Widget.createHTML(originalContent))
+					$("#newfilecontent .diffbox").html(Widget.createHTML(changedContent))
 
 					diffUsingJS(0, originalContent, changedContent)
 
