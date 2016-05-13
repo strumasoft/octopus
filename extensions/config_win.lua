@@ -2,10 +2,10 @@ extensions = {"core", "baseline", "orm", "security", "editor", "repository", "da
 
 
 port = 7878
-errorLog = "#error_log stderr;"
-accessLog = "access_log off;"
+errorLog = "error_log logs/error.log;"
+accessLog = "access_log logs/access.log;"
 rootPath = "root " .. extensionsDir .. ";"
-staticLocation = [[location /static/ {}]]
+staticLocation = "/static/"
 includeDrop = [[#include drop.conf;]]
 maxBodySize = "50k"
 minifyJavaScript = false
@@ -44,6 +44,8 @@ requestBody = [[
 nginxLocationTemplate = [[
 
 	location {{url}} {
+		{{rootPath}}
+		
 		# MIME type determined by default_type:
 		default_type 'text/html';
 
@@ -63,7 +65,14 @@ nginxLocationTemplate = [[
 
 nginxStaticLocationTemplate = [[
 
-	location {{url}} {}
+	location ^~ {{url}} {
+		{{rootPath}}
+		
+		# Some basic cache-control for static files to be sent to the browser
+		expires max;
+		add_header Pragma public;
+		add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+	}
 
 ]]
 
@@ -98,47 +107,33 @@ nginxConfigTemplate = [[
 
 		# Regular servers
 		server {
+			lua_code_cache off;
+			
 			{{errorLog}}
-
+	
 			{{accessLog}}
-
+	
 			listen {{port}};
-
+	
 			{{server_name}}
-
+	
 			{{ssl_certificate}}
-
-			{{rootPath}}
-
-			{{forbidStaticLocations}}
-
-			# This block will catch static file requests, such as images, css, js
-			# The ?: prefix is a 'non-capturing' mark, meaning we do not require
-			# the pattern to be captured into $1 which should help improve performance
-			location ~* \.(?:ico|css|js|gif|jpe?g|png)$ {
-				# Some basic cache-control for static files to be sent to the browser
-				expires max;
-				add_header Pragma public;
-				add_header Cache-Control "public, must-revalidate, proxy-revalidate";
-			}
-
+	
 			# remove the robots line if you want to use wordpress' virtual robots.txt
 			location = /robots.txt  { access_log off; log_not_found off; }
 			location = /favicon.ico { access_log off; log_not_found off; }	
-
+	
 			# this prevents hidden files (beginning with a period) from being served
 			location ~ /\.          { access_log off; log_not_found off; deny all; }
-
-			{{staticLocation}}
-
+			
+			{{forbidStaticLocations}}
+	
 			{{staticLocations}}
-
-			lua_code_cache off;
-
+	
 			{{locations}}
-
+	
 			{{includeDrop}}
-
+	
 		} # end of server
 
 	} # end of http

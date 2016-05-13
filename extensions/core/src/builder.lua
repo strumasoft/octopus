@@ -350,7 +350,7 @@ local function generateStaticConfig ()
 
 	local persistence = require "persistence"
 
-	local staticDirs = {}
+	local staticDirs = {staticLocation}
 
 	for i=1, #extensions do
 		local extensionName = extensions[i]
@@ -425,6 +425,7 @@ local function generateNginxConfig ()
 
 		local data = {
 			url = name, 
+			rootPath = rootPath,
 			script = parse([[content_by_lua_file '{{script}}';]], {script = scriptFileName}),
 			extensionsDir = extensionsDir,
 		}
@@ -456,7 +457,7 @@ local function generateNginxConfig ()
 	for i=1, #staticDirs do
 		local staticDir = staticDirs[i]
 
-		staticLocations[#staticLocations + 1] = parse(nginxStaticLocationTemplate, {url = staticDir})
+		staticLocations[#staticLocations + 1] = parse(nginxStaticLocationTemplate, {url = staticDir, rootPath = rootPath})
 	end
 
 
@@ -473,6 +474,7 @@ local function generateNginxConfig ()
 
 	local t = parse(nginxConfigTemplate, {
 		port = port,
+		securePort = securePort,
 		server_name = server_name,
 		ssl_certificate = ssl_certificate,
 		workerProcesses = workerProcesses,
@@ -482,8 +484,6 @@ local function generateNginxConfig ()
 		externalCPaths = externalCPaths,
 		errorLog = errorLog,
 		accessLog = accessLog,
-		rootPath = rootPath,
-		staticLocation = staticLocation,
 		staticLocations = table.concat(staticLocations),
 		forbidStaticLocations = table.concat(forbidStaticLocations),
 		includeDrop = includeDrop

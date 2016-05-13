@@ -87,7 +87,12 @@ Widget.compareSVNRepositoryFileHistory = function (oldRevision, newRevision, fil
 		newRevisionContenUrl = Widget.EditorHeader.newSessionUrl(property.repositoryUrl + property.repositoryFileRevisionContentUrl, {revision: newRevision, fileName: fileName})
 	}
 
-	var fileDiffUrl = Widget.EditorHeader.newSessionUrl(property.repositoryUrl + property.repositoryFileDiffUrl, {oldRevision: oldRevision, newRevision: newRevision, fileName: fileName})
+	var fileDiffUrl
+	if (!isEmpty(revertRevisions) && revertRevisions == "true") {
+		fileDiffUrl = Widget.EditorHeader.newSessionUrl(property.repositoryUrl + property.repositoryFileDiffUrl, {oldRevision: "BASE", newRevision: "HEAD", fileName: fileName})
+	} else {
+		fileDiffUrl = Widget.EditorHeader.newSessionUrl(property.repositoryUrl + property.repositoryFileDiffUrl, {oldRevision: oldRevision, newRevision: newRevision, fileName: fileName})
+	}
 
 	var originalContent, changedContent
 	$.get(oldRevisionContenUrl) // oldRevision
