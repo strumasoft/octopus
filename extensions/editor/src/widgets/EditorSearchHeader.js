@@ -14,6 +14,12 @@ Widget.EditorSearchHeader = function (title) {
 						<i class="fa fa-eye"></i> <i class="fa fa-file-o"></i></a>
 					</li>
 					
+					<!-- Remove -->
+					<li><div id="removeFileAction" class="hand" 
+						onclick='Widget.EditorHeader.removeFileName();'>
+						<i class="fa fa-minus"></i> <i class="fa fa-file-o"></i></div>
+					</li>
+					
 					<!-- Edit -->
 					<li><div id="editFileAction" class="hand" 
 						onclick='Widget.EditorSearchHeader.editFile();'>

@@ -3,11 +3,23 @@ local m = {} -- module
 
 local param = require "param"
 local util = require "util"
+local date = require "date"
 
 
 local property = require "property"
 local sourceCtxPath = property.sourceCtxPath or ""
 
+
+
+--
+-- logCommand
+--
+
+local function logCommand (command)
+	if property.debugRepo then
+		ngx.log(ngx.ERR, command) -- DEBUG
+	end
+end
 
 
 --
@@ -21,18 +33,14 @@ local function fileHistory (fileName, directoryName)
 	return string.format([[cd %s && git log --follow -p %s]] .. property.redirectErrorToOutputStream, directoryName, fileName)
 end
 
-function m.fileHistory (username, password, fileName, directoryName)
-	util.noBackDirectory(fileName)
-	util.noBackDirectory(directoryName)
+local function fileMergeHistory (fileName, directoryName)
+	fileName = util.quoteCommandlineArgument(fileName)
+	directoryName = util.quoteCommandlineArgument(directoryName)
 
-	local x,y = fileName:find(directoryName, 1, true)
-	fileName = fileName:sub(y+2, #fileName)
+	return string.format([[cd %s && git log --merges %s]] .. property.redirectErrorToOutputStream, directoryName, fileName)
+end
 
-
-	local command = fileHistory(fileName, sourceCtxPath .. directoryName)
-
-	local revisions = {}
-
+local function addFileHistoryRevisions (command, revisions, fileName)
 	local append = true
 
 	local f = assert(io.popen(command, "r"))
@@ -45,6 +53,15 @@ function m.fileHistory (username, password, fileName, directoryName)
 			}
 
 			append = true
+			
+			-- used when searching for merge commits
+			if fileName then
+				revisions[#revisions].a = fileName
+				revisions[#revisions].b = fileName
+			end
+		elseif line:match('Date%:   (.*)') then
+			revisions[#revisions].date = date(line:match('Date%:   (.*)'))
+			revisions[#revisions].info = revisions[#revisions].info .. [[<br>]] .. line
 		elseif line:match('^diff %-%-git (.*)') then
 			local a, b = line:match('^diff %-%-git a/(.*) b/(.*)')
 			revisions[#revisions].a = a
@@ -56,14 +73,41 @@ function m.fileHistory (username, password, fileName, directoryName)
 		end
 	end
 	f:close()
+end
+
+function m.fileHistory (username, password, fileName, directoryName)
+	util.noBackDirectory(fileName)
+	util.noBackDirectory(directoryName)
+
+	local x,y = fileName:find(directoryName, 1, true)
+	fileName = fileName:sub(y+2, #fileName)
+
+
+	local fileMergeHistoryCommand = fileMergeHistory(fileName, sourceCtxPath .. directoryName)
+	logCommand(fileMergeHistoryCommand)
+	
+	local fileHistoryCommand = fileHistory(fileName, sourceCtxPath .. directoryName)
+	logCommand(fileHistoryCommand)
+
+	local revisions = {}
+
+	addFileHistoryRevisions(fileMergeHistoryCommand, revisions, fileName)
+	addFileHistoryRevisions(fileHistoryCommand, revisions)
 
 	table.insert(revisions, 1, {
 		info = "rLOCAL | working copy",
 		revision = "LOCAL",
 		a = fileName,
-		b = fileName
+		b = fileName,
+		date = date()
 	})
-
+	
+	table.sort(revisions, function(x,y) return x.date > y.date end)
+	
+	for i=1,#revisions do
+		revisions[i].date = tostring(revisions[i].date)
+	end
+	
 	return revisions
 end
 
@@ -82,6 +126,7 @@ function m.status (username, password, directoryName)
 	util.noBackDirectory(directoryName)
 
 	local command = status(sourceCtxPath .. directoryName)
+	logCommand(command)
 
 	local statuses = {}
 
@@ -132,6 +177,7 @@ function m.logHistory (username, password, directoryName, limit)
 	util.noBackDirectory(directoryName)
 
 	local command = logHistory(sourceCtxPath .. directoryName, limit)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -162,6 +208,7 @@ function m.commitHistory (username, password, directoryName, newRevision, oldRev
 	util.noBackDirectory(directoryName)
 
 	local command = commitHistory(sourceCtxPath .. directoryName, newRevision, oldRevision)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -188,6 +235,7 @@ function m.fileRevisionContent (username, password, revision, fileName, director
 	util.noBackDirectory(fileName)
 
 	local command = fileRevisionContent(revision, fileName, sourceCtxPath .. directoryName)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -229,6 +277,7 @@ function m.fileDiff (username, password, oldRevision, newRevision, fileName, new
 	else
 		command = fileDiff(oldRevision, newRevision, fileName, newFileName, sourceCtxPath .. directoryName)
 	end
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -266,6 +315,7 @@ function m.add (username, password, path, directoryName)
 	end
 
 	local command = add(path, sourceCtxPath .. directoryName)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -303,6 +353,7 @@ function m.delete (username, password, path, directoryName)
 	end
 
 	local command = delete(path, sourceCtxPath .. directoryName)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -330,6 +381,7 @@ function m.move (username, password, oldName, newName, directoryName)
 	util.noBackDirectory(directoryName)
 
 	local command = move(sourceCtxPath .. oldName, sourceCtxPath .. newName, sourceCtxPath .. directoryName)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -362,6 +414,7 @@ function m.commit (username, password, message, list, directoryName)
 	util.noBackDirectory(directoryName)
 
 	local command = commit(message, list, sourceCtxPath .. directoryName)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -400,6 +453,7 @@ function m.revert (username, password, path, recursively, directoryName)
 	util.noBackDirectory(directoryName)
 
 	local command = revert(path, recursively, sourceCtxPath .. directoryName)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -443,6 +497,7 @@ function m.refresh (username, password, path, directoryName)
 	else
 		command = refreshPath(path, sourceCtxPath .. directoryName)
 	end
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")

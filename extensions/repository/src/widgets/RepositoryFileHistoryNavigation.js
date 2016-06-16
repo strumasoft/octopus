@@ -35,7 +35,8 @@ Widget.RepositoryFileHistoryNavigation = function (revisions) {
 								id="{{revisions[i].guid}}" name="{{revisions[i].guid}}" class="compareRevision"
 								revision="{{revisions[i].revision}}"
 								fromFile="{{revisions[i].a}}"
-								toFile="{{revisions[i].b}}">
+								toFile="{{revisions[i].b}}"
+								date="{{revisions[i].date}}">
 							<label for="{{revisions[i].guid}}"><pre class="repolog">{{revisions[i].info}}</pre></label>
 						</div>
 					</li>

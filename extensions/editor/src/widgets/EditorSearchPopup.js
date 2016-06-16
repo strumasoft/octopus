@@ -5,6 +5,7 @@ Widget.EditorSearchPopup = function (data) {
 	data.filterGuid = Widget.guid()
 	data.isRegexGuid = Widget.guid()
 	data.isFileNameGuid = Widget.guid()
+	data.isIgnoreCaseGuid = Widget.guid()
 
 	var info = parse(function(){/*!
 		{{?@ !isEmpty(data.info)
@@ -12,18 +13,21 @@ Widget.EditorSearchPopup = function (data) {
 		}}?
 
 		<input class="spaced-down" type="text" id="{{queryGuid}}" placeholder="Query" />
-
-		<input class="spaced-down" type="text" id="{{replaceGuid}}" placeholder="Replace" />
-
-		<input class="spaced-down" type="text" id="{{filterGuid}}" placeholder="Filter" />
-
-		<input type="checkbox" id="{{isRegexGuid}}" name="{{isRegexGuid}}" >
+		
+		<input type="radio" id="{{isRegexGuid}}" name="queryOptions" >
 		<label for="{{isRegexGuid}}">Regex</label>
 
+		<input type="radio" id="{{isIgnoreCaseGuid}}" name="queryOptions" >
+		<label for="{{isIgnoreCaseGuid}}">Ignore Case</label>
+		
 		<br/>
 
 		<input type="checkbox" id="{{isFileNameGuid}}" name="{{isFileNameGuid}}" >
 		<label for="{{isFileNameGuid}}">File Name</label>
+
+		<input class="spaced-down" type="text" id="{{replaceGuid}}" placeholder="Replace" />
+
+		<input class="spaced-down" type="text" id="{{filterGuid}}" placeholder="Filter" />
 
 		<br/>
 
@@ -34,7 +38,7 @@ Widget.EditorSearchPopup = function (data) {
 		<a class="button special"
 			id="{{proceedButtonGuid}}"
 			href="javascript:;" target="_blank"
-			onclick='return vars.editorSearchPopup.proceed("{{proceedButtonGuid}}", "{{queryGuid}}", "{{replaceGuid}}", "{{filterGuid}}", "{{isRegexGuid}}", "{{isFileNameGuid}}")'>
+			onclick='return vars.editorSearchPopup.proceed("{{proceedButtonGuid}}", "{{queryGuid}}", "{{replaceGuid}}", "{{filterGuid}}", "{{isRegexGuid}}", "{{isFileNameGuid}}", "{{isIgnoreCaseGuid}}")'>
 			Search / Replace
 		</a>
 	*/}, data)

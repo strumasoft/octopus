@@ -29,6 +29,7 @@ config.modules = {
 	{name = "types", script = "types.lua"},
 	{name = "util", script = "util.lua"},
 	{name = "uuid", script = "uuid.lua"},
+	{name = "date", script = "date.lua"},
 }
 
 config.javascripts = {

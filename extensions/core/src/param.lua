@@ -36,6 +36,45 @@ function string:replace(x, y, isPlainString)
 end
 
 
+function string:replaceQuery(x, y, isPlainString, isIgnoreCase)
+	if isIgnoreCase then
+		local lowerSelf, lowerX = string.lower(self), string.lower(x)
+		
+		local iteratorIndex = 1
+		local substrings = {}
+	
+		repeat
+			local from, to = lowerSelf:find(lowerX, iteratorIndex, isPlainString)
+	
+			if from then
+				substrings[#substrings + 1] = self:sub(iteratorIndex, from - 1)
+				substrings[#substrings + 1] = y
+				iteratorIndex = to + 1
+			else
+				substrings[#substrings + 1] = self:sub(iteratorIndex, self:len())
+			end
+		until from == nil
+	
+		return table.concat(substrings) -- concatenate all substrings
+	else
+		return self:replace(x, y, isPlainString)
+	end
+end
+
+
+function string:findQuery(x, iteratorIndex, isPlainString, isIgnoreCase)
+	if isIgnoreCase then
+		local lowerSelf, lowerX = string.lower(self), string.lower(x)
+		
+		local from, to = lowerSelf:find(lowerX, iteratorIndex, isPlainString)
+		return from, to
+	else
+		local from, to = self:find(x, iteratorIndex, isPlainString)
+		return from, to
+	end
+end
+
+
 local hex_to_char = function (x)
 	return string.char(tonumber(x, 16))
 end

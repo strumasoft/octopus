@@ -1,6 +1,8 @@
 local config = {} -- extension configuration
 
 config.property = {
+	debugRepo = false,
+	
 	redirectErrorToOutputStream = " 2>&1",
 
 	repositoryUrl = "/repository",

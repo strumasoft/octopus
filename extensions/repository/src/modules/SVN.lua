@@ -12,6 +12,18 @@ local SVN = "svn "
 local svn = SVN .. "--username %s --password %s --no-auth-cache --non-interactive "
 
 
+
+--
+-- logCommand
+--
+
+local function logCommand (command)
+	if property.debugRepo then
+		ngx.log(ngx.ERR, command) -- DEBUG
+	end
+end
+
+
 --
 -- fileHistory
 --
@@ -28,6 +40,7 @@ function m.fileHistory (username, password, fileName)
 	util.noBackDirectory(fileName)
 
 	local command = fileHistory(username, password, sourceCtxPath .. fileName)
+	logCommand(command)
 
 	local revisions = {}
 
@@ -74,6 +87,7 @@ function m.status (username, password, directoryName)
 	util.noBackDirectory(directoryName)
 
 	local command = status(username, password, sourceCtxPath .. directoryName)
+	logCommand(command)
 
 	local statuses = {}
 
@@ -140,6 +154,7 @@ function m.logHistory (username, password, directoryName, limit)
 	util.noBackDirectory(directoryName)
 
 	local command = logHistory(username, password, sourceCtxPath .. directoryName, limit)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -169,6 +184,7 @@ function m.commitHistory (username, password, directoryName, newRevision, oldRev
 	util.noBackDirectory(directoryName)
 
 	local command = commitHistory(username, password, sourceCtxPath .. directoryName, newRevision, oldRevision)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -196,6 +212,7 @@ function m.fileRevisionContent (username, password, revision, fileName)
 	util.noBackDirectory(fileName)
 
 	local command = fileRevisionContent(username, password, revision, sourceCtxPath .. fileName)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -230,6 +247,7 @@ function m.fileDiff (username, password, oldRevision, newRevision, fileName)
 	util.noBackDirectory(fileName)
 
 	local command = fileDiff(username, password, oldRevision, newRevision, sourceCtxPath .. fileName)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -255,6 +273,7 @@ function m.add (username, password, path)
 	util.noBackDirectory(path)
 
 	local command = add(username, password, sourceCtxPath .. path)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -280,6 +299,7 @@ function m.delete (username, password, path)
 	util.noBackDirectory(path)
 
 	local command = delete(username, password, sourceCtxPath .. path)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -307,6 +327,7 @@ function m.move (username, password, oldName, newName)
 	util.countBackDirectories(newName) -- only here is allowed to have back directory
 
 	local command = move(username, password, sourceCtxPath .. oldName, sourceCtxPath .. newName)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -339,6 +360,7 @@ end
 
 function m.commit (username, password, message, list)
 	local command = commit(username, password, message, list)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -372,6 +394,7 @@ function m.update (username, password, revision, path)
 	util.noBackDirectory(path)
 
 	local command = update(username, password, revision, sourceCtxPath .. path)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -403,6 +426,7 @@ function m.revert (username, password, path, recursively)
 	util.noBackDirectory(path)
 
 	local command = revert(username, password, sourceCtxPath .. path, recursively)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -432,6 +456,7 @@ function m.merge (username, password, fromRevision, toRevision, path)
 	util.noBackDirectory(path)
 
 	local command = merge(username, password, fromRevision, toRevision, sourceCtxPath .. path)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
@@ -457,6 +482,7 @@ function m.refresh (username, password, path)
 	util.noBackDirectory(path)
 
 	local command = refresh(username, password, sourceCtxPath .. path)
+	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")

@@ -39,34 +39,34 @@ local initJSTemplate = [[
 ]]
 
 
-local function aggregateAllFilesContainingQuery (files, directoryName, query, filter, isPlainString, isFileName)
+local function aggregateAllFilesContainingQuery (files, directoryName, query, filter, isPlainString, isFileName, isIgnoreCase)
 	for entry, attr in pairs(directory.entries(directoryName)) do
 		if attr.mode == "file" then
 			local path = attr.path
 			if param.isEmpty(filter) or path:find(filter) then
 				if isFileName then 
-					if path:find(query, 1, isPlainString) then
+					if path:findQuery(query, 1, isPlainString, isIgnoreCase) then
 						files[#files + 1] = path
 					end
 				else
 					local content = editor.fileContent(path)
-					if content:find(query, 1, isPlainString) then
+					if content:findQuery(query, 1, isPlainString, isIgnoreCase) then
 						files[#files + 1] = path
 					end
 				end
 			end
 		elseif attr.mode == "directory" then
-			aggregateAllFilesContainingQuery(files, attr.path, query, filter, isPlainString, isFileName)
+			aggregateAllFilesContainingQuery(files, attr.path, query, filter, isPlainString, isFileName, isIgnoreCase)
 		end
 	end
 end
 
 
-local function replaceQuery (files, query, replace, isPlainString, isFileName, repository, username, password)
+local function replaceQuery (files, query, replace, isPlainString, isFileName, isIgnoreCase, repository, username, password)
 	for i=1,#files do
 		if isFileName then
 			local oldName = files[i]
-			local newName = oldName:replace(query, replace, isPlainString)
+			local newName = oldName:replaceQuery(query, replace, isPlainString, isIgnoreCase)
 
 			if param.isNotEmpty(repository) and param.isNotEmpty(username) and param.isNotEmpty(password) then
 				local repo = require(repository)
@@ -76,7 +76,7 @@ local function replaceQuery (files, query, replace, isPlainString, isFileName, r
 			end
 		else
 			local content = editor.fileContent(files[i])
-			local newContent = content:replace(query, replace, isPlainString)
+			local newContent = content:replaceQuery(query, replace, isPlainString, isIgnoreCase)
 
 			if newContent then
 				editor.save(files[i], newContent)
@@ -93,16 +93,17 @@ local function process ()
 	local filter = param.filter
 	local isRegex = param.toboolean(param.isRegex)
 	local isFileName = param.toboolean(param.isFileName)
+	local isIgnoreCase = param.toboolean(param.isIgnoreCase)
 
 	local files = {}
 
 	if param.isNotEmpty(query) and param.isNotEmpty(directoryName) then
 		local isPlainString = not isRegex
 
-		aggregateAllFilesContainingQuery(files, directoryName, query, filter, isPlainString, isFileName)
+		aggregateAllFilesContainingQuery(files, directoryName, query, filter, isPlainString, isFileName, isIgnoreCase)
 
 		if param.isNotEmpty(replace) and #files > 0 then
-			replaceQuery(files, query, replace, isPlainString, isFileName, param.repository, param.username, param.password)
+			replaceQuery(files, query, replace, isPlainString, isFileName, isIgnoreCase, param.repository, param.username, param.password)
 		end
 	end
 

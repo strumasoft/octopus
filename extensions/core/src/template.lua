@@ -34,7 +34,7 @@ function m.parse(text)
 				iteratorIndex = closeBracketIndex
 			end
 		else
-			substrings[#substrings + 1] = text:sub(iteratorIndex + 1, text:len() - 1)
+			substrings[#substrings + 1] = text:sub(iteratorIndex + 1, text:len())
 			--print(substrings[#substrings])
 			break
 		end

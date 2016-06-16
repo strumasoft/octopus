@@ -162,12 +162,13 @@ Widget.EditorHeader.search = function () {
 
 	var searchPopup = new Widget.EditorSearchPopup({
 		info:"Search.", 
-		proceed: function (proceedButtonGuid, queryGuid, replaceGuid, filterGuid, isRegexGuid, isFileNameGuid) {
+		proceed: function (proceedButtonGuid, queryGuid, replaceGuid, filterGuid, isRegexGuid, isFileNameGuid, isIgnoreCaseGuid) {
 			var query = $("#" + queryGuid).val()
 			var replace = $("#" + replaceGuid).val()
 			var filter = $("#" + filterGuid).val()
 			var isRegex = $("#" + isRegexGuid).is(':checked')
 			var isFileName = $("#" + isFileNameGuid).is(':checked')
+			var isIgnoreCase = $("#" + isIgnoreCaseGuid).is(':checked')
 
 			if (!isEmpty(query)) {
 				if (isEmpty(replace)) {
@@ -177,7 +178,8 @@ Widget.EditorHeader.search = function () {
 							query: encodeURIComponent(query), 
 							filter: encodeURIComponent(filter), 
 							isRegex: isRegex, 
-							isFileName: isFileName}))
+							isFileName: isFileName, 
+							isIgnoreCase: isIgnoreCase}))
 				} else {
 					$("#" + proceedButtonGuid).attr("href", Widget.EditorHeader.newSessionUrl(
 						property.editorUrl + property.editorSearchUrl, 
@@ -186,7 +188,8 @@ Widget.EditorHeader.search = function () {
 							replace: encodeURIComponent(replace), 
 							filter: encodeURIComponent(filter), 
 							isRegex: isRegex, 
-							isFileName: isFileName}))
+							isFileName: isFileName, 
+							isIgnoreCase: isIgnoreCase}))
 				}
 			} else {
 				this.delete()
