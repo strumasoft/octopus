@@ -30,6 +30,8 @@ config.modules = {
 	{name = "util", script = "util.lua"},
 	{name = "uuid", script = "uuid.lua"},
 	{name = "date", script = "date.lua"},
+	{name = "utf8", script = "utf8.lua"},
+	{name = "utf8data", script = "utf8data.lua"},
 }
 
 config.javascripts = {

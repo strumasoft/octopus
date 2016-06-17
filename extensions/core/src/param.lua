@@ -1,3 +1,6 @@
+require "utf8"
+
+
 local m = {} -- module
 
 
@@ -38,7 +41,14 @@ end
 
 function string:replaceQuery(x, y, isPlainString, isIgnoreCase)
 	if isIgnoreCase then
-		local lowerSelf, lowerX = string.lower(self), string.lower(x)
+		local lowerSelf, lowerX
+		if string.isascii(x) then
+			lowerSelf = string.lower(self)
+			lowerX = string.lower(x)
+		else
+			lowerSelf = string.utf8lower(self)
+			lowerX = string.utf8lower(x)
+		end
 		
 		local iteratorIndex = 1
 		local substrings = {}
@@ -64,7 +74,14 @@ end
 
 function string:findQuery(x, iteratorIndex, isPlainString, isIgnoreCase)
 	if isIgnoreCase then
-		local lowerSelf, lowerX = string.lower(self), string.lower(x)
+		local lowerSelf, lowerX
+		if string.isascii(x) then
+			lowerSelf = string.lower(self)
+			lowerX = string.lower(x)
+		else
+			lowerSelf = string.utf8lower(self)
+			lowerX = string.utf8lower(x)
+		end
 		
 		local from, to = lowerSelf:find(lowerX, iteratorIndex, isPlainString)
 		return from, to
