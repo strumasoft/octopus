@@ -28,7 +28,7 @@ local function setLocale (locale)
 		key = localeCookieName,
 		value = locale,
 		path = "/",
-		domain = property.domain,
+		domain = ngx.var.server_name,
 		--max_age = property.sessionTimeout,
 		--secure = true,
 		httponly = true

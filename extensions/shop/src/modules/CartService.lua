@@ -20,7 +20,7 @@ local function setCartCookie (cartId)
 		key = cartCookieName,
 		value = cartId,
 		path = "/",
-		domain = property.domain,
+		domain = ngx.var.server_name,
 		max_age = property.sessionTimeout,
 		secure = param.requireSecureToken(),
 		httponly = true

@@ -63,6 +63,11 @@ Widget.EditorHeader = function (title) {
 					</li>
 
 					<!-- Create -->
+					<li><div id="uploadFileAction" class="hand"
+						onclick='Widget.EditorHeader.uploadFileName();'>
+						<i class="fa fa-long-arrow-up"></i> <i class="fa fa-file-o"></i></div>
+						<input type="file" multiple id="uploadFileForm" style="display:none;"/>
+					</li>
 					<li><div id="createFileAction" class="hand" 
 						onclick='Widget.EditorHeader.createFileName();'>
 						<i class="fa fa-plus"></i> <i class="fa fa-file-o"></i></div>
@@ -467,6 +472,10 @@ Widget.EditorHeader.repositoryCommitHistoryGIT = function () {
 //
 // create/add
 //
+
+Widget.EditorHeader.uploadFileName = function () {
+	$('#uploadFileForm').trigger('click');
+}
 
 Widget.EditorHeader.createFileName = function () {
 	if (!isEmpty(editor.directoryName)) {

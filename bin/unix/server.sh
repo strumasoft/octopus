@@ -42,6 +42,8 @@ function nginx_install {
 	mkdir $destination_folder
 	rm -rf $luajit_install
 	mkdir $luajit_install
+	rm -rf logs
+	mkdir logs
 
 
 	# nginx
@@ -136,6 +138,14 @@ function nginx_stop {
 
 
 # $1 is the name of the build
+function nginx_build {
+	if [ -e "build.lua" ]; then
+		lua build.lua $1
+	fi
+}
+
+
+# $1 is the name of the build
 function nginx_restart {
 	if [ -e "build.lua" ]; then
 		lua build.lua $1
@@ -164,17 +174,16 @@ if [ -z "$1" ]; then
 	echo "no operation!"
 elif [ "$1" == "install" ]; then
 	echo "install server..."
-	rm -rf $destination_folder
-	mkdir $destination_folder
-	rm -rf $luajit_install
-	mkdir $luajit_install
 	nginx_install
-elif [ "$1" == "start" ]; then
-	echo "start server..."
-	nginx_start
+elif [ "$1" == "build" ]; then
+	echo "build server..."
+	nginx_build $2
 elif [ "$1" == "stop" ]; then
 	echo "stop server..."
 	nginx_stop
+elif [ "$1" == "start" ]; then
+	echo "start server..."
+	nginx_start
 elif [ "$1" == "restart" ]; then
 	echo "restart server..."
 	nginx_restart $2

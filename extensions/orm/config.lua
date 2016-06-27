@@ -2,6 +2,7 @@ local config = {} -- extension configuration
 
 config.property = {
 	usePreparedStatement = true,
+	debugDB = false,
 }
 
 config.modules = {

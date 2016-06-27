@@ -3,12 +3,12 @@ local oldRequire = require
 
 
 local function newModuleName (moduleName, moduleType)
-	local extensionsDir = ngx.var.extensionsDir
+	local octopusHostDir = ngx.var.octopusHostDir
 
 	if moduleType then
-		return extensionsDir .. ":" .. moduleType .. ":" .. moduleName
+		return octopusHostDir .. ":" .. moduleType .. ":" .. moduleName
 	else
-		return extensionsDir .. ":" .. "modules" .. ":" .. moduleName
+		return octopusHostDir .. ":" .. "modules" .. ":" .. moduleName
 	end
 end
 
@@ -16,18 +16,18 @@ end
 -- cache modules, locations and access
 package.loaded.MODULES = {}
 local function loadModules (moduleType)
-	local extensionsDir = ngx.var.extensionsDir
+	local octopusHostDir = ngx.var.octopusHostDir
 	local MODULES = package.loaded.MODULES
 
-	if not MODULES[extensionsDir] then
-		MODULES[extensionsDir] = {}
+	if not MODULES[octopusHostDir] then
+		MODULES[octopusHostDir] = {}
 	end
 
-	if MODULES[extensionsDir][moduleType] then
-		return MODULES[extensionsDir][moduleType]
+	if MODULES[octopusHostDir][moduleType] then
+		return MODULES[octopusHostDir][moduleType]
 	else
-		local modules = dofile(extensionsDir .. "/core/src/" .. moduleType ..".lua")
-		MODULES[extensionsDir][moduleType] = modules
+		local modules = dofile(octopusHostDir .. "/build/src/" .. moduleType ..".lua")
+		MODULES[octopusHostDir][moduleType] = modules
 		return modules
 	end
 end

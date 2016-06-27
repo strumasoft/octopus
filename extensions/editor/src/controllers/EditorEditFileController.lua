@@ -10,7 +10,7 @@ local util = require "util"
 
 
 local externalJS = parse([[
-	<script src="https://cdn.jsdelivr.net/ace/{{aceVersion}}/min/ace.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/baseline/static/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="/baseline/static/js/init-baseline.js"></script>
 ]], {aceVersion = property.aceEditorVersion})
 

@@ -38,7 +38,7 @@ local function setCountry (countryIsocode)
 		key = countryCookieName,
 		value = countryIsocode,
 		path = "/",
-		domain = property.domain,
+		domain = ngx.var.server_name,
 		--max_age = property.sessionTimeout,
 		--secure = true,
 		httponly = true

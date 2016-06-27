@@ -15,7 +15,7 @@ local function authenticate (db, email, password)
 		--password = util.escapeCommandlineSpecialCharacters(password)
 		password = util.quoteCommandlineArgument(password)
 
-		local command = property.cryptoCommand .. " encryptAndHashPassword " .. password .. " " .. user.passwordSalt
+		local command = "java -jar ../crypto.jar encryptAndHashPassword " .. password .. " " .. user.passwordSalt
 		local f = assert(io.popen(command, "r"))
 		local content = f:read("*all")
 		f:close()
@@ -74,7 +74,7 @@ local function setToken (db, user)
 		key = "token",
 		value = user.token,
 		path = "/",
-		domain = property.domain,
+		domain = ngx.var.server_name,
 		max_age = property.sessionTimeout,
 		secure = param.requireSecureToken(),
 		httponly = true
@@ -180,7 +180,7 @@ local function register (db, email, password)
 	--password = util.escapeCommandlineSpecialCharacters(password)
 	password = util.quoteCommandlineArgument(password)
 
-	local command = property.cryptoCommand .. " encryptAndHashPassword " .. password
+	local command = "java -jar ../crypto.jar encryptAndHashPassword " .. password
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
 	f:close()

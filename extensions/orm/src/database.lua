@@ -857,7 +857,7 @@ local function export (self)
 	end
 
 	-- persist types --
-	persistence.store(property.extensionsDir .. "/core/src/import.lua", {objects = objects, relations = relations});
+	persistence.store(property.octopusHostDir .. "/build/src/import.lua", {objects = objects, relations = relations});
 end
 
 

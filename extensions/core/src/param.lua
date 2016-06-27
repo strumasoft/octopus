@@ -1,6 +1,3 @@
-require "utf8"
-
-
 local m = {} -- module
 
 
@@ -41,6 +38,9 @@ end
 
 function string:replaceQuery(x, y, isPlainString, isIgnoreCase)
 	if isIgnoreCase then
+		
+		require "utf8"
+		
 		local lowerSelf, lowerX
 		if string.isascii(x) then
 			lowerSelf = string.lower(self)
@@ -74,6 +74,9 @@ end
 
 function string:findQuery(x, iteratorIndex, isPlainString, isIgnoreCase)
 	if isIgnoreCase then
+		
+		require "utf8"
+		
 		local lowerSelf, lowerX
 		if string.isascii(x) then
 			lowerSelf = string.lower(self)

@@ -1,8 +1,5 @@
 local json = require "dkjson"
 local param = require "param"
-local property = require "property"
-local localization = require "localization"
-
 
 
 local function exception (err, ...)
@@ -16,7 +13,9 @@ local function exception (err, ...)
 			ngx.log(ngx.ERR, json.encode(err) .. "\n\t" .. debug.traceback())
 		else
 			local varargs = {...}
-
+			
+			local localization = require "localization"
+			
 			local message = localization[err]
 			if message then
 				if #varargs > 0 then
@@ -49,6 +48,8 @@ end
 
 local function getMessage (err, locale)
 	if err then
+		local localization = require "localization"
+		
 		if type(err) == "table" then
 			if #err > 0 then
 				local args = {}
@@ -90,13 +91,14 @@ end
 
 local function setErrorToCookie (errorMessage)
 	local cookie = require "cookie"
+	local property = require "property"
 
 	-- add error to cookie
 	local ok, err = cookie:set({
 		key = "error",
 		value = ngx.encode_base64(json.encode(errorMessage)), -- encode message
 		path = "/",
-		domain = property.domain,
+		domain = ngx.var.server_name,
 		max_age = property.sessionTimeout,
 		secure = param.requireSecureToken(),
 		httponly = true
@@ -116,6 +118,7 @@ end
 --
 local function getAndDeleteErrorFromCookie (data)
 	local cookie = require "cookie"
+	local property = require "property"
 
 	-- get error from cookie
 	local errorMessage, err = cookie:get("error")
@@ -131,7 +134,7 @@ local function getAndDeleteErrorFromCookie (data)
 		key = "error",
 		value = errorMessage,
 		path = "/",
-		domain = property.domain,
+		domain = ngx.var.server_name,
 		max_age = 0,
 		secure = param.requireSecureToken(),
 		httponly = true

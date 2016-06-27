@@ -19,7 +19,7 @@ return [[
 
 		{{externalJS}}
 
-		<script type="text/javascript" src="/static/widgets.js"></script>
+		<script type="text/javascript" src="/build/static/widgets.js"></script>
 
 		{{internalJS}}
 
@@ -36,7 +36,7 @@ return [[
 
 		{{externalCSS}}
 
-		<link rel="stylesheet" type="text/css" href="/static/widgets.css" />
+		<link rel="stylesheet" type="text/css" href="/build/static/widgets.css" />
 
 		{{internalCSS}}
 
