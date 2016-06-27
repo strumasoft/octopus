@@ -14,7 +14,7 @@ Octopus is automated process for creating configuration for the excellent [lua-n
 
 The heart of the system is the build process who creates all the necessary nginx configurations, create widgets, creates type system and autowire modules in dependency injection style.
 
-Under `bin/unix` there is a file called `build.lua` where all the aplications/sites that will be hosted are named. All extensions of a single aplication/site have configuration, check `extensions/config_unix.lua`, that is poined in the `build.lua` file. Building octopus happens in a sigle command:
+Under `bin/unix` there is a file called `build.lua` where all the aplications/sites that will be hosted are named. All extensions of a single aplication/site have configuration, check `extensions/config.lua`, that is poined in the `build.lua` file. Building octopus happens in a sigle command:
 
 ```bash
 # build octopus
@@ -46,12 +46,12 @@ cd octopus/bin/unix
 ```
 then just open [localhost:7878](http://localhost:7878)
 
-Important configuration files: [config_unix.lua](extensions/config_unix.lua), [build.lua](bin/unix/build.lua), [server.sh](bin/unix/server.sh)
+Important configuration files: [config.lua](extensions/config.lua), [build.lua](bin/unix/build.lua), [server.sh](bin/unix/server.sh)
 
 
 Database, users and security
 ============
-* Set up database connection - databaseConnection object in [config_unix.lua](extensions/config_unix.lua)
+* Set up database connection - databaseConnection object in [config.lua](extensions/config.lua)
 * Import test user from security extension [import.lua](extensions/security/src/import.lua) file in [localhost:7878/database](http://localhost:7878/database)
 ```lua
 db:dropAllTables()
@@ -59,7 +59,7 @@ db:createAllTables()
 db:import("securityImport")
 db:import("shopImport")
 ```
-* Enable security - set `requireSecurity = true` in globalParameters object in [config_unix.lua](extensions/config_unix.lua)
+* Enable security - set `requireSecurity = true` in globalParameters object in [config.lua](extensions/config.lua)
 
 Copyright and License
 =====================
