@@ -9,10 +9,11 @@ local util = require "util"
 
 
 
-local externalJS = parse([[
-	<script src="/baseline/static/ace/ace.js" type="text/javascript" charset="utf-8"></script>
-	<script type="text/javascript" src="/baseline/static/js/init-baseline.js"></script>
-]], {aceVersion = property.aceEditorVersion})
+local externalJS = [[
+	<script src="/baseline/static/ace/ace.js" type="text/javascript"></script>
+	<script src="/baseline/static/js/init-baseline.js" type="text/javascript"></script>
+]]
+
 
 
 local externalCSS = [[

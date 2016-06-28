@@ -3,7 +3,6 @@ local config = {} -- extension configuration
 config.property = {
 	mainColor = "#49bf9d",
 	selectedColor = "#1e90ff",
-	aceEditorVersion = "1.2.3",
 
 	editorUrl = "/editor",
 	editorHomeUrl = "",

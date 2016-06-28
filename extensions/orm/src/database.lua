@@ -857,7 +857,7 @@ local function export (self)
 	end
 
 	-- persist types --
-	persistence.store(property.octopusHostDir .. "/build/src/import.lua", {objects = objects, relations = relations});
+	persistence.store(property.octopusHostDir .. "/import.lua", {objects = objects, relations = relations});
 end
 
 
@@ -865,10 +865,12 @@ end
 -- import
 --
 local function import (self, import)
-	if not import then
-		import = require("import")
-	elseif type(import) ~= "table" then
+	if type(import) == "string" then
 		import = require(import)
+	elseif type(import) == "table" then
+		-- nothing more needed
+	else
+		exception("supply name of the module to import or the import object itself")
 	end
 
 	if import.objects then
