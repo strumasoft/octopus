@@ -15,6 +15,7 @@ config.modules = {
 	{name = "persistence", script = "persistence.lua"},
 	{name = "stacktrace", script = "stacktrace.lua"},
 	{name = "template", script = "template.lua"},
+	{name = "upload", script = "upload.lua"},
 	{name = "utf8", script = "utf8.lua"},
 	{name = "utf8data", script = "utf8data.lua"},
 	{name = "util", script = "util.lua"},

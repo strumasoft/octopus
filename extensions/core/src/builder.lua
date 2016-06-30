@@ -42,6 +42,14 @@ local requestBody = [[
 ]]
 
 
+local uploadBody = [[
+
+	client_max_body_size {{maxBodySize}};
+	client_body_buffer_size {{maxBodySize}};
+
+]]
+
+
 local nginxLocationTemplate = [[
 
 	location {{url}} {
@@ -53,6 +61,8 @@ local nginxLocationTemplate = [[
 		{{resolver}}
 
 		{{requestBody}}
+		
+		{{uploadBody}}
 
 		# ngx.var.octopusHostDir
 		set $octopusHostDir '{{octopusHostDir}}';
@@ -552,7 +562,7 @@ local function generateNginxConfig (siteConfig)
 
 	local locations = {}
 
-	local locationScripts = generateOverrideTable(siteConfig, "locations", {"requestBody", "access", "resolver"})
+	local locationScripts = generateOverrideTable(siteConfig, "locations", {"requestBody", "uploadBody", "access", "resolver"})
 
 	for name, scripts in pairs(locationScripts) do
 		local scriptFileName = scripts[#scripts] -- use only last script
@@ -568,6 +578,13 @@ local function generateNginxConfig (siteConfig)
 				data.requestBody = parse(siteConfig.requestBody or requestBody, {maxBodySize = siteConfig.maxBodySize})
 			else
 				data.requestBody = parse(siteConfig.requestBody or requestBody, {maxBodySize = scripts[1].requestBody})
+			end
+		end
+		if scripts[1].uploadBody then
+			if type(scripts[1].uploadBody) == "boolean" then
+				data.uploadBody = parse(siteConfig.uploadBody or uploadBody, {maxBodySize = siteConfig.maxBodySize})
+			else
+				data.uploadBody = parse(siteConfig.uploadBody or uploadBody, {maxBodySize = scripts[1].uploadBody})
 			end
 		end
 		if scripts[1].access then

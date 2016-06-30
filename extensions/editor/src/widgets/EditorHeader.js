@@ -62,12 +62,21 @@ Widget.EditorHeader = function (title) {
 						<i class="fa fa-eye"></i> <i class="fa fa-random"></i></div>
 					</li>
 
-					<!-- Create -->
-					<li><div id="uploadFileAction" class="hand"
-						onclick='Widget.EditorHeader.uploadFileName();'>
-						<i class="fa fa-long-arrow-up"></i> <i class="fa fa-file-o"></i></div>
-						<input type="file" multiple id="uploadFileForm" style="display:none;"/>
+					<!-- Upload -->
+					<li><div id="openUploaderAction" class="hand"
+						onclick='Widget.EditorHeader.openUploader();'>
+						<i class="fa fa-university"></i></div>
 					</li>
+					<li><div id="uploadFileAction" class="hand" 
+						onclick='Widget.EditorHeader.uploadFile();'>
+						<i class="fa fa-cloud-upload"></i></div>
+						<form action="" method="post" id="uploadFileForm" target="_blank"
+							enctype="multipart/form-data" style="display: none;">
+							<input type="file" name="file" id="uploadFileInput" multiple=""/>
+						<form/>
+					</li>
+					
+					<!-- Create -->
 					<li><div id="createFileAction" class="hand" 
 						onclick='Widget.EditorHeader.createFileName();'>
 						<i class="fa fa-plus"></i> <i class="fa fa-file-o"></i></div>
@@ -470,12 +479,38 @@ Widget.EditorHeader.repositoryCommitHistoryGIT = function () {
 
 
 //
-// create/add
+// upload
 //
 
-Widget.EditorHeader.uploadFileName = function () {
-	$('#uploadFileForm').trigger('click');
+Widget.EditorHeader.openUploader = function () {
+	$('#uploadFileInput').trigger('click')
 }
+
+Widget.EditorHeader.uploadFile = function () {
+	if (!isEmpty(editor.directoryName) && !isEmpty($("#uploadFileInput").val())) {
+		var directoryName = editor.directoryName
+
+		var paths = editor.directoryName.split('/');
+		var simpleDirectoryName = paths[paths.length - 1]
+		
+		var questionPopup = new Widget.QuestionPopup({
+			question: "Upload file(s) to " + simpleDirectoryName + "?", 
+			proceed: function () {
+				$("#uploadFileForm").attr("action", 
+					property.editorUrl + property.editorUploadFileUrl + "?directoryName=" + encodeURIComponent(directoryName))
+				$("#uploadFileForm").trigger("submit")
+				
+				this.delete()
+		}})
+	} else {
+		var infoPopup = new Widget.InfoPopup({info: "Select parent directory and file(s) to upload!"})
+	}
+}
+
+
+//
+// create/add
+//
 
 Widget.EditorHeader.createFileName = function () {
 	if (!isEmpty(editor.directoryName)) {

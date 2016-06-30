@@ -3,6 +3,8 @@ local config = {} -- extension configuration
 config.property = {
 	mainColor = "#49bf9d",
 	selectedColor = "#1e90ff",
+	
+	fileUploadChunkSize = 8196,
 
 	editorUrl = "/editor",
 	editorHomeUrl = "",
@@ -16,6 +18,7 @@ config.property = {
 	editorCreateFileUrl = "/createFile",
 	editorCreateDirectoryUrl = "/createDirectory",
 	editorEditFileUrl = "/editFile",
+	editorUploadFileUrl = "/uploadFile",
 }
 
 config.locations = {
@@ -29,6 +32,7 @@ config.locations = {
 	{name = property.editorUrl .. property.editorCreateFileUrl, script = "controllers/operations/CreateFileController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorCreateDirectoryUrl, script = "controllers/operations/CreateDirectoryController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorEditFileUrl, script = "controllers/EditorEditFileController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
+	{name = property.editorUrl .. property.editorUploadFileUrl, script = "controllers/EditorUploadFileController.lua", uploadBody = "20M", access = "EditorRedirectOnSessionTimeoutFilter"},
 }
 
 config.access = {
@@ -45,6 +49,7 @@ config.javascripts = {
 	{name = "EditorSearchResult", script = "widgets/EditorSearchResult.js"},
 	{name = "EditorSearchTemplate", script = "controllers/EditorSearchTemplate.js"},
 	{name = "EditorSearchHeader", script = "widgets/EditorSearchHeader.js"},
+	{name = "UploadResult", script = "widgets/UploadResult.js"},
 }
 
 config.stylesheets = {

@@ -48,29 +48,29 @@ function nginx_install {
 
 	# nginx
 	nginx=nginx
-	nginx_version=1.8.0
-	nginx_url=http://nginx.org/download/nginx-1.8.0.tar.gz
+	nginx_version=1.10.1
+	nginx_url=http://nginx.org/download/nginx-$nginx_version.tar.gz
 	download $nginx tar.gz $nginx_url
 
 
 	# ngx_devel_kit
 	ngx_devel_kit=ngx_devel_kit
-	ngx_devel_kit_version=0.2.19
-	ngx_devel_kit_url=https://github.com/simpl/ngx_devel_kit/archive/v0.2.19.tar.gz
+	ngx_devel_kit_version=0.3.0
+	ngx_devel_kit_url=https://github.com/simpl/ngx_devel_kit/archive/v$ngx_devel_kit_version.tar.gz
 	download $ngx_devel_kit tar.gz $ngx_devel_kit_url
 
 
 	# lua-nginx-module
 	lua_nginx_module=lua-nginx-module
-	lua_nginx_module_version=0.9.15
-	lua_nginx_module_url=https://github.com/openresty/lua-nginx-module/archive/v0.9.15.tar.gz
+	lua_nginx_module_version=0.10.5
+	lua_nginx_module_url=https://github.com/openresty/lua-nginx-module/archive/v$lua_nginx_module_version.tar.gz
 	download $lua_nginx_module tar.gz $lua_nginx_module_url
 
 
 	# install LuaJIT
 	luajit=LuaJIT
-	luajit_version=2.0.3
-	luajit_url=http://luajit.org/download/LuaJIT-2.0.3.tar.gz
+	luajit_version=2.0.4
+	luajit_url=http://luajit.org/download/LuaJIT-$luajit_version.tar.gz
 	download $luajit tar.gz $luajit_url
 	cd $destination_folder/$luajit-$luajit_version
 	make
@@ -81,7 +81,7 @@ function nginx_install {
 	# libs/lfs.config
 	lfs=luafilesystem
 	lfs_version=v_1_6_3
-	lfs_url=https://github.com/keplerproject/luafilesystem/archive/v_1_6_3.tar.gz
+	lfs_url=https://github.com/keplerproject/luafilesystem/archive/$lfs_version.tar.gz
 	download $lfs tar.gz $lfs_url
 	cd $destination_folder/$lfs-$lfs_version
 	cat $nginx_install/libs/lfs.config > config
@@ -92,7 +92,7 @@ function nginx_install {
 	# install PCRE
 	pcre=pcre
 	pcre_version=8.38
-	pcre_url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.38.tar.gz
+	pcre_url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$pcre_version.tar.gz
 	download $pcre tar.gz $pcre_url
 
 
@@ -100,7 +100,7 @@ function nginx_install {
 	# apt-get install zlib1g-dev
 	zlib=zlib
 	zlib_version=1.2.8
-	zlib_url=http://zlib.net/zlib-1.2.8.tar.gz
+	zlib_url=http://zlib.net/zlib-$zlib_version.tar.gz
 	download $zlib tar.gz $zlib_url
 
 
