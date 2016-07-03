@@ -1,7 +1,8 @@
-local json = require "dkjson"
+local json = require "json"
 local param = require "param"
 local exception = require "exception"
 local exit = require "exit"
+local util = require "util"
 local database = require "database"
 
 
@@ -16,7 +17,7 @@ local op = db:operators()
 
 
 local function add (typeTo, typeFrom)
-	if param.isNotEmpty(id) and param.isNotEmpty(parentId) then
+	if util.isNotEmpty(id) and util.isNotEmpty(parentId) then
 		if typeTo == typeFrom then -- self referencing
 			if from < to then
 				db:add({[from .. "-" .. to] = {key = id, value = parentId}})
@@ -38,14 +39,14 @@ end
 
 local function f ()
 	-- find if reference(to) object exist
-	local typeAndPropertyTo = param.split(to, ".")
+	local typeAndPropertyTo = util.split(to, ".")
 	local typeTo = typeAndPropertyTo[1]
 	local propertyTo = typeAndPropertyTo[2]
 
 	local toObject = db:findOne({[typeTo] = {id = op.equal(id)}})
 
 	-- add reference
-	local typeAndPropertyFrom = param.split(from, ".")
+	local typeAndPropertyFrom = util.split(from, ".")
 	local typeFrom = typeAndPropertyFrom[1]
 	local propertyFrom = typeAndPropertyFrom[2]
 

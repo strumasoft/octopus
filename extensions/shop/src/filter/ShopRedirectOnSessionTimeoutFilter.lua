@@ -1,6 +1,6 @@
-local param = require "param"
 local property = require "property"
 local database = require "database"
+local util = require "util"
 local userService = require "userService"
 
 
@@ -15,7 +15,7 @@ if property.requireSecurity then
 	ngx.ctx = {}
 
 	if not status or not res then
-		if param.isNotEmpty(ngx.var.args) then
+		if util.isNotEmpty(ngx.var.args) then
 			ngx.redirect(property.shopUrl .. property.loginUrl .. ngx.var.uri .. "?" .. ngx.var.args)
 			ngx.exit(ngx.HTTP_OK)
 		else

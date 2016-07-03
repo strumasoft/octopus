@@ -1,4 +1,4 @@
-local json = require "dkjson"
+local json = require "json"
 local parse = require "parse"
 local param = require "param"
 local property = require "property"
@@ -6,6 +6,7 @@ local localization = require "localization"
 local database = require "database"
 local exit = require "exit"
 local exception = require "exception"
+local util = require "util"
 local localeService = require "localeService"
 local priceService = require "priceService"
 local cartService = require "cartService"
@@ -20,7 +21,7 @@ local function process (db, data)
 	data.locale = locale
 
 
-	if param.isNotEmpty(param.paymentMethod) then
+	if util.isNotEmpty(param.paymentMethod) then
 		local paymentMethod = db:findOne({paymentMethod = {id = op.equal(param.paymentMethod)}})
 
 		local cart = cartService.getCart(db)

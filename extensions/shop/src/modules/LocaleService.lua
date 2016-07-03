@@ -1,8 +1,8 @@
-local param = require "param"
 local property = require "property"
 local uuid = require "uuid"
 local cookie = require "cookie"
 local exception = require "exception"
+local util = require "util"
 local countryService = require "countryService"
 
 
@@ -12,7 +12,7 @@ local localeCookieName = "locale"
 
 local function getLocale (db)
 	local locale, err = cookie:get(localeCookieName)
-	if param.isEmpty(locale) or err then
+	if util.isEmpty(locale) or err then
 		local country = countryService.getCountry(db)
 		return country.locale
 		--return property.defaultLocale

@@ -1,10 +1,10 @@
-local json = require "dkjson"
+local json = require "json"
 local parse = require "parse"
-local param = require "param"
 local property = require "property"
 local localization = require "localization"
 local database = require "database"
 local exception = require "exception"
+local util = require "util"
 local userService = require "userService"
 local localeService = require "localeService"
 local priceService = require "priceService"
@@ -18,7 +18,7 @@ local function process (db, data)
 
 
 	local to = userService.redirectTo(property.shopUrl .. property.loginUrl)
-	if param.isNotEmpty(to) then
+	if util.isNotEmpty(to) then
 		data.to = to
 	else
 		data.to = property.shopUrl .. property.accountUrl

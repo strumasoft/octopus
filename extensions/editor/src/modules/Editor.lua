@@ -3,7 +3,7 @@ local m = {} -- module
 
 local lfs = require "lfs"
 local exception = require "exception"
-local util = require "util"
+local fileutil = require "fileutil"
 
 
 local property = require "property"
@@ -17,7 +17,7 @@ local sourceCtxPath = property.sourceCtxPath or ""
 
 function m.createFile (fileName)
 	if fileName then
-		util.noBackDirectory(fileName)
+		fileutil.noBackDirectory(fileName)
 
 		local file, err = io.open(sourceCtxPath .. fileName, "w")
 
@@ -39,7 +39,7 @@ end
 
 function m.createDirectory (directoryName)
 	if directoryName then
-		util.noBackDirectory(directoryName)
+		fileutil.noBackDirectory(directoryName)
 
 		local ok, err = lfs.mkdir(sourceCtxPath .. directoryName)
 
@@ -58,8 +58,8 @@ end
 
 function m.rename (oldName, newName)
 	if oldName and newName then
-		util.noBackDirectory(oldName)
-		util.countBackDirectories(newName)
+		fileutil.noBackDirectory(oldName)
+		fileutil.countBackDirectories(newName)
 
 		local ok, err = os.rename(sourceCtxPath .. oldName, sourceCtxPath .. newName)
 
@@ -78,9 +78,9 @@ end
 
 function m.remove (path)
 	if path then
-		util.noBackDirectory(path)
+		fileutil.noBackDirectory(path)
 
-		util.remove(sourceCtxPath .. path)
+		fileutil.remove(sourceCtxPath .. path)
 	else
 		exception("path is empty")
 	end
@@ -93,7 +93,7 @@ end
 
 function m.save (fileName, content)
 	if fileName then
-		util.noBackDirectory(fileName)
+		fileutil.noBackDirectory(fileName)
 
 		local file, err = io.open(sourceCtxPath .. fileName, "w")
 
@@ -120,7 +120,7 @@ end
 
 function m.fileContent (fileName)
 	if fileName then
-		util.noBackDirectory(fileName)
+		fileutil.noBackDirectory(fileName)
 
 		local file, err = io.open(sourceCtxPath .. fileName, "r")
 

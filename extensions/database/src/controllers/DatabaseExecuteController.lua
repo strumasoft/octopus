@@ -1,6 +1,6 @@
 local eval = require "eval"
 local parse = require "parse"
-local json = require "dkjson"
+local json = require "json"
 local param = require "param"
 local database = require "database"
 

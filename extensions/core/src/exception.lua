@@ -1,5 +1,5 @@
-local json = require "dkjson"
-local param = require "param"
+local json = require "json"
+local util = require "util"
 
 
 local function exception (err, ...)
@@ -100,7 +100,7 @@ local function setErrorToCookie (errorMessage)
 		path = "/",
 		domain = ngx.var.server_name,
 		max_age = property.sessionTimeout,
-		secure = param.requireSecureToken(),
+		secure = util.requireSecureToken(),
 		httponly = true
 	})
 
@@ -122,7 +122,7 @@ local function getAndDeleteErrorFromCookie (data)
 
 	-- get error from cookie
 	local errorMessage, err = cookie:get("error")
-	if param.isEmpty(errorMessage) or err then
+	if util.isEmpty(errorMessage) or err then
 		return false
 	end
 
@@ -136,7 +136,7 @@ local function getAndDeleteErrorFromCookie (data)
 		path = "/",
 		domain = ngx.var.server_name,
 		max_age = 0,
-		secure = param.requireSecureToken(),
+		secure = util.requireSecureToken(),
 		httponly = true
 	})
 

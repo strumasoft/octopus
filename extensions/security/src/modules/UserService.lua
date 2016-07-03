@@ -1,19 +1,19 @@
-local param = require "param"
 local property = require "property"
 local uuid = require "uuid"
 local cookie = require "cookie"
 local exception = require "exception"
 local util = require "util"
+local fileutil = require "fileutil"
 
 
 local function authenticate (db, email, password)
 	local op = db:operators()
 
-	if param.isNotEmpty(email) and param.isNotEmpty(password) then
+	if util.isNotEmpty(email) and util.isNotEmpty(password) then
 		local user = db:findOne({user = {email = op.equal(email)}})
 
-		--password = util.escapeCommandlineSpecialCharacters(password)
-		password = util.quoteCommandlineArgument(password)
+		--password = fileutil.escapeCommandlineSpecialCharacters(password)
+		password = fileutil.quoteCommandlineArgument(password)
 
 		local command = "java -jar ../crypto.jar encryptAndHashPassword " .. password .. " " .. user.passwordSalt
 		local f = assert(io.popen(command, "r"))
@@ -38,7 +38,7 @@ local function authenticate (db, email, password)
 			end
 		end
 
-		if param.isNotEmpty(content) then
+		if util.isNotEmpty(content) then
 			local hash = content:trim()
 			if hash == user.passwordHash then
 				-- failed authentication policy
@@ -76,7 +76,7 @@ local function setToken (db, user)
 		path = "/",
 		domain = ngx.var.server_name,
 		max_age = property.sessionTimeout,
-		secure = param.requireSecureToken(),
+		secure = util.requireSecureToken(),
 		httponly = true
 	})
 
@@ -97,13 +97,13 @@ local function authenticatedUser (db)
 	end
 
 	local token, err = cookie:get("token")
-	if param.isEmpty(token) or err then
+	if util.isEmpty(token) or err then
 		return false
 	end
 
 	local user = db:findOne({user = {token = op.equal(token)}})
 
-	if param.isNotEmpty(user.lastLoginTime) then
+	if util.isNotEmpty(user.lastLoginTime) then
 		local elapsedTime = os.time() - user.lastLoginTime
 		if elapsedTime >= 0 and elapsedTime <= property.sessionTimeout then
 			ngx.ctx.user = user
@@ -177,17 +177,17 @@ end
 local function register (db, email, password)
 	local eval = require "eval"
 
-	--password = util.escapeCommandlineSpecialCharacters(password)
-	password = util.quoteCommandlineArgument(password)
+	--password = fileutil.escapeCommandlineSpecialCharacters(password)
+	password = fileutil.quoteCommandlineArgument(password)
 
 	local command = "java -jar ../crypto.jar encryptAndHashPassword " .. password
 	local f = assert(io.popen(command, "r"))
 	local content = f:read("*all")
 	f:close()
 
-	if param.isNotEmpty(content) then
+	if util.isNotEmpty(content) then
 		local hashAndSalt = eval.code(content, {}, true)
-		if param.isNotEmpty(hashAndSalt.hash) and param.isNotEmpty(hashAndSalt.salt) then
+		if util.isNotEmpty(hashAndSalt.hash) and util.isNotEmpty(hashAndSalt.salt) then
 			return db:add({user = {email = email, passwordHash = hashAndSalt.hash, passwordSalt = hashAndSalt.salt}})
 		end
 	end
@@ -212,7 +212,7 @@ local function redirectTo (url)
 		to = uri:sub(url:len() + 1, uri:len())
 
 		local args = ngx.var.args
-		if param.isNotEmpty(args) then
+		if util.isNotEmpty(args) then
 			to = to .. "?" .. args
 		end
 	end

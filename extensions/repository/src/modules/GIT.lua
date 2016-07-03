@@ -1,8 +1,8 @@
 local m = {} -- module
 
 
-local param = require "param"
 local util = require "util"
+local fileutil = require "fileutil"
 local date = require "date"
 
 
@@ -27,15 +27,15 @@ end
 --
 
 local function fileHistory (fileName, directoryName)
-	fileName = util.quoteCommandlineArgument(fileName)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	fileName = fileutil.quoteCommandlineArgument(fileName)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
 	return string.format([[cd %s && git log --follow -p %s]] .. property.redirectErrorToOutputStream, directoryName, fileName)
 end
 
 local function fileMergeHistory (fileName, directoryName)
-	fileName = util.quoteCommandlineArgument(fileName)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	fileName = fileutil.quoteCommandlineArgument(fileName)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
 	return string.format([[cd %s && git log --merges %s]] .. property.redirectErrorToOutputStream, directoryName, fileName)
 end
@@ -76,8 +76,8 @@ local function addFileHistoryRevisions (command, revisions, fileName)
 end
 
 function m.fileHistory (username, password, fileName, directoryName)
-	util.noBackDirectory(fileName)
-	util.noBackDirectory(directoryName)
+	fileutil.noBackDirectory(fileName)
+	fileutil.noBackDirectory(directoryName)
 
 	local x,y = fileName:find(directoryName, 1, true)
 	fileName = fileName:sub(y+2, #fileName)
@@ -117,13 +117,13 @@ end
 --
 
 local function status (directoryName)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
 	return string.format([[cd %s && git status -s .]] .. property.redirectErrorToOutputStream, directoryName)
 end
 
 function m.status (username, password, directoryName)
-	util.noBackDirectory(directoryName)
+	fileutil.noBackDirectory(directoryName)
 
 	local command = status(sourceCtxPath .. directoryName)
 	logCommand(command)
@@ -162,9 +162,9 @@ end
 --
 
 local function logHistory (directoryName, limit)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
-	util.noCommandlineSpecialCharacters(limit)
+	fileutil.noCommandlineSpecialCharacters(limit)
 
 	if limit then
 		return string.format([[cd %s && git log --name-status --decorate --graph --all -n %s]] .. property.redirectErrorToOutputStream, directoryName, limit)
@@ -174,7 +174,7 @@ local function logHistory (directoryName, limit)
 end
 
 function m.logHistory (username, password, directoryName, limit)
-	util.noBackDirectory(directoryName)
+	fileutil.noBackDirectory(directoryName)
 
 	local command = logHistory(sourceCtxPath .. directoryName, limit)
 	logCommand(command)
@@ -192,12 +192,12 @@ end
 --
 
 local function commitHistory (directoryName, newRevision, oldRevision)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
-	util.noCommandlineSpecialCharacters(newRevision)
-	util.noCommandlineSpecialCharacters(oldRevision)
+	fileutil.noCommandlineSpecialCharacters(newRevision)
+	fileutil.noCommandlineSpecialCharacters(oldRevision)
 
-	if param.isNotEmpty(oldRevision) then
+	if util.isNotEmpty(oldRevision) then
 		return string.format([[cd %s && git diff %s..%s]] .. property.redirectErrorToOutputStream, directoryName, oldRevision, newRevision)
 	else
 		return string.format([[cd %s && git show %s]] .. property.redirectErrorToOutputStream, directoryName, newRevision)
@@ -205,7 +205,7 @@ local function commitHistory (directoryName, newRevision, oldRevision)
 end
 
 function m.commitHistory (username, password, directoryName, newRevision, oldRevision)
-	util.noBackDirectory(directoryName)
+	fileutil.noBackDirectory(directoryName)
 
 	local command = commitHistory(sourceCtxPath .. directoryName, newRevision, oldRevision)
 	logCommand(command)
@@ -223,16 +223,16 @@ end
 --
 
 local function fileRevisionContent (revision, fileName, directoryName)
-	fileName = util.quoteCommandlineArgument(fileName)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	fileName = fileutil.quoteCommandlineArgument(fileName)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
-	util.noCommandlineSpecialCharacters(revision)
+	fileutil.noCommandlineSpecialCharacters(revision)
 
 	return string.format([[cd %s && git show %s:%s]] .. property.redirectErrorToOutputStream, directoryName, revision, fileName)
 end
 
 function m.fileRevisionContent (username, password, revision, fileName, directoryName)
-	util.noBackDirectory(fileName)
+	fileutil.noBackDirectory(fileName)
 
 	local command = fileRevisionContent(revision, fileName, sourceCtxPath .. directoryName)
 	logCommand(command)
@@ -250,12 +250,12 @@ end
 --
 
 local function fileDiff (oldRevision, newRevision, fileName, newFileName, directoryName)
-	fileName = util.quoteCommandlineArgument(fileName)
-	newFileName = util.quoteCommandlineArgument(newFileName)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	fileName = fileutil.quoteCommandlineArgument(fileName)
+	newFileName = fileutil.quoteCommandlineArgument(newFileName)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
-	util.noCommandlineSpecialCharacters(oldRevision)
-	util.noCommandlineSpecialCharacters(newRevision)
+	fileutil.noCommandlineSpecialCharacters(oldRevision)
+	fileutil.noCommandlineSpecialCharacters(newRevision)
 
 	local command
 	if newRevision == "LOCAL" then
@@ -267,9 +267,9 @@ local function fileDiff (oldRevision, newRevision, fileName, newFileName, direct
 end
 
 function m.fileDiff (username, password, oldRevision, newRevision, fileName, newFileName, directoryName)
-	util.noBackDirectory(fileName)
-	util.noBackDirectory(newFileName)
-	util.noBackDirectory(directoryName)
+	fileutil.noBackDirectory(fileName)
+	fileutil.noBackDirectory(newFileName)
+	fileutil.noBackDirectory(directoryName)
 
 	local command
 	if newRevision == "LOCAL" then
@@ -292,26 +292,26 @@ end
 --
 
 local function add (path, directoryName)
-	path = util.quoteCommandlineArgument(path)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	path = fileutil.quoteCommandlineArgument(path)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
 	return string.format([[cd %s && git add -v %s]] .. property.redirectErrorToOutputStream, directoryName, path)
 end
 
 function m.add (username, password, path, directoryName)
-	if param.isNotEmpty(directoryName) then
-		util.noBackDirectory(path)
-		util.noBackDirectory(directoryName)
+	if util.isNotEmpty(directoryName) then
+		fileutil.noBackDirectory(path)
+		fileutil.noBackDirectory(directoryName)
 	else
-		local paths = param.split(path, "/")
+		local paths = util.split(path, "/")
 
 		path = paths[#paths]
 
 		paths[#paths] = nil
 		directoryName = table.concat(paths, "/")
 
-		util.noBackDirectory(path)
-		util.noBackDirectory(directoryName)
+		fileutil.noBackDirectory(path)
+		fileutil.noBackDirectory(directoryName)
 	end
 
 	local command = add(path, sourceCtxPath .. directoryName)
@@ -330,26 +330,26 @@ end
 --
 
 local function delete (path, directoryName)
-	path = util.quoteCommandlineArgument(path)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	path = fileutil.quoteCommandlineArgument(path)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
 	return string.format([[cd %s && git rm --force %s]] .. property.redirectErrorToOutputStream, directoryName, path)
 end
 
 function m.delete (username, password, path, directoryName)
-	if param.isNotEmpty(directoryName) then
-		util.noBackDirectory(path)
-		util.noBackDirectory(directoryName)
+	if util.isNotEmpty(directoryName) then
+		fileutil.noBackDirectory(path)
+		fileutil.noBackDirectory(directoryName)
 	else
-		local paths = param.split(path, "/")
+		local paths = util.split(path, "/")
 
 		path = paths[#paths]
 
 		paths[#paths] = nil
 		directoryName = table.concat(paths, "/")
 
-		util.noBackDirectory(path)
-		util.noBackDirectory(directoryName)
+		fileutil.noBackDirectory(path)
+		fileutil.noBackDirectory(directoryName)
 	end
 
 	local command = delete(path, sourceCtxPath .. directoryName)
@@ -368,17 +368,17 @@ end
 --
 
 local function move (oldName, newName, directoryName)
-	oldName = util.quoteCommandlineArgument(oldName)
-	newName = util.quoteCommandlineArgument(newName)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	oldName = fileutil.quoteCommandlineArgument(oldName)
+	newName = fileutil.quoteCommandlineArgument(newName)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
 	return string.format([[cd %s && git mv -v --force %s %s]] .. property.redirectErrorToOutputStream, directoryName, oldName, newName)
 end
 
 function m.move (username, password, oldName, newName, directoryName)
-	util.noBackDirectory(oldName)
-	util.countBackDirectories(newName) -- only here is allowed to have back directory
-	util.noBackDirectory(directoryName)
+	fileutil.noBackDirectory(oldName)
+	fileutil.countBackDirectories(newName) -- only here is allowed to have back directory
+	fileutil.noBackDirectory(directoryName)
 
 	local command = move(sourceCtxPath .. oldName, sourceCtxPath .. newName, sourceCtxPath .. directoryName)
 	logCommand(command)
@@ -396,14 +396,14 @@ end
 --
 
 local function commit (message, list, directoryName)
-	message = util.quoteCommandlineArgument(message)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	message = fileutil.quoteCommandlineArgument(message)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
 	local paths = ""
 	for i=1, #list do
-		util.noBackDirectory(list[i])
+		fileutil.noBackDirectory(list[i])
 
-		local path = util.quoteCommandlineArgument(list[i])
+		local path = fileutil.quoteCommandlineArgument(list[i])
 		paths = paths .. " " .. path
 	end
 
@@ -411,7 +411,7 @@ local function commit (message, list, directoryName)
 end
 
 function m.commit (username, password, message, list, directoryName)
-	util.noBackDirectory(directoryName)
+	fileutil.noBackDirectory(directoryName)
 
 	local command = commit(message, list, sourceCtxPath .. directoryName)
 	logCommand(command)
@@ -436,10 +436,10 @@ end
 --
 
 local function revert (path, recursively, directoryName)
-	path = util.quoteCommandlineArgument(path)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	path = fileutil.quoteCommandlineArgument(path)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
-	util.noCommandlineSpecialCharacters(recursively)
+	fileutil.noCommandlineSpecialCharacters(recursively)
 
 	if recursively then
 		return string.format([[cd %s && git reset --hard HEAD]] .. property.redirectErrorToOutputStream, directoryName)
@@ -449,8 +449,8 @@ local function revert (path, recursively, directoryName)
 end
 
 function m.revert (username, password, path, recursively, directoryName)
-	util.noBackDirectory(path)
-	util.noBackDirectory(directoryName)
+	fileutil.noBackDirectory(path)
+	fileutil.noBackDirectory(directoryName)
 
 	local command = revert(path, recursively, sourceCtxPath .. directoryName)
 	logCommand(command)
@@ -475,21 +475,21 @@ end
 --
 
 local function refreshDir (directoryName)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
 	return string.format([[cd %s && git clean -df]] .. property.redirectErrorToOutputStream, directoryName)
 end
 
 local function refreshPath (path, directoryName)
-	path = util.quoteCommandlineArgument(path)
-	directoryName = util.quoteCommandlineArgument(directoryName)
+	path = fileutil.quoteCommandlineArgument(path)
+	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
 	return string.format([[cd %s && git clean -df %s]] .. property.redirectErrorToOutputStream, directoryName, path)
 end
 
 function m.refresh (username, password, path, directoryName)
-	util.noBackDirectory(path)
-	util.noBackDirectory(directoryName)
+	fileutil.noBackDirectory(path)
+	fileutil.noBackDirectory(directoryName)
 
 	local command
 	if path == directoryName then

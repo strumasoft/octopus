@@ -1,4 +1,4 @@
-local json = require "dkjson"
+local json = require "json"
 local parse = require "parse"
 local param = require "param"
 local property = require "property"
@@ -6,6 +6,7 @@ local localization = require "localization"
 local database = require "database"
 local exit = require "exit"
 local exception = require "exception"
+local util = require "util"
 local userService = require "userService"
 local localeService = require "localeService"
 local priceService = require "priceService"
@@ -21,7 +22,7 @@ local function process (db, data)
 	data.locale = locale
 
 
-	if param.isNotEmpty(param.address) then
+	if util.isNotEmpty(param.address) then
 		db:delete({address = {id = param.address}})
 	else
 		exception("address is required")

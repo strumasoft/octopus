@@ -1,5 +1,6 @@
 local param = require "param"
 local exit = require "exit"
+local util = require "util"
 local editor = require "Editor"
 
 
@@ -7,7 +8,7 @@ local editor = require "Editor"
 local function process ()
 	local path = param.path
 
-	if param.isNotEmpty(param.repository) and param.isNotEmpty(param.username) and param.isNotEmpty(param.password) then
+	if util.isNotEmpty(param.repository) and util.isNotEmpty(param.username) and util.isNotEmpty(param.password) then
 		local repository = require(param.repository)
 
 		local username = param.username

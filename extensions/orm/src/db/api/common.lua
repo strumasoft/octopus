@@ -1,13 +1,13 @@
-local param = require "param"
 local property = require "property"
 local exception = require "exception"
+local util = require "util"
 
 
 
 --
 -- number of properties of object 
 --
-local length = param.lengthOfObject
+local length = util.lengthOfObject
 
 
 --

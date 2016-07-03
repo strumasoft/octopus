@@ -1,11 +1,11 @@
-local json = require "dkjson"
-local param = require "param"
+local json = require "json"
 local exception = require "exception"
 local exit = require "exit"
+local util = require "util"
 local database = require "database"
 
 
-local data = param.parseForm(ngx.req.get_body_data())
+local data = util.parseForm(ngx.req.get_body_data())
 local from = data.from
 local to = data.to
 local parentId = data.parentId
@@ -16,10 +16,10 @@ local op = db:operators()
 
 
 local function f ()
-	local typeTo = param.split(to, ".")[1]
-	local typeFrom = param.split(from, ".")[1]
+	local typeTo = util.split(to, ".")[1]
+	local typeFrom = util.split(from, ".")[1]
 
-	if param.isNotEmpty(from) and param.isNotEmpty(to) and param.isNotEmpty(parentId) then
+	if util.isNotEmpty(from) and util.isNotEmpty(to) and util.isNotEmpty(parentId) then
 		if typeTo == typeFrom then -- self referencing
 			if from < to then
 				db:delete({[from .. "-" .. to] = {value = parentId}})

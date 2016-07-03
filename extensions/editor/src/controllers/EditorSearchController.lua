@@ -1,4 +1,4 @@
-local json = require "dkjson"
+local json = require "json"
 local param = require "param"
 local property = require "property"
 local exit = require "exit"
@@ -6,6 +6,7 @@ local editor = require "Editor"
 local parse = require "parse"
 local directory = require "Directory"
 local util = require "util"
+local fileutil = require "fileutil"
 
 
 
@@ -43,7 +44,7 @@ local function aggregateAllFilesContainingQuery (files, directoryName, query, fi
 	for entry, attr in pairs(directory.entries(directoryName)) do
 		if attr.mode == "file" then
 			local path = attr.path
-			if param.isEmpty(filter) or path:find(filter) then
+			if util.isEmpty(filter) or path:find(filter) then
 				if isFileName then 
 					if path:findQuery(query, 1, isPlainString, isIgnoreCase) then
 						files[#files + 1] = path
@@ -68,7 +69,7 @@ local function replaceQuery (files, query, replace, isPlainString, isFileName, i
 			local oldName = files[i]
 			local newName = oldName:replaceQuery(query, replace, isPlainString, isIgnoreCase)
 
-			if param.isNotEmpty(repository) and param.isNotEmpty(username) and param.isNotEmpty(password) then
+			if util.isNotEmpty(repository) and util.isNotEmpty(username) and util.isNotEmpty(password) then
 				local repo = require(repository)
 				repo.move(username, password, oldName, newName)
 			else
@@ -91,18 +92,18 @@ local function process ()
 	local query = param.query
 	local replace = param.replace
 	local filter = param.filter
-	local isRegex = param.toboolean(param.isRegex)
-	local isFileName = param.toboolean(param.isFileName)
-	local isIgnoreCase = param.toboolean(param.isIgnoreCase)
+	local isRegex = util.toboolean(param.isRegex)
+	local isFileName = util.toboolean(param.isFileName)
+	local isIgnoreCase = util.toboolean(param.isIgnoreCase)
 
 	local files = {}
 
-	if param.isNotEmpty(query) and param.isNotEmpty(directoryName) then
+	if util.isNotEmpty(query) and util.isNotEmpty(directoryName) then
 		local isPlainString = not isRegex
 
 		aggregateAllFilesContainingQuery(files, directoryName, query, filter, isPlainString, isFileName, isIgnoreCase)
 
-		if param.isNotEmpty(replace) and #files > 0 then
+		if util.isNotEmpty(replace) and #files > 0 then
 			replaceQuery(files, query, replace, isPlainString, isFileName, isIgnoreCase, param.repository, param.username, param.password)
 		end
 	end
@@ -113,7 +114,7 @@ local function process ()
 		externalJS = externalJS,
 		externalCSS = externalCSS,
 		initJS = parse(initJSTemplate, {
-			title = util.escapeCommandlineSpecialCharacters(query), 
+			title = fileutil.escapeCommandlineSpecialCharacters(query), 
 			files = json.encode(files)
 		})
 	})

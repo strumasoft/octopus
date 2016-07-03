@@ -1,10 +1,10 @@
-local json = require "dkjson"
+local json = require "json"
 local parse = require "parse"
-local param = require "param"
 local property = require "property"
 local localization = require "localization"
 local database = require "database"
 local exception = require "exception"
+local util = require "util"
 local localeService = require "localeService"
 local priceService = require "priceService"
 
@@ -26,7 +26,7 @@ local function process (db, data)
 
 
 	local categoryCode
-	local uries = param.split(ngx.var.uri, "/")
+	local uries = util.split(ngx.var.uri, "/")
 	if property.categoryUrl == "/" .. uries[#uries - 1] then
 		categoryCode = uries[#uries]
 	end

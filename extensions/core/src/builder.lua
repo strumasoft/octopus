@@ -156,10 +156,7 @@ end
 
 local function generateOverrideTypesTable (siteConfig)
 	if not hasExtension(siteConfig, "orm") then return end
-
-
-	local param = require "param"
-
+	
 
 	local function hasMany (type, property)
 		if property then
@@ -180,6 +177,7 @@ local function generateOverrideTypesTable (siteConfig)
 
 	local persistence = require "persistence"
 	local eval = require "eval"
+	local util = require "util"
 
 	local modules = {}
 	modules["_"] = siteConfig.databaseConnection
@@ -251,7 +249,7 @@ local function generateOverrideTypesTable (siteConfig)
 
 					-- check relation declaration
 					if property.type:find(".", 1, true) then
-						local typeAndProperty = param.split(property.type, ".")
+						local typeAndProperty = util.split(property.type, ".")
 						if modules[typeAndProperty[1]] then
 							local reference = modules[typeAndProperty[1]][typeAndProperty[2]]
 							if not reference or reference.type ~= from then 
@@ -294,7 +292,6 @@ end -- end generateOverrideTypesTable
 
 local function generateDatabaseListeners (siteConfig)
 
-	local param = require "param"
 	local persistence = require "persistence"
 
 
@@ -354,7 +351,7 @@ end -- end generateDatabaseListeners
 
 local function generatePropertyTable (siteConfig, type, last)
 
-	local json = require "dkjson"
+	local json = require "json"
 	local persistence = require "persistence"
 
 	local modules = {}
@@ -451,7 +448,7 @@ end -- end generateOverrideTable
 local function aggregateOverrideTable (siteConfig, modules, fileName, operation)
 
 	local parse = require "parse"
-	local json = require "dkjson"
+	local json = require "json"
 
 	local file = assert(io.open(fileName, "w"))
 
@@ -694,15 +691,15 @@ end -- end generateTestConfig
 
 
 local function build (siteConfig)
-	local util = require "util"
+	local fileutil = require "fileutil"
 	
-	util.removeDirectory(siteConfig.octopusHostDir .. "/build")
-	util.createDirectory(siteConfig.octopusHostDir .. "/build")
+	fileutil.removeDirectory(siteConfig.octopusHostDir .. "/build")
+	fileutil.createDirectory(siteConfig.octopusHostDir .. "/build")
 	local file = assert(io.open(siteConfig.octopusHostDir .. "/build/config.lua", "w"))
 	file:write(buildExtensionConfig)
 	file:close()
-	util.createDirectory(siteConfig.octopusHostDir .. "/build/src")
-	util.createDirectory(siteConfig.octopusHostDir .. "/build/static")
+	fileutil.createDirectory(siteConfig.octopusHostDir .. "/build/src")
+	fileutil.createDirectory(siteConfig.octopusHostDir .. "/build/static")
 	
 	siteConfig.properties = generatePropertyTable(siteConfig, "property", siteConfig.globalParameters)
 	siteConfig.localizations = generatePropertyTable(siteConfig, "localization")

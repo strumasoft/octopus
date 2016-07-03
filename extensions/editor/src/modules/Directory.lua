@@ -2,7 +2,7 @@ local m = {} -- module
 
 
 local lfs = require "lfs"
-local util = require "util"
+local fileutil = require "fileutil"
 
 
 local property = require "property"
@@ -19,7 +19,7 @@ function m.entries(dir)
 		end
 	end
 
-	util.noBackDirectory(dir)
+	fileutil.noBackDirectory(dir)
 
 	-- collect all entries in map with attributes
 	local map = {}

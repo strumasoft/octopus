@@ -1,4 +1,4 @@
-local json = require "dkjson"
+local json = require "json"
 local parse = require "parse"
 local param = require "param"
 local property = require "property"

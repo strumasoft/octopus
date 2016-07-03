@@ -1,5 +1,6 @@
-local json = require "dkjson"
+local json = require "json"
 local param = require "param"
+local util = require "util"
 local database = require "database"
 local types = require "types"
 
@@ -7,7 +8,7 @@ local types = require "types"
 local id = param.id
 local typeName = param.type
 
-if param.isNotEmpty(typeName) then
+if util.isNotEmpty(typeName) then
 	if types[typeName] then
 		local db = database.connect()
 		local op = db:operators()

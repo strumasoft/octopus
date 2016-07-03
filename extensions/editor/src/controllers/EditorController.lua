@@ -1,9 +1,10 @@
-local json = require "dkjson"
+local json = require "json"
 local parse = require "parse"
 local param = require "param"
 local property = require "property"
 local directory = require "Directory"
 local util = require "util"
+local fileutil = require "fileutil"
 
 
 
@@ -30,7 +31,7 @@ if directoryName then
 		dirs[#dirs + 1] = {path = attr.path, name = entry, mode = attr.mode}
 	end
 
-	local paths = param.split(directoryName, "/")
+	local paths = util.split(directoryName, "/")
 	parent = {path = directoryName, name = paths[#paths], mode = "directory"}
 
 	title = paths[#paths]
@@ -81,7 +82,7 @@ ngx.say(parse(require("BaselineHtmlTemplate"), {
 		editor.init()
 		editorNavigation.init()
 	]], {
-		title = util.escapeCommandlineSpecialCharacters(title),
+		title = fileutil.escapeCommandlineSpecialCharacters(title),
 		dirs = json.encode(dirs),
 		parent = json.encode(parent)
 	})

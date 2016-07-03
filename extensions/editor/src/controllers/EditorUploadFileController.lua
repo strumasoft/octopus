@@ -1,9 +1,11 @@
-local json = require "dkjson"
+local json = require "json"
 local param = require "param"
 local parse = require "parse"
 local upload = require "upload"
 local exit = require "exit"
 local exception = require "exception"
+local util = require "util"
+local fileutil = require "fileutil"
 
 
 
@@ -33,7 +35,11 @@ local function getFileName (res)
 	if res and res[1] and res[1] == "Content-Disposition" and res[2] then
 		local x, y = res[2]:indexOf('filename=', 1)
 		if x and y then
-			return res[2]:sub(y+2, #res[2]-1)
+			local simpleFileName = res[2]:sub(y+2, #res[2]-1)
+			
+			fileutil.noBackDirectory(simpleFileName)
+			
+			return simpleFileName
 		end
 		
 		exception("file name parameter not found")
@@ -82,15 +88,22 @@ end
 
 
 local function process ()
-	local files = uploadFiles(param.directoryName)
+	local directoryName = param.directoryName
+	if util.isNotEmpty(directoryName) then
+		fileutil.noBackDirectory(directoryName)
+		
+		local files = uploadFiles(directoryName)
 	
-	return parse(require("BaselineHtmlTemplate"), {
-		title = "Upload",
-		externalCSS = externalCSS,
-		initJS = parse(initJSTemplate, {
-			files = json.encode(files)
+		return parse(require("BaselineHtmlTemplate"), {
+			title = "Upload",
+			externalCSS = externalCSS,
+			initJS = parse(initJSTemplate, {
+				files = json.encode(files)
+			})
 		})
-	})
+	else
+		exception("directoryName is empty")
+	end
 end
 
 

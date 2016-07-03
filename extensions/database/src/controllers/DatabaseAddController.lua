@@ -1,11 +1,12 @@
-local json = require "dkjson"
+local json = require "json"
 local param = require "param"
+local util = require "util"
 local types = require "types"
 
 
 local typeName = param.type
 
-if param.isNotEmpty(typeName) then
+if util.isNotEmpty(typeName) then
 	if types[typeName] then
 		local arr = {}
 		for k,v in pairs(types[typeName]) do

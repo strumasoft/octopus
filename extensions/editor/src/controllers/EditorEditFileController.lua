@@ -1,4 +1,4 @@
-local json = require "dkjson"
+local json = require "json"
 local param = require "param"
 local property = require "property"
 local exit = require "exit"
@@ -6,6 +6,7 @@ local editor = require "Editor"
 local parse = require "parse"
 local directory = require "Directory"
 local util = require "util"
+local fileutil = require "fileutil"
 
 
 
@@ -46,7 +47,7 @@ local function process ()
 
 	local files = {fileName}
 
-	local paths = param.split(fileName, "/")
+	local paths = util.split(fileName, "/")
 	local title = paths[#paths]
 
 	return parse(require("BaselineHtmlTemplate"), {
@@ -54,7 +55,7 @@ local function process ()
 		externalJS = externalJS,
 		externalCSS = externalCSS,
 		initJS = parse(initJSTemplate, {
-			title = util.escapeCommandlineSpecialCharacters(title), 
+			title = fileutil.escapeCommandlineSpecialCharacters(title), 
 			files = json.encode(files)
 		})
 	})

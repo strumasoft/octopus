@@ -1,9 +1,9 @@
-local param = require "param"
 local property = require "property"
 local uuid = require "uuid"
 local cookie = require "cookie"
 local exception = require "exception"
 local uuid = require "uuid"
+local util = require "util"
 local userService = require "userService"
 local localeService = require "localeService"
 local countryService = require "countryService"
@@ -22,7 +22,7 @@ local function setCartCookie (cartId)
 		path = "/",
 		domain = ngx.var.server_name,
 		max_age = property.sessionTimeout,
-		secure = param.requireSecureToken(),
+		secure = util.requireSecureToken(),
 		httponly = true
 	})
 
@@ -71,7 +71,7 @@ local function getCart (db)
 		end
 	else
 		local cartCode, err = cookie:get(cartCookieName)
-		if param.isNotEmpty(cartCode) and not err then
+		if util.isNotEmpty(cartCode) and not err then
 			local res = db:find({cart = {code = op.equal(cartCode)}})
 			if #res > 0 then
 				local cart = res[1] -- get first cart
@@ -228,7 +228,7 @@ local function addToCart (db, productCode, quantity)
 
 	quantity = tonumber(quantity) -- convert quantity to number
 
-	if param.isNotEmpty(productCode) and param.isNotEmpty(quantity) and quantity > 0 then
+	if util.isNotEmpty(productCode) and util.isNotEmpty(quantity) and quantity > 0 then
 		quantity = math.floor(quantity) -- get the integer from quantity
 
 		local product = db:findOne({product = {code = op.equal(productCode)}})
@@ -259,7 +259,7 @@ end
 local function updateProductEntry (db, productEntryId, quantity)
 	quantity = tonumber(quantity) -- convert quantity to number
 
-	if param.isNotEmpty(productEntryId) and param.isNotEmpty(quantity) and quantity >= 0 then
+	if util.isNotEmpty(productEntryId) and util.isNotEmpty(quantity) and quantity >= 0 then
 		quantity = math.floor(quantity) -- get the integer from quantity
 
 		local cart = getCart(db)

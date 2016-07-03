@@ -1,6 +1,6 @@
-local json = require "dkjson"
-local param = require "param"
+local json = require "json"
 local exit = require "exit"
+local util = require "util"
 local database = require "database"
 
 
@@ -12,8 +12,8 @@ local op = db:operators()
 
 local function f ()
 	for i=1,#instancesToDelete do
-		local typeTo = param.split(instancesToDelete[i].to, ".")[1]
-		local typeFrom = param.split(instancesToDelete[i].from, ".")[1]
+		local typeTo = util.split(instancesToDelete[i].to, ".")[1]
+		local typeFrom = util.split(instancesToDelete[i].from, ".")[1]
 
 		if typeTo == typeFrom then -- self referencing
 			if instancesToDelete[i].from < instancesToDelete[i].to then

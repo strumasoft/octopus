@@ -1,7 +1,8 @@
-local json = require "dkjson"
+local json = require "json"
 local parse = require "parse"
 local param = require "param"
 local exit = require "exit"
+local util = require "util"
 
 
 
@@ -47,11 +48,11 @@ local function process ()
 
 	if param.log then
 		local limit
-		if param.isNotEmpty(param.limit) then limit = param.limit end
+		if util.isNotEmpty(param.limit) then limit = param.limit end
 
 		return repository.logHistory(username, password, directoryName, limit)
 	else
-		local paths = param.split(directoryName, "/")
+		local paths = util.split(directoryName, "/")
 
 		return parse(require("BaselineHtmlTemplate"), {
 			title = paths[#paths], 

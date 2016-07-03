@@ -1,9 +1,9 @@
-local json = require "dkjson"
+local json = require "json"
 local parse = require "parse"
-local param = require "param"
 local property = require "property"
 local localization = require "localization"
 local exception = require "exception"
+local util = require "util"
 local productService = require "DemoProductService"
 
 
@@ -13,7 +13,7 @@ local function process (data)
 
 
 	local productCode
-	local uries = param.split(ngx.var.uri, "/")
+	local uries = util.split(ngx.var.uri, "/")
 
 	if #uries < 3 then exception("product code required") end
 	productCode = uries[#uries]

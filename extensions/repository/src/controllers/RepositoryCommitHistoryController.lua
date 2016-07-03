@@ -1,7 +1,8 @@
-local json = require "dkjson"
+local json = require "json"
 local parse = require "parse"
 local param = require "param"
 local exit = require "exit"
+local util = require "util"
 
 
 
@@ -81,7 +82,7 @@ local function process ()
 		return json.encode(splitPatch(patch, delimiter))
 	else
 		local title
-		if param.isNotEmpty(oldRevision) then
+		if util.isNotEmpty(oldRevision) then
 			title = oldRevision .. ":" .. newRevision
 		else
 			title = newRevision

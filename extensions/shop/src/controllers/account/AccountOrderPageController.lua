@@ -1,10 +1,11 @@
-local json = require "dkjson"
+local json = require "json"
 local parse = require "parse"
 local param = require "param"
 local property = require "property"
 local localization = require "localization"
 local database = require "database"
 local exception = require "exception"
+local util = require "util"
 local localeService = require "localeService"
 local priceService = require "priceService"
 local cartService = require "cartService"
@@ -19,7 +20,7 @@ local function process (db, data)
 	data.locale = locale
 
 
-	if param.isNotEmpty(param.order) then
+	if util.isNotEmpty(param.order) then
 		local order = db:findOne({order = {id = op.equal(param.order)}})
 		data.order = cartService.convertCart(db, order)
 	else

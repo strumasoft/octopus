@@ -1,8 +1,8 @@
-local param = require "param"
 local property = require "property"
 local uuid = require "uuid"
 local cookie = require "cookie"
 local exception = require "exception"
+local util = require "util"
 
 
 
@@ -20,7 +20,7 @@ local function getCountry (db)
 	end
 
 	local countryIsocode, err = cookie:get(countryCookieName)
-	if param.isEmpty(countryIsocode) or err then
+	if util.isEmpty(countryIsocode) or err then
 		local country = db:findOne({country = {isocode = op.equal(property.defaultCountryIsocode)}})
 		ngx.ctx.country = country
 		return country

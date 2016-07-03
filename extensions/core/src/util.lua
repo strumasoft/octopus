@@ -1,167 +1,221 @@
-local lfs = require "lfs"
-local param = require "param"
-local exception = require "exception"
-
-
-local function noBackDirectory (path)
-	if path == ".." or path:find("/..", 1, true) or path:find("../", 1, true) then exception("no back directory allowed") end
+function string:trim()
+	return (self:gsub("^%s*(.-)%s*$", "%1"))
 end
 
 
-local function countBackDirectories (path)
-	local uris = param.split(path, "/")
-
-	if uris[#uris] == ".." or uris[#uris] == "." or uris[#uris] == "" then
-		exception("invalid path")
-	end
-
-	local back, entry = 0, 0
-	for i=1, #uris-1 do
-		if uris[i] == ".." then
-			back = back + 1
-			if uris[i+1] ~= ".." then -- end of pair
-				if entry < back then
-					exception("invalid path")
-				else
-					back, entry = 0, 0
-				end
-			end
-		elseif uris[i] ~= "." and uris[i] ~= "" then
-			entry = entry + 1
-		end
-	end
+function string:charAt(i)
+	return self:sub(i, i)
 end
 
 
-local function remove (file)
-	local attr, err = lfs.attributes(file)
-	if not attr then return end -- cannot obtain information from file / file does not exist
+function string:indexOf(s, i)
+	return self:find(s, i, true)
+end
 
-	if attr.mode == "directory" then
-		local dir = file
-		for entry in lfs.dir(dir) do
-			if entry ~= "." and entry ~= ".." then
-				local path
-				if dir ~= "/" then 
-					path = dir .. "/" .. entry
-				else
-					path = "/" .. entry
-				end
 
-				local attr = lfs.attributes(path)
-				if not attr then 
-					attr = lfs.symlinkattributes(path)
-				end
+function string:replace(x, y, isPlainString)
+	local iteratorIndex = 1
+	local substrings = {}
 
-				if not attr then
-					exception(path .. " has no attributes")
-				elseif attr.mode == "directory" then
-					remove(path)
-				else
-					local ok, err = os.remove(path)
-					if not ok then
-						exception(err)
-					end
-				end
+	repeat
+		local from, to = self:find(x, iteratorIndex, isPlainString)
+
+		if from then
+			substrings[#substrings + 1] = self:sub(iteratorIndex, from - 1)
+			substrings[#substrings + 1] = y
+			iteratorIndex = to + 1
+		else
+			substrings[#substrings + 1] = self:sub(iteratorIndex, self:len())
+		end
+	until from == nil
+
+	return table.concat(substrings) -- concatenate all substrings
+end
+
+
+function string:replaceQuery(x, y, isPlainString, isIgnoreCase)
+	if isIgnoreCase then
+		
+		require "utf8"
+		
+		local lowerSelf, lowerX
+		if string.isascii(x) then
+			lowerSelf = string.lower(self)
+			lowerX = string.lower(x)
+		else
+			lowerSelf = string.utf8lower(self)
+			lowerX = string.utf8lower(x)
+		end
+		
+		local iteratorIndex = 1
+		local substrings = {}
+	
+		repeat
+			local from, to = lowerSelf:find(lowerX, iteratorIndex, isPlainString)
+	
+			if from then
+				substrings[#substrings + 1] = self:sub(iteratorIndex, from - 1)
+				substrings[#substrings + 1] = y
+				iteratorIndex = to + 1
+			else
+				substrings[#substrings + 1] = self:sub(iteratorIndex, self:len())
 			end
-		end
-
-		local ok, err = os.remove(dir)
-		if not ok then
-			exception(err)
-		end
+		until from == nil
+	
+		return table.concat(substrings) -- concatenate all substrings
 	else
-		local ok, err = os.remove(file)
-		if not ok then
-			exception(err)
+		return self:replace(x, y, isPlainString)
+	end
+end
+
+
+function string:findQuery(x, iteratorIndex, isPlainString, isIgnoreCase)
+	if isIgnoreCase then
+		
+		require "utf8"
+		
+		local lowerSelf, lowerX
+		if string.isascii(x) then
+			lowerSelf = string.lower(self)
+			lowerX = string.lower(x)
+		else
+			lowerSelf = string.utf8lower(self)
+			lowerX = string.utf8lower(x)
 		end
-	end
-end
-
-
-local function filterFiles (dir, f)
-	if dir then
-		for entry in lfs.dir(dir) do
-			if entry ~= "." and entry ~= ".." then
-				local path
-				if dir ~= "/" then 
-					path = dir .. "/" .. entry
-				else
-					path = "/" .. entry
-				end
-
-				local attr = lfs.attributes(path)
-				if attr and attr.mode == "file" then
-					f(path)
-				end
-			end
-		end
-	end
-end
-
-
-local function createDirectory (path)
-	local ok, err = lfs.mkdir(path)
-	if not ok then
-		exception(err)
-	end
-end
-
-
-local function quoteCommandlineArgument (str)
-	if str then
-		return [[']] .. str:replace([[']], [['\'']], true) .. [[']]
+		
+		local from, to = lowerSelf:find(lowerX, iteratorIndex, isPlainString)
+		return from, to
 	else
-		return ""
+		local from, to = self:find(x, iteratorIndex, isPlainString)
+		return from, to
 	end
 end
 
 
-local specialCharacters = {
-	[[\]], -- must be first
-	[[`]], [[~]], [[!]], [[@]], [[#]], [[$]], [[%]], [[^]], [[&]], [[*]], [[(]], [[)]],
-	[=[]]=], [=[[]=], [[{]], [[}]], 
-	[[:]], [[;]], [["]], [[']], [[|]], 
-	[[>]], [[<]], [[.]], [[,]], [[?]], [[/]],
-	[[ ]], -- space must be last
-}
+local function hex_to_char (x)
+	return string.char(tonumber(x, 16))
+end
 
 
-local function escapeCommandlineSpecialCharacters (str)
-	if str then
-		for i=1,#specialCharacters do
-			str = str:replace(specialCharacters[i], "\\" .. specialCharacters[i], true)
-		end
-		return str
+local function unescape (url)
+	return url:gsub("%%(%x%x)", hex_to_char)
+end
+
+
+local function isNotEmpty (s)
+	return s ~= nil and s ~= ''
+end
+
+
+local function isEmpty (s)
+	return s == nil or s == ''
+end
+
+
+local function toboolean (s)
+	if isNotEmpty(s) then
+		if s == "true" then return true else return false end
 	else
-		return ""
+		return false
 	end
 end
 
 
-local function noCommandlineSpecialCharacters (str)
+local function split (s, separator, isRegex)
+	local isPlainText = not isRegex
+
+	local index = 1
+	local array = {}
+
+	local firstIndex, lastIndex = s:find(separator, index, isPlainText)
+	while firstIndex do
+		array[#array + 1] = s:sub(index, firstIndex - 1)
+		index = lastIndex + 1
+		firstIndex, lastIndex = s:find(separator, index, isPlainText)
+	end
+
+	if index <= #s then
+		array[#array + 1] = s:sub(index, #s)
+	end
+
+	return array
+end
+
+
+local function urlencode (str)
 	if str then
-		for i=1,#specialCharacters do
-			if str:find(specialCharacters[i], 1, true) then 
-				exception("no command line special characters")
+		str = string.gsub(str, "\n", "\r\n")
+		str = string.gsub(str, "([^%w ])",
+			function (c) return string.format ("%%%02X", string.byte(c)) end)
+		str = string.gsub(str, " ", "+")
+	end
+	return str    
+end
+
+
+local function urldecode (str)
+	if str then
+		str = string.gsub (str, "+", " ")
+		str = string.gsub(str, '%%(%x%x)', 
+			function (hex) return string.char(tonumber(hex, 16)) end)
+	end
+	return str
+end
+
+
+local function parseForm (form)
+	if not form then return {} end
+
+	local parameters = {}
+
+	local listOfKeysAndValues = split(form, "&")
+	for i=1, #listOfKeysAndValues do
+		local keyAndValue = split(listOfKeysAndValues[i], "=")
+		local key, value = keyAndValue[1], keyAndValue[2]
+		if parameters[key] then
+			if type(parameters[key]) == "string" then
+				parameters[key] = {parameters[key]} -- copy old value
 			end
+			parameters[key][#parameters[key] + 1] = value
+		else
+			parameters[key] = value
 		end
 	end
+
+	return parameters
+end
+
+
+local function requireSecureToken ()
+	local https = ngx.var.https
+	if https and https == "on" then
+		return true
+	else
+		return false
+	end
+end
+
+
+local function lengthOfObject (obj)
+	local i = 0
+	if obj then
+		for k,v in pairs(obj) do
+			i = i + 1
+		end
+	end
+	return i
 end
 
 
 return {
-	noBackDirectory = noBackDirectory,
-	countBackDirectories = countBackDirectories,
-
-	remove = remove,
-	removeFile = remove,
-	removeDirectory = remove,
-	createDirectory = createDirectory,
-
-	filterFiles = filterFiles,
-
-	quoteCommandlineArgument = quoteCommandlineArgument,
-	escapeCommandlineSpecialCharacters = escapeCommandlineSpecialCharacters,
-	noCommandlineSpecialCharacters = noCommandlineSpecialCharacters,
+	unescape = unescape,
+	isNotEmpty = isNotEmpty,
+	isEmpty = isEmpty,
+	toboolean = toboolean,
+	split = split,
+	urlencode = urlencode,
+	urldecode = urldecode,
+	parseForm = parseForm,
+	requireSecureToken = requireSecureToken,
+	lengthOfObject = lengthOfObject,
 }

@@ -1,11 +1,11 @@
-local json = require "dkjson"
+local json = require "json"
 local parse = require "parse"
-local param = require "param"
 local property = require "property"
 local localization = require "localization"
 local database = require "database"
 local exit = require "exit"
 local exception = require "exception"
+local util = require "util"
 local userService = require "userService"
 local localeService = require "localeService"
 local priceService = require "priceService"
@@ -25,7 +25,7 @@ local function process (db, data)
 	local user = userService.authenticatedUser(db)
 	if user then
 		local function addAddressTransaction ()
-			local address = param.parseForm(param.urldecode(ngx.req.get_body_data()))
+			local address = util.parseForm(util.urldecode(ngx.req.get_body_data()))
 			address.user = user
 			address.carts = {cart}
 			db:add({address = address})

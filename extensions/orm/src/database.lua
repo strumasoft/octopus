@@ -1,9 +1,9 @@
 local common = require("db.api.common")
-local param = require "param"
-local json = require "dkjson" -- DEBUG
+local json = require "json"
 local uuid = require "uuid"
 local exception = require "exception"
 local property = require "property"
+local util = require "util"
 
 
 --
@@ -28,8 +28,8 @@ local length = common.length
 --
 
 local function createRelation (from, to)
-	local typeTo = param.split(to, ".")[1]
-	local typeFrom = param.split(from, ".")[1]
+	local typeTo = util.split(to, ".")[1]
+	local typeFrom = util.split(from, ".")[1]
 
 	if from < to then
 		return {type = from .. "-" .. to}, true, typeTo == typeFrom
@@ -41,7 +41,7 @@ end
 
 local function checkIfToIsOne (types, d, p, from, to)
 	if to:find(".", 1, true) then
-		local typeAndProperty = param.split(to, ".")
+		local typeAndProperty = util.split(to, ".")
 		local referenceType = typeAndProperty[1]
 		local referenceProperty = typeAndProperty[2]
 
@@ -121,7 +121,7 @@ local function createRelations (types, update, d, o, id, p, index, from, to)
 			end
 
 			-- do not add if key/value is empty/null --> set list to empty
-			if param.isNotEmpty(relation.key) and param.isNotEmpty(relation.value) then
+			if util.isNotEmpty(relation.key) and util.isNotEmpty(relation.value) then
 				if o[relationName] then
 					o[relationName][#o[relationName] + 1] = {uuid(), relation.key, relation.value}
 				else
@@ -158,7 +158,7 @@ local function createRelations (types, update, d, o, id, p, index, from, to)
 		end
 
 		-- do not add if key/value is empty/null --> set list to empty
-		if param.isNotEmpty(relation.key) and param.isNotEmpty(relation.value) then
+		if util.isNotEmpty(relation.key) and util.isNotEmpty(relation.value) then
 			if o[relationName] then
 				o[relationName][#o[relationName] + 1] = {uuid(), relation.key, relation.value}
 			else
@@ -258,7 +258,7 @@ local function splitValueToJoinAndWhere (types, typeName, value, join, where, al
 
 				local referenceType
 				if property.type:find(".", 1, true) then
-					local typeAndProperty = param.split(property.type, ".")
+					local typeAndProperty = util.split(property.type, ".")
 					referenceType = typeAndProperty[1]
 				else
 					referenceType = property.type
@@ -473,7 +473,7 @@ getReferences = function (self, typeName, k, id)
 
 			local referenceType
 			if property.type:find(".", 1, true) then
-				local typeAndProperty = param.split(property.type, ".")
+				local typeAndProperty = util.split(property.type, ".")
 				referenceType = typeAndProperty[1]
 			else
 				referenceType = property.type
@@ -884,18 +884,18 @@ local function import (self, import)
 
 	if import.relations then
 		for typeName,typeMap in pairs(import.relations) do
-			local fromToRelation = param.split(typeName, "-")
+			local fromToRelation = util.split(typeName, "-")
 
 			local from
 			if fromToRelation[1]:find(".", 1, true) then
-				from = param.split(fromToRelation[1], ".")[1] -- first part
+				from = util.split(fromToRelation[1], ".")[1] -- first part
 			else
 				from = fromToRelation[1]
 			end
 
 			local to
 			if fromToRelation[2]:find(".", 1, true) then
-				to = param.split(fromToRelation[2], ".")[1] -- first part
+				to = util.split(fromToRelation[2], ".")[1] -- first part
 			else
 				to = fromToRelation[2]
 			end
@@ -991,7 +991,7 @@ local function addAll (self, proto, updateProto)
 
 				local referenceType
 				if property.type:find(".", 1, true) then
-					local typeAndProperty = param.split(property.type, ".")
+					local typeAndProperty = util.split(property.type, ".")
 					referenceType = typeAndProperty[1]
 				else
 					referenceType = property.type
