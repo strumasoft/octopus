@@ -136,6 +136,9 @@ local function bake(cookie)
         return nil, 'missing cookie field "key" or "value"'
     end
 
+	if cookie.domain == "localhost" then 
+		cookie.domain = ""
+	end
     if cookie["max-age"] then
         cookie.max_age = cookie["max-age"]
     end
