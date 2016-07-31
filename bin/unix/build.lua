@@ -10,7 +10,7 @@ http {
 
 	lua_package_cpath 'luajit/lib/?.so;';
 
-	init_by_lua 'require = require "autowire"';
+	init_by_lua 'require "cdefinitions"; require = require "autowire"';
 
 	types {
 		text/html html;	    

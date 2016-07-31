@@ -3,8 +3,8 @@ return {
 		user = {
 			admin = {
 				email               =   "test@test.com", -- password is "test"
-				passwordSalt        =   "sYrwUK0MS1QgIGzqPt3grVQM5+ycPaEUxzkPubTlqUs=",
-				passwordHash        =   "ARyAML1JazvjrKc054GayA==",
+				passwordSalt        =   "zKWphz33sAi5pwrzYZd6",
+				passwordHash        =   "wogaIGFxdoknQNYccls1r5ks/4pd27xuH15jeJDBHzA=",
 			}
 		},
 

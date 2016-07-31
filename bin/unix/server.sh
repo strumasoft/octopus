@@ -1,20 +1,10 @@
 #! /bin/bash
 
+
 ### prerequisites ###
 # sudo apt-get install libssl-dev
 # sudo apt-get install gcc g++ build-essential
 # sudo apt-get install lua5.1
-
-### nginx process ###
-# ps aux | grep nginx
-
-
-### sudo ###
-# export LD_LIBRARY_PATH="$LUAJIT_LIB":$LD_LIBRARY_PATH
-# sudo LD_LIBRARY_PATH="$LD_LIBRARY_PATH" ./nginx -s stop
-# sudo LD_LIBRARY_PATH="$LD_LIBRARY_PATH" ./nginx -c nginx.conf
-
-
 
 
 current_dir=$(pwd)
@@ -78,13 +68,13 @@ function nginx_install {
 
 
 	# install lfs
-	# libs/lfs.config
+	# config/lfs.config
 	lfs=luafilesystem
 	lfs_version=v_1_6_3
 	lfs_url=https://github.com/keplerproject/luafilesystem/archive/$lfs_version.tar.gz
 	download $lfs tar.gz $lfs_url
 	cd $destination_folder/$lfs-$lfs_version
-	cat $nginx_install/libs/lfs.config > config
+	cat $nginx_install/config/lfs.config > config
 	make
 	make install
 

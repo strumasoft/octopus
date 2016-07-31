@@ -1,6 +1,7 @@
 lua | http://www.lua.org/ | Copyright © 1994–2015 Lua.org, PUC-Rio.
 luajit | http://luajit.org/ | Copyright © 2005-2015 Mike Pall
 nginx | http://nginx.org/ | Copyright (C) 2011-2015 Nginx, Inc.
+openssl | https://www.openssl.org/ | Copyright (c) 1998-2016 The OpenSSL Project | Copyright (c) 1995-1998 Eric A. Young, Tim J. Hudson
 lua-nginx-module | https://github.com/openresty/lua-nginx-module | Copyright (C) 2009-2015, by Yichun "agentzh" Zhang (章亦春) agentzh@gmail.com, CloudFlare Inc.
 lua-resty-mysql | https://github.com/openresty/lua-resty-mysql | Copyright (C) 2012-2013, by Yichun "agentzh" Zhang (章亦春) agentzh@gmail.com, CloudFlare Inc.
 lua-resty-postgres | https://github.com/azurewang/lua-resty-postgres | Copyright (C) 2013 Azure Wang(azure1st@gmail.com)

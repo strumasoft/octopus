@@ -4,6 +4,7 @@ local cookie = require "cookie"
 local exception = require "exception"
 local util = require "util"
 local fileutil = require "fileutil"
+local crypto = require "crypto"
 
 
 local function authenticate (db, email, password)
@@ -11,14 +12,6 @@ local function authenticate (db, email, password)
 
 	if util.isNotEmpty(email) and util.isNotEmpty(password) then
 		local user = db:findOne({user = {email = op.equal(email)}})
-
-		--password = fileutil.escapeCommandlineSpecialCharacters(password)
-		password = fileutil.quoteCommandlineArgument(password)
-
-		local command = "java -jar ../crypto.jar encryptAndHashPassword " .. password .. " " .. user.passwordSalt
-		local f = assert(io.popen(command, "r"))
-		local content = f:read("*all")
-		f:close()
 
 		-- failed authentication policy
 		if user.failedLoginAttempts and user.failedLoginAttempts >= property.failedLoginAttempts then
@@ -37,24 +30,21 @@ local function authenticate (db, email, password)
 				return
 			end
 		end
-
-		if util.isNotEmpty(content) then
-			local hash = content:trim()
-			if hash == user.passwordHash then
-				-- failed authentication policy
-				user.failedLoginAttempts = 0
-				user.lastFailedLoginTime = os.time()
-				db:update({user = user})
-
-				return user -- user is successfully authenticated!
-			else
-				-- failed authentication policy
-				user.failedLoginAttempts = user.failedLoginAttempts + 1
-				user.lastFailedLoginTime = os.time()
-				if user.failedLoginAttempts >= property.failedLoginAttempts then user.token = "" end -- terminate session
-				db:update({user = user})
-				return
-			end
+		
+		local hash = crypto.passwordKey(password, user.passwordSalt)
+		if hash == user.passwordHash then
+			-- failed authentication policy
+			user.failedLoginAttempts = 0
+			user.lastFailedLoginTime = os.time()
+			db:update({user = user})
+			return user -- user is successfully authenticated!
+		else
+			-- failed authentication policy
+			user.failedLoginAttempts = user.failedLoginAttempts + 1
+			user.lastFailedLoginTime = os.time()
+			if user.failedLoginAttempts >= property.failedLoginAttempts then user.token = "" end -- terminate session
+			db:update({user = user})
+			return
 		end
 	end
 end
@@ -175,21 +165,9 @@ end
 
 
 local function register (db, email, password)
-	local eval = require "eval"
-
-	--password = fileutil.escapeCommandlineSpecialCharacters(password)
-	password = fileutil.quoteCommandlineArgument(password)
-
-	local command = "java -jar ../crypto.jar encryptAndHashPassword " .. password
-	local f = assert(io.popen(command, "r"))
-	local content = f:read("*all")
-	f:close()
-
-	if util.isNotEmpty(content) then
-		local hashAndSalt = eval.code(content, {}, true)
-		if util.isNotEmpty(hashAndSalt.hash) and util.isNotEmpty(hashAndSalt.salt) then
-			return db:add({user = {email = email, passwordHash = hashAndSalt.hash, passwordSalt = hashAndSalt.salt}})
-		end
+	local hash, salt = crypto.passwordKey(password)
+	if util.isNotEmpty(hash) and util.isNotEmpty(salt) then
+		return db:add({user = {email = email, passwordHash = hash, passwordSalt = salt}})
 	end
 end
 

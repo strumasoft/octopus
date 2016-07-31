@@ -3,6 +3,7 @@ local config = {} -- extension configuration
 config.modules = {
 	{name = "builder", script = "builder.lua"},
 	{name = "cookie", script = "cookie.lua"},
+	{name = "crypto", script = "crypto.lua"},
 	{name = "date", script = "date.lua"},
 	{name = "eval", script = "eval.lua"},
 	{name = "exception", script = "exception.lua"},

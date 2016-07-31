@@ -28,6 +28,15 @@ The heart of the system is the build process who creates all the necessary nginx
 . ./server.sh stop
 ```
 
+Prerequisites
+============
+
+```
+sudo apt-get install libssl-dev
+sudo apt-get install gcc g++ build-essential
+sudo apt-get install lua5.1
+```
+
 Set Up
 ============
 
@@ -42,6 +51,7 @@ then just open [localhost:7878](http://localhost:7878)
 
 Database, users and security
 ============
+
 * Set up database connection - databaseConnection object in [config.lua](extensions/config.lua)
 * Import test user from security extension [import.lua](extensions/security/src/import.lua) file in [localhost:7878/database](http://localhost:7878/database)
 ```lua
@@ -50,7 +60,7 @@ db:createAllTables()
 db:import("securityImport")
 db:import("shopImport")
 ```
-* Enable security - set `requireSecurity = true` in globalParameters object in [config.lua](extensions/config.lua)
+* Enable security - set `requireSecurity = true` in globalParameters object in [config.lua](extensions/config.lua) and edit database connection parameters
 
 Copyright and License
 =====================
