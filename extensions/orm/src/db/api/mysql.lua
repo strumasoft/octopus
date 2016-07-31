@@ -106,4 +106,7 @@ return {
 
 		return table.concat(sql)
 	end,
+	page = function (pageNumber, pageSize)
+		return " LIMIT " .. pageSize .. " OFFSET " .. (pageNumber-1)*pageSize
+	end,
 	}

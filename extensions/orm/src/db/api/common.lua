@@ -109,9 +109,9 @@ end
 
 
 --
--- find
+-- select
 --
-local function find (config, typeName, what, join, where)
+local function select (config, typeName, what, join, where, count, page)
 	-- construct sql --
 	local sql = {}
 
@@ -122,11 +122,15 @@ local function find (config, typeName, what, join, where)
 
 
 	sql[#sql + 1] = "SELECT "
-	for i=1,#what do
-		sql[#sql + 1] = config.escape .. typeName .. config.escape .. "." .. config.escape .. what[i] .. config.escape
-
-		if i < #what then
-			sql[#sql + 1] = ", "
+	if count then
+		sql[#sql + 1] = "COUNT(DISTINCT " .. config.escape .. typeName .. config.escape .. "." .. config.escape .. "id" .. config.escape .. ")"
+	else
+		for i=1,#what do
+			sql[#sql + 1] = config.escape .. typeName .. config.escape .. "." .. config.escape .. what[i] .. config.escape
+	
+			if i < #what then
+				sql[#sql + 1] = ", "
+			end
 		end
 	end
 
@@ -167,8 +171,15 @@ local function find (config, typeName, what, join, where)
 	end
 
 
-	sql[#sql + 1] = " GROUP BY "
-	sql[#sql + 1] =  config.escape .. typeName .. config.escape .. "." .. config.escape .. "id" .. config.escape
+	if not count then
+		sql[#sql + 1] = " GROUP BY "
+		sql[#sql + 1] =  config.escape .. typeName .. config.escape .. "." .. config.escape .. "id" .. config.escape
+	end
+	
+	
+	if page then
+		sql[#sql + 1] = config.page(page.number, page.size)
+	end
 
 
 	if property.usePreparedStatement and #where > 0 then
@@ -431,7 +442,7 @@ return {
 	dropTable = dropTable,
 
 	operators = operators,
-	find = find,
+	select = select,
 	add = add,
 	addBulk = addBulk,
 	delete = delete,
