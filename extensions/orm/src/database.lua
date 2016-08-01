@@ -549,7 +549,7 @@ getReferences = function (self, typeName, k, id)
 				where[#where + 1] = {type = typeName, property = "id", operation = {operator = self.tableConfig.operators.equal, value = id}}
 			end
 
-			local sql = common.select(self.tableConfig, referenceType, what, join, where, false, nil)
+			local sql = common.select(self.tableConfig, referenceType, what, join, where, false, nil, nil)
 			local res = query(self, sql)
 
 			return setUpReferences(self, referenceType, res, property.has == "one", from)
@@ -914,7 +914,7 @@ end
 --
 -- select
 --
-local function select (self, proto, references, count, page)
+local function select (self, proto, references, count, page, orderBy)
 	if length(proto) ~= 1 then
 		exception("find only one type") 
 	end
@@ -929,7 +929,7 @@ local function select (self, proto, references, count, page)
 
 		local what = getProperties(self.types, typeName)
 
-		local sql = common.select(self.tableConfig, typeName, what, join, where, count, page)
+		local sql = common.select(self.tableConfig, typeName, what, join, where, count, page, orderBy)
 		local res = query(self, sql)
 
 		local resWithReferences = setUpReferences(self, typeName, res, false)
@@ -1212,15 +1212,21 @@ local function connect ()
 		find = function (self, x1, x2, x3, x4)
 			if type(x1) == "table" then
 				local proto, references = x1, x2
-				local res, res2, res3, res4, res5 = protected(self, select, proto, references, false, nil)
+				local orderBy = proto.orderBy
+				if proto.orderBy then proto.orderBy = nil end -- remove orderBy
+				local res, res2, res3, res4, res5 = protected(self, select, proto, references, false, nil, orderBy)
 				return res, res2, res3, res4, res5
 			elseif type(x1) == "number" and type(x2) == "number" then
 				local pageNumber, pageSize, proto, references = x1, x2, x3, x4
-				local res, res2, res3, res4, res5 = protected(self, select, proto, references, false, {number = pageNumber, size = pageSize})
+				local orderBy = proto.orderBy
+				if proto.orderBy then proto.orderBy = nil end -- remove orderBy
+				local res, res2, res3, res4, res5 = protected(self, select, proto, references, false, {number = pageNumber, size = pageSize}, orderBy)
 				return res, res2, res3, res4, res5
 			elseif type(x1) == "number" and type(x2) == "table" then
 				local pageNumber, pageSize, proto, references = 1, x1, x2, x3
-				local res, res2, res3, res4, res5 = protected(self, select, proto, references, false, {number = pageNumber, size = pageSize})
+				local orderBy = proto.orderBy
+				if proto.orderBy then proto.orderBy = nil end -- remove orderBy
+				local res, res2, res3, res4, res5 = protected(self, select, proto, references, false, {number = pageNumber, size = pageSize}, orderBy)
 				return res, res2, res3, res4, res5
 			else
 				exception("illegal arguments")
@@ -1236,8 +1242,15 @@ local function connect ()
 				exception(next(proto) .. " must be one not many ==> " .. json.encode(res))
 			end
 		end,
-		count = function (self, proto, references)
-			local res = protected(self, select, proto, references, true, nil)
+		count = function (self, proto)
+			if type(proto) ~= "table" then
+				exception("illegal arguments")
+			end	
+			
+			-- remove orderBy in count
+			if proto.orderBy then proto.orderBy = nil end
+			
+			local res = protected(self, select, proto, nil, true, nil)
 			return res[1].count
 		end,
 		add = function (self, proto)

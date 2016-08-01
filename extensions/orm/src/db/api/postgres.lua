@@ -53,7 +53,9 @@ return {
 		lessThanOrEqual = "<=",
 		between = "BETWEEN",
 		like = "LIKE",
-		inside = "IN"
+		inside = "IN",
+		asc = "ASC",
+		desc = "DESC",
 		},
 	unique = " UNIQUE ",
 	notNull = " NOT NULL ",

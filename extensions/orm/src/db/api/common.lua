@@ -111,7 +111,7 @@ end
 --
 -- select
 --
-local function select (config, typeName, what, join, where, count, page)
+local function select (config, typeName, what, join, where, count, page, orderBy)
 	-- construct sql --
 	local sql = {}
 
@@ -174,6 +174,18 @@ local function select (config, typeName, what, join, where, count, page)
 	if not count then
 		sql[#sql + 1] = " GROUP BY "
 		sql[#sql + 1] =  config.escape .. typeName .. config.escape .. "." .. config.escape .. "id" .. config.escape
+	end
+	
+	
+	if orderBy then
+		sql[#sql + 1] = " ORDER BY "
+		for i=1,#orderBy do
+			sql[#sql + 1] = config.escape .. typeName .. config.escape .. "." .. config.escape .. orderBy[i].value .. config.escape .. " " .. orderBy[i].operator
+			
+			if i < #orderBy then
+				sql[#sql + 1] = " ,"
+			end
+		end
 	end
 	
 	
