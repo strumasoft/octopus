@@ -98,7 +98,7 @@ local function setErrorToCookie (errorMessage)
 		key = "error",
 		value = ngx.encode_base64(json.encode(errorMessage)), -- encode message
 		path = "/",
-		domain = ngx.var.server_name,
+		domain = ngx.var.host,
 		max_age = property.sessionTimeout,
 		secure = util.requireSecureToken(),
 		httponly = true
@@ -134,7 +134,7 @@ local function getAndDeleteErrorFromCookie (data)
 		key = "error",
 		value = errorMessage,
 		path = "/",
-		domain = ngx.var.server_name,
+		domain = ngx.var.host,
 		max_age = 0,
 		secure = util.requireSecureToken(),
 		httponly = true

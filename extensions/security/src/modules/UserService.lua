@@ -64,7 +64,7 @@ local function setToken (db, user)
 		key = "token",
 		value = user.token,
 		path = "/",
-		domain = ngx.var.server_name,
+		domain = ngx.var.host,
 		max_age = property.sessionTimeout,
 		secure = util.requireSecureToken(),
 		httponly = true
