@@ -19,6 +19,8 @@ config.property = {
 	editorCreateDirectoryUrl = "/createDirectory",
 	editorEditFileUrl = "/editFile",
 	editorUploadFileUrl = "/uploadFile",
+	
+	compareUrl = "/compare",
 }
 
 config.locations = {
@@ -33,6 +35,7 @@ config.locations = {
 	{name = property.editorUrl .. property.editorCreateDirectoryUrl, script = "controllers/operations/CreateDirectoryController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorEditFileUrl, script = "controllers/EditorEditFileController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorUploadFileUrl, script = "controllers/EditorUploadFileController.lua", uploadBody = "20M", access = "EditorRedirectOnSessionTimeoutFilter"},
+	{name = property.editorUrl .. property.compareUrl, script = "controllers/CompareController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 }
 
 config.access = {
@@ -50,6 +53,9 @@ config.javascripts = {
 	{name = "EditorSearchTemplate", script = "controllers/EditorSearchTemplate.js"},
 	{name = "EditorSearchHeader", script = "widgets/EditorSearchHeader.js"},
 	{name = "UploadResult", script = "widgets/UploadResult.js"},
+	{name = "CompareEditor", script = "widgets/CompareEditor.js"},
+	{name = "CompareTabs", script = "widgets/CompareTabs.js"},
+	{name = "CompareHeader", script = "widgets/CompareHeader.js"},
 }
 
 config.stylesheets = {

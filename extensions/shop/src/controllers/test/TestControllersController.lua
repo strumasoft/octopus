@@ -3,7 +3,7 @@ local json = require "json"
 local param = require "param"
 
 
-local internalJS = [[
+local externalJS = [[
 	<script type="text/javascript" src="/static/tests.js"></script>
 ]]
 
@@ -15,7 +15,7 @@ local initJS = [[
 
 local page = parse(require("BaselineHtmlTemplate"), {
 	title = "Test Controllers",
-	internalJS = internalJS,
+	externalJS = externalJS,
 	initJS = initJS
 })
 

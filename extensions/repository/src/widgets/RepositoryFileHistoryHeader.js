@@ -215,7 +215,12 @@ Widget.decoratePatch = function (text) {
 		{open: "\r+", close: "\r", bypass: "\r+++"}, 
 		{open: "\r-", close: "\r", bypass: "\r---"}
 	]
-	var wrappers = [{open: "<ins>", close: "</ins>"}, {open: "<del>", close: "</del>"}]
+	var wrappers = [
+		{open: "<ins>", close: "</ins>"}, 
+		{open: "<del>", close: "</del>"}, 
+		{open: "<ins>", close: "</ins>"}, 
+		{open: "<del>", close: "</del>"}
+	]
 
 	var substrings = []
 

@@ -129,7 +129,9 @@ local function split (s, separator, isRegex)
 
 	local firstIndex, lastIndex = s:find(separator, index, isPlainText)
 	while firstIndex do
-		array[#array + 1] = s:sub(index, firstIndex - 1)
+		if firstIndex ~= 1 then
+			array[#array + 1] = s:sub(index, firstIndex - 1)
+		end
 		index = lastIndex + 1
 		firstIndex, lastIndex = s:find(separator, index, isPlainText)
 	end

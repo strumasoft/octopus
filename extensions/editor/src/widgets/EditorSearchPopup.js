@@ -12,7 +12,7 @@ Widget.EditorSearchPopup = function (data) {
 			<h1>{{info}}</h1>
 		}}?
 
-		<input class="spaced-down" type="text" id="{{queryGuid}}" placeholder="Query" />
+		<input class="space-down-popup-input" type="text" id="{{queryGuid}}" placeholder="Query" />
 		
 		<input type="radio" id="{{isRegexGuid}}" name="queryOptions" >
 		<label for="{{isRegexGuid}}">Regex</label>
@@ -25,9 +25,9 @@ Widget.EditorSearchPopup = function (data) {
 		<input type="checkbox" id="{{isFileNameGuid}}" name="{{isFileNameGuid}}" >
 		<label for="{{isFileNameGuid}}">File Name</label>
 
-		<input class="spaced-down" type="text" id="{{replaceGuid}}" placeholder="Replace" />
+		<input class="space-down-popup-input" type="text" id="{{replaceGuid}}" placeholder="Replace" />
 
-		<input class="spaced-down" type="text" id="{{filterGuid}}" placeholder="Filter" />
+		<input class="space-down-popup-input" type="text" id="{{filterGuid}}" placeholder="Filter" />
 
 		<br/>
 

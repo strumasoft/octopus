@@ -18,8 +18,8 @@ Widget.Editor.prototype = {
 		aceEditor.getSession().setUseSoftTabs(false)
 		//aceEditor.getSession().setUseWorker(false) // disable syntax checker and information
 
-		document.getElementById(this.data.id).style.fontSize = "14px"
-		document.getElementById(this.data.id).style.height = Widget.EditorTemplate.maxHeight()
+		this.setFontSize("14px")
+		this.setHeight(Widget.EditorTemplate.maxHeight())
 
 		aceEditor.on('change', function (e) {
 			// e.data.action - insertLines|insertText|removeLines|removeText
@@ -90,5 +90,13 @@ Widget.Editor.prototype = {
 		}
 
 		this.aceEditor.getSession().setMode(mode)
+	}, 
+	
+	setFontSize: function (x) {
+		document.getElementById(this.data.id).style.fontSize = x
+	},
+	
+	setHeight: function (x) {
+		document.getElementById(this.data.id).style.height = x
 	}
 }

@@ -6,36 +6,36 @@
 		reset: 'full',
 		breakpoints: {
 			global: {
-				href: '/baseline/static/css/style.css',
+				href: '',
 				containers: '90%',
 				grid: { gutters: ['2em', 0] }
 			},
 			xlarge: {
 				media: '(max-width: 1680px)',
-				href: '/baseline/static/css/style-xlarge.css',
+				href: '',
 				containers: '90%'
 			},
 			large: {
 				media: '(max-width: 1280px)',
-				href: '/baseline/static/css/style-large.css',
+				href: '',
 				containers: '90%',
 				grid: { gutters: ['1.5em', 0] },
 				viewport: { scalable: false }
 			},
 			medium: {
 				media: '(max-width: 980px)',
-				href: '/baseline/static/css/style-medium.css',
+				href: '/baseline/static/js/skel.nav.css',
 				containers: '90%'
 			},
 			small: {
 				media: '(max-width: 736px)',
-				href: '/baseline/static/css/style-small.css',
+				href: '',
 				containers: '90%',
 				grid: { gutters: ['1.25em', 0] }
 			},
 			xsmall: {
 				media: '(max-width: 480px)',
-				href: '/baseline/static/css/style-xsmall.css'
+				href: ''
 			}
 		},
 		plugins: {

@@ -445,19 +445,23 @@ local function generateOverrideTable (siteConfig, type, extras)
 end -- end generateOverrideTable
 
 
-local function aggregateOverrideTable (siteConfig, modules, fileName, operation)
+local function aggregateOverrideTable (siteConfig, modules, fileName, meta)
 
 	local parse = require "parse"
 	local json = require "json"
 
 	local file = assert(io.open(fileName, "w"))
 
-	if operation == "json" then
+	if meta.json then
 		file:write("/* property */ \n\n")
 		file:write("var property = " .. json.encode(siteConfig.properties) .. "\n\n\n")
 
 		file:write("/* localization */ \n\n")
 		file:write("var localization = " .. json.encode(siteConfig.localizations) .. "\n\n\n")
+	end
+	
+	if meta.css then
+		file:write('@charset "UTF-8"; \n\n\n')
 	end
 
 	for i=1, #siteConfig.extensions do
@@ -472,7 +476,7 @@ local function aggregateOverrideTable (siteConfig, modules, fileName, operation)
 
 					file:write(string.format("/* [%s] %s */ \n\n", name, script))
 
-					if operation == "parse" then 
+					if meta.parse then 
 						file:write(parse(content, siteConfig.properties) .. "\n\n\n")
 					else
 						file:write(content .. "\n\n\n")
@@ -660,7 +664,7 @@ local function generateJavaScriptConfig (siteConfig)
 	if minifyJavaScript then javaScriptFileName = siteConfig.octopusHostDir .. "/build/static/widgets.original.js" end
 
 	local javascripts = generateOverrideTable(siteConfig, "javascripts")
-	aggregateOverrideTable(siteConfig, javascripts, javaScriptFileName, "json")
+	aggregateOverrideTable(siteConfig, javascripts, javaScriptFileName, {json = true})
 
 	if minifyJavaScript then
 		javaScriptMinFileName = siteConfig.octopusHostDir .. "/build/static/widgets.js"
@@ -675,7 +679,7 @@ local function generateStyleSheetConfig (siteConfig)
 	styleSheetFileName = siteConfig.octopusHostDir .. "/build/static/widgets.css" 
 
 	local stylesheets = generateOverrideTable(siteConfig, "stylesheets")
-	aggregateOverrideTable(siteConfig, stylesheets, styleSheetFileName, "parse")
+	aggregateOverrideTable(siteConfig, stylesheets, styleSheetFileName, {css = true, parse = true})
 
 end -- end generateStyleSheetConfig
 
@@ -685,7 +689,7 @@ local function generateTestConfig (siteConfig)
 	testFileName = siteConfig.octopusHostDir .. "/build/static/tests.js" 
 
 	local tests = generateOverrideTable(siteConfig, "tests")
-	aggregateOverrideTable(siteConfig, tests, testFileName)
+	aggregateOverrideTable(siteConfig, tests, testFileName, {})
 
 end -- end generateTestConfig
 

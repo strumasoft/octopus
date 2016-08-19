@@ -18,6 +18,12 @@ Widget.EditorHeader = function (title) {
 						href="{{@ property.databaseUrl + property.databaseHomeUrl}}" target="_blank">
 						<i class="fa fa-database"></i></a>
 					</li>
+					
+					<!-- Comapre -->
+					<li><a id="compare" class="hand" style="color: white;"
+						href="{{@ property.editorUrl + property.compareUrl}}" target="_blank">
+						<i class="fa fa-files-o"></i></a>
+					</li>
 
 					<!-- Search -->
 					<li><div id="search" class="hand" 

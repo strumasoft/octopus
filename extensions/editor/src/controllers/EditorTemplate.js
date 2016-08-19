@@ -28,5 +28,5 @@ Widget.EditorTemplate.prototype = {
 }
 
 Widget.EditorTemplate.maxHeight = function () {
-	return window.innerHeight - Widget.EditorHeader.height() - 30 + "px"
+	return window.innerHeight - Widget.EditorHeader.height() - 80 + "px"
 }

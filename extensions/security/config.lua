@@ -28,6 +28,7 @@ config.stylesheets = {
 }
 
 config.modules = {
+	{name = "testUser", script = "testUser.lua"},
 	{name = "securityImport", script = "import.lua"},
 	{name = "userService", script = "modules/UserService.lua"}
 }

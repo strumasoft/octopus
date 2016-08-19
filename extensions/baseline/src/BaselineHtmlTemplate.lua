@@ -1,7 +1,4 @@
-
-
 return [[
-
 	<!DOCTYPE html>
 	<html lang="en">
 	<head>
@@ -10,39 +7,30 @@ return [[
 		<meta name="description" content="{{description}}" />
 		<meta name="keywords" content="{{keywords}}" />
 		<meta name="author" content="{{author}}">
+		
 
+		{{externalCSS}}
+		<link rel="stylesheet" type="text/css" href="/baseline/static/css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="/build/static/widgets.css" />
+		<style type="text/css">
+			{{customCSS}}
+		</style>
 
 		<!--[if lte IE 8]><script src="/baseline/static/js/html5shiv.js"></script><![endif]-->
 		<script type="text/javascript" src="/baseline/static/js/jquery.min.js"></script>
 		<script type="text/javascript" src="/baseline/static/js/skel.min.js"></script>
 		<script type="text/javascript" src="/baseline/static/js/skel-layers.min.js"></script>
-
+		
+		<noscript>
+			<link rel="stylesheet" type="text/css" href="/baseline/static/js/skel.css" />
+		</noscript>
+		
 		{{externalJS}}
-
 		<script type="text/javascript" src="/build/static/widgets.js"></script>
-
-		{{internalJS}}
-
 		<script type="text/javascript">
 			{{customJS}}
 		</script>
-
-		<noscript>
-			<link rel="stylesheet" type="text/css" href="/baseline/static/css/skel.css" />
-			<link rel="stylesheet" type="text/css" href="/baseline/static/css/style.css" />
-			<link rel="stylesheet" type="text/css" href="/baseline/static/css/style-xlarge.css" />
-		</noscript>
-
-
-		{{externalCSS}}
-
-		<link rel="stylesheet" type="text/css" href="/build/static/widgets.css" />
-
-		{{internalCSS}}
-
-		<style type="text/css">
-			{{customCSS}}
-		</style>
+		
 	</head>
 
 	<body id="top">
@@ -53,5 +41,4 @@ return [[
 		</script>
 	</body>
 	</html>
-
 ]]

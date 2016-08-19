@@ -215,16 +215,20 @@ function multiLineString (f) {
 /*
 	* parse template
 	* 
-	* f - multi line string function to be parsed
+	* x - multi line string function OR text to be parsed
 	* data - table of data
 	* 
 	*/
-function parse(f, data) {
-	var text = multiLineString(f)
+function parse(x, data) {
+	var text
+	if (typeof x === "function") {
+		text = multiLineString(x)
+	} else {
+		text = x
+	}
 
 	return transform(text, data, {open: "{{", close: "}}", preserve: false}, 0, {}, 0)
 }
-
 
 
 

@@ -8,7 +8,7 @@ Widget.ThreeFieldsPopup = function (data) {
 			<h1>{{info}}</h1>
 		}}?
 
-		<input class="spaced-down"
+		<input class="space-down-popup-input"
 			{{? password == 1
 				type="password"
 			}}?
@@ -17,7 +17,7 @@ Widget.ThreeFieldsPopup = function (data) {
 			}}?
 			id="{{guid1}}" placeholder="{{placeholder1}}" value="" />
 
-		<input class="spaced-down"
+		<input class="space-down-popup-input"
 			{{? password == 2
 				type="password"
 			}}?
@@ -26,7 +26,7 @@ Widget.ThreeFieldsPopup = function (data) {
 			}}? 
 			id="{{guid2}}" placeholder="{{placeholder2}}" value="" />
 
-		<input class="spaced-down"
+		<input class="space-down-popup-input"
 			{{? password == 3
 				type="password"
 			}}?
