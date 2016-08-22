@@ -24,7 +24,7 @@
 			},
 			medium: {
 				media: '(max-width: 980px)',
-				href: '/baseline/static/js/skel.nav.css',
+				href: '/build/static/nav.css',
 				containers: '90%'
 			},
 			small: {

@@ -16,6 +16,7 @@ config.property = {
 	baseline_color04 = "#f6f6f6",
 	baseline_color05 = "#f2f2f2",
 	baseline_color06 = "0, 0, 0",
+	baseline_color07 = "#555",
 	
 	baseline_font1 = "Arial, Helvetica, sans-serif",
 	baseline_font2 = '"Courier New", monospace',
@@ -37,6 +38,10 @@ config.javascripts = {
 config.stylesheets = {
 	{name = "style", script = "widgets/style.css"},
 	{name = "Popup", script = "widgets/popup/Popup.css"}
+}
+
+config.parse = {
+	{name = "/build/static/nav.css", script = "widgets/nav.css"}
 }
 
 config.static = {

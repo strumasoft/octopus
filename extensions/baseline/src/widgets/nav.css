@@ -46,9 +46,9 @@
 		}
 
 		#navButton .toggle:before {
-			background: rgba(144, 144, 144, 0.65);
+			background: rgba({{baseline_color5}}, 0.65);
 			border-radius: 4px;
-			color: #fff;
+			color: {{baseline_color1}};
 			display: block;
 			font-size: 16px;
 			height: 2.25em;
@@ -61,8 +61,8 @@
 		}
 
 	#navPanel {
-		background: #444;
-		color: #fff;
+		background: {{baseline_color2}};
+		color: {{baseline_color1}};
 	}
 
 		#navPanel nav {
@@ -84,8 +84,8 @@
 					}
 
 					#navPanel nav ul li a:not(.button), #navPanel nav ul li span:not(.button) {
-						border-top: solid 1px #555;
-						color: #fff;
+						border-top: solid 1px {{baseline_color07}};
+						color: {{baseline_color1}};
 						display: block;
 						padding: 0.75em 0;
 						text-decoration: none;

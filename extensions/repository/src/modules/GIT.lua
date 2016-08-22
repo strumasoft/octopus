@@ -308,7 +308,7 @@ function m.add (username, password, path, directoryName)
 		path = paths[#paths]
 
 		paths[#paths] = nil
-		directoryName = table.concat(paths, "/")
+		directoryName = "/" .. table.concat(paths, "/")
 
 		fileutil.noBackDirectory(path)
 		fileutil.noBackDirectory(directoryName)
@@ -346,7 +346,7 @@ function m.delete (username, password, path, directoryName)
 		path = paths[#paths]
 
 		paths[#paths] = nil
-		directoryName = table.concat(paths, "/")
+		directoryName = "/" .. table.concat(paths, "/")
 
 		fileutil.noBackDirectory(path)
 		fileutil.noBackDirectory(directoryName)

@@ -9,6 +9,7 @@ config.modules = {
 	{name = "localization", script = "localization.lua"},
 	--locations.lua
 	{name = "modules", script = "modules.lua"},
+	--parse.lua
 	{name = "property", script = "property.lua"},
 	--static.lua
 	--stylesheets.lua
@@ -694,6 +695,28 @@ local function generateTestConfig (siteConfig)
 end -- end generateTestConfig
 
 
+local function generateParseConfig (siteConfig)
+	
+	local parse = require "parse"
+	
+	local parseScripts = generateOverrideTable(siteConfig, "parse")
+	
+	for name, scripts in pairs(parseScripts) do
+		local scriptFileName = scripts[#scripts] -- use only last script
+		
+		local f = assert(io.open(scriptFileName, "r"))
+		local content = f:read("*all")
+		f:close()
+					
+		local parsedContent = parse(content, siteConfig.properties)
+		
+		local file = assert(io.open(siteConfig.octopusHostDir .. name, "w"))
+		file:write(parsedContent)
+		file:close()
+	end
+end -- end generateParseConfig
+
+
 local function build (siteConfig)
 	local fileutil = require "fileutil"
 	
@@ -708,6 +731,7 @@ local function build (siteConfig)
 	siteConfig.properties = generatePropertyTable(siteConfig, "property", siteConfig.globalParameters)
 	siteConfig.localizations = generatePropertyTable(siteConfig, "localization")
 
+	generateParseConfig(siteConfig)
 	generateJavaScriptConfig(siteConfig)
 	generateStyleSheetConfig(siteConfig)
 	generateTestConfig(siteConfig)
@@ -730,5 +754,6 @@ m.generateModulesConfig = generateModulesConfig
 m.generateJavaScriptConfig = generateJavaScriptConfig
 m.generateStyleSheetConfig = generateStyleSheetConfig
 m.generateTestConfig = generateTestConfig
+m.generateParseConfig = generateParseConfig
 m.build = build
 return m
