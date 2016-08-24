@@ -165,11 +165,13 @@ local function logHistory (directoryName, limit)
 	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
 	fileutil.noCommandlineSpecialCharacters(limit)
+	
+	local pretty = [[--pretty=format:'------------------------------------------------------------------------%n%H %d | %an <%ce> | %cd (%cr)%n%n  %s%n']]
 
 	if limit then
-		return string.format([[cd %s && git log --name-status --decorate --graph --all -n %s]] .. property.redirectErrorToOutputStream, directoryName, limit)
+		return string.format([[cd %s && git log --name-status %s -n %s]] .. property.redirectErrorToOutputStream, directoryName, pretty, limit)
 	else
-		return string.format([[cd %s && git log --name-status --decorate --graph --all]] .. property.redirectErrorToOutputStream, directoryName)
+		return string.format([[cd %s && git log --name-status %s]] .. property.redirectErrorToOutputStream, directoryName, pretty)
 	end
 end
 

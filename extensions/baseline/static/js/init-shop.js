@@ -57,11 +57,9 @@
 				},
 				navButton: {
 					breakpoints: 'medium',
-					height: '4em',
 					html: '<span class="toggle" data-action="toggleLayer" data-args="navPanel"></span>',
 					position: 'top-left',
-					side: 'top',
-					width: '6em'
+					side: 'top'
 				}
 			}
 		}
