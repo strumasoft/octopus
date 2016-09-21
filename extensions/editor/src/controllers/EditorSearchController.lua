@@ -63,7 +63,7 @@ local function aggregateAllFilesContainingQuery (files, directoryName, query, fi
 end
 
 
-local function replaceQuery (files, query, replace, isPlainString, isFileName, isIgnoreCase, repository, username, password)
+local function replaceQuery (files, directoryName, query, replace, isPlainString, isFileName, isIgnoreCase, repository, username, password)
 	for i=1,#files do
 		if isFileName then
 			local oldName = files[i]
@@ -71,7 +71,7 @@ local function replaceQuery (files, query, replace, isPlainString, isFileName, i
 
 			if util.isNotEmpty(repository) and util.isNotEmpty(username) and util.isNotEmpty(password) then
 				local repo = require(repository)
-				repo.move(username, password, oldName, newName)
+				repo.move(username, password, oldName, newName, directoryName)
 			else
 				editor.rename(oldName, newName)
 			end
@@ -104,7 +104,7 @@ local function process ()
 		aggregateAllFilesContainingQuery(files, directoryName, query, filter, isPlainString, isFileName, isIgnoreCase)
 
 		if util.isNotEmpty(replace) and #files > 0 then
-			replaceQuery(files, query, replace, isPlainString, isFileName, isIgnoreCase, param.repository, param.username, param.password)
+			replaceQuery(files, directoryName, query, replace, isPlainString, isFileName, isIgnoreCase, param.repository, param.username, param.password)
 		end
 	end
 
