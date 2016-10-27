@@ -6,7 +6,7 @@ Widget.OneFieldPopup = function (data) {
 			<h1>{{info}}</h1>
 		}}?
 
-		<input class="space-down-popup-input"
+		<input class="spaced-down"
 			{{? password == 1
 				type="password"
 			}}?

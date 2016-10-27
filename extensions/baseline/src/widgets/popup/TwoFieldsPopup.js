@@ -7,7 +7,7 @@ Widget.TwoFieldsPopup = function (data) {
 			<h1>{{info}}</h1>
 		}}?
 
-		<input class="space-down-popup-input"
+		<input class="spaced-down"
 			{{? password == 1
 				type="password"
 			}}?
@@ -16,7 +16,7 @@ Widget.TwoFieldsPopup = function (data) {
 			}}?
 			id="{{guid1}}" placeholder="{{placeholder1}}" value="" />
 
-		<input class="space-down-popup-input"
+		<input class="spaced-down"
 			{{? password == 2
 				type="password"
 			}}?
