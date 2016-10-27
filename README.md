@@ -45,7 +45,7 @@ Set Up
 Minimum set up script:
 
 ```bash
-cd octopus/bin/unix
+cd bin/unix
 . ./server.sh install
 . ./server.sh restart
 ```
