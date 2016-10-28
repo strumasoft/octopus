@@ -1,5 +1,5 @@
-Octopus - The Lua Web Platform
-==============================
+Octopus - The Lua Web Framework
+===============================
 
 Home page at [cyberz.eu](http://cyberz.eu/octopus)
 
@@ -16,6 +16,8 @@ The heart of the system is the build process who creates all the necessary nginx
 [build.lua](bin/unix/build.lua) together with [config.lua](extensions/config.lua) are responsible for configurating the build/generation process, while [server.sh](bin/unix/server.sh) is responsible for the actual building, installing, starting, stoping and restarting the server:
 
 ```bash
+# go to bin directory
+cd bin/unix
 # install nginx
 . ./server.sh install
 # build octopus and restart server
@@ -43,7 +45,7 @@ Set Up
 Minimum set up script:
 
 ```bash
-cd octopus/bin/unix
+cd bin/unix
 . ./server.sh install
 . ./server.sh restart
 ```
