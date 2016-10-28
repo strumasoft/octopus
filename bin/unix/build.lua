@@ -12,28 +12,21 @@ http {
 
 	init_by_lua 'require "cdefinitions"; require = require "autowire"';
 
-	types {
-		text/html html;	    
-		text/css css;
-		application/javascript js;	    
-		image/png png;
-		image/gif gif;	    
-		image/jpeg jpeg;
-		image/jpg jpg;    
-		image/x-icon ico;
-		application/pdf pdf;
-	}
+	# mime types
+	include mime.types;
 
-	# Regular servers
+	# applications
 	include nginx.config.*;
 
 } # end of http
 
 events { 
-	worker_connections 1024;
+	worker_connections 4096;
+	multi_accept        on;
+	use                 epoll;
 } # end of events
 
-worker_processes 2;
+worker_processes auto;
 ]]
 
 
