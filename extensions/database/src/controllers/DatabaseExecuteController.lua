@@ -3,6 +3,7 @@ local parse = require "parse"
 local json = require "json"
 local param = require "param"
 local database = require "database"
+local property = require "property"
 
 
 -- prepare cript
@@ -19,7 +20,10 @@ end
 
 local db = database.connect()
 local op = db:operators()
-db.query = nil -- forbid direct sql query
+
+if property.forbidDirectSqlQuery then
+	db.query = nil
+end
 
 local status, res, typeName = pcall(f, {db = db, op = op})
 db:close()

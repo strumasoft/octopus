@@ -1,6 +1,8 @@
 local config = {} -- extension configuration
 
 config.property = {
+	forbidDirectSqlQuery = true,
+	
 	mainColor = "#49bf9d",
 	selectedColor = "#1e90ff",
 
