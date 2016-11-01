@@ -21,7 +21,7 @@ http {
 } # end of http
 
 events { 
-	worker_connections 4096;
+	worker_connections  4096;
 	multi_accept        on;
 	use                 epoll;
 } # end of events

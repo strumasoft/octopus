@@ -36,7 +36,6 @@ Prerequisites
 ```
 sudo apt-get install libssl-dev
 sudo apt-get install gcc g++ build-essential
-sudo apt-get install lua5.1
 ```
 
 Set Up

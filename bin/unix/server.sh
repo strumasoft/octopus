@@ -4,7 +4,6 @@
 ### prerequisites ###
 # sudo apt-get install libssl-dev
 # sudo apt-get install gcc g++ build-essential
-# sudo apt-get install lua5.1
 
 
 current_dir=$(pwd)
@@ -13,6 +12,7 @@ export destination_folder="$current_dir/downloads"
 export luajit_install="$current_dir/luajit"
 export nginx_install="$current_dir"
 
+export LUAJIT_BIN=$luajit_install/bin
 export LUAJIT_LIB=$luajit_install/lib
 export LUAJIT_INC=$luajit_install/include/luajit-2.0
 
@@ -130,7 +130,7 @@ function nginx_stop {
 # $1 is the name of the build
 function nginx_build {
 	if [ -e "build.lua" ]; then
-		lua build.lua $1
+		$LUAJIT_BIN/luajit build.lua $1
 	fi
 }
 
@@ -138,7 +138,7 @@ function nginx_build {
 # $1 is the name of the build
 function nginx_restart {
 	if [ -e "build.lua" ]; then
-		lua build.lua $1
+		$LUAJIT_BIN/luajit build.lua $1
 
 		if [ $? -eq 0 ]; then
 			export LD_LIBRARY_PATH="$LUAJIT_LIB":$LD_LIBRARY_PATH
