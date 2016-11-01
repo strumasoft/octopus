@@ -129,30 +129,22 @@ function nginx_stop {
 
 # $1 is the name of the build
 function nginx_build {
-	if [ -e "build.lua" ]; then
-		$LUAJIT_BIN/luajit build.lua $1
-	fi
+	$LUAJIT_BIN/luajit build.lua $1
 }
 
 
 # $1 is the name of the build
 function nginx_restart {
-	if [ -e "build.lua" ]; then
-		$LUAJIT_BIN/luajit build.lua $1
+	$LUAJIT_BIN/luajit build.lua $1
 
-		if [ $? -eq 0 ]; then
-			export LD_LIBRARY_PATH="$LUAJIT_LIB":$LD_LIBRARY_PATH
-			./nginx -s stop
-			./nginx -c nginx.conf
-
-			echo "" > logs/error.log
-			echo "" > logs/access.log
-			tail -f logs/error.log
-		fi
-	else
+	if [ $? -eq 0 ]; then
 		export LD_LIBRARY_PATH="$LUAJIT_LIB":$LD_LIBRARY_PATH
 		./nginx -s stop
 		./nginx -c nginx.conf
+
+		echo "" > logs/error.log
+		echo "" > logs/access.log
+		tail -f logs/error.log
 	fi
 }
 
