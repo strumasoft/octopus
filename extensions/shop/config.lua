@@ -191,8 +191,8 @@ config.modules = {
 	{name = "priceService", script = "modules/PriceService.lua"},
 	{name = "cartService", script = "modules/CartService.lua"},
 
-	-- database listeners --
-	{name = "databasePriceListener", script = "listeners/DatabasePriceListener.lua"},
+	-- exception --
+	{name = "exceptionHandler", script = "modules/ExceptionHandler.lua"},
 }
 
 config.static = {
@@ -205,10 +205,6 @@ config.types = {
 
 config.tests = {
 	{name = "testshop", script = "tests.js"}
-}
-
-config.databaseListeners = {
-	price = {"databasePriceListener"}
 }
 
 return config -- return extension configuration

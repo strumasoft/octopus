@@ -3,7 +3,7 @@ local parse = require "parse"
 local property = require "property"
 local localization = require "localization"
 local exception = require "exception"
-local util = require "util"
+local param = require "param"
 local productService = require "DemoProductService"
 
 
@@ -11,16 +11,12 @@ local productService = require "DemoProductService"
 local function process (data)
 	data.locale = "en"
 
-
-	local productCode
-	local uries = util.split(ngx.var.uri, "/")
-
-	if #uries < 3 then exception("product code required") end
-	productCode = uries[#uries]
-
+	local productCode = param.code
 	if productCode then
 		local product = productService.getProduct(productCode)
 		data.product = product
+	else
+		exception("product code required")
 	end
 end
 
@@ -28,7 +24,7 @@ end
 local data = {}
 local status, err = pcall(process, data)
 if not status then 
-	exception.toData(data, err)
+	data.error = {err}
 end
 
 

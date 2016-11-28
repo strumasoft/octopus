@@ -5,6 +5,7 @@ local property = require "property"
 local localization = require "localization"
 local database = require "database"
 local exception = require "exception"
+local exceptionHandler = require "exceptionHandler"
 local userService = require "userService"
 local localeService = require "localeService"
 local priceService = require "priceService"
@@ -32,7 +33,7 @@ local function process (db, data)
 	end
 
 
-	exception.fromCookieToData(data)
+	exceptionHandler.fromCookieToData(data)
 end
 
 
@@ -41,7 +42,7 @@ local db = database.connect()
 local status, err = pcall(process, db, data)
 db:close()
 if not status then 
-	exception.toData(data, err)
+	exceptionHandler.toData(data, err)
 end
 
 

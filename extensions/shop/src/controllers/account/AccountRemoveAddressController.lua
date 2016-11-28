@@ -6,6 +6,7 @@ local localization = require "localization"
 local database = require "database"
 local exit = require "exit"
 local exception = require "exception"
+local exceptionHandler = require "exceptionHandler"
 local util = require "util"
 local userService = require "userService"
 local localeService = require "localeService"
@@ -39,6 +40,6 @@ db:close()
 if status then
 	return ngx.redirect(property.shopUrl .. property.accountAddressesUrl)
 else
-	exception.toCookie(err)
+	exceptionHandler.toCookie(err)
 	return ngx.redirect(property.shopUrl .. property.accountAddressesUrl)
 end

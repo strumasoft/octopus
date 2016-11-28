@@ -13,16 +13,14 @@ return {
 	
 	octopusExtensionsDir = octopusExtensionsDir,
 	octopusHostDir = octopusHostDir,
-	port = 7878,
-	securePort = 37878,
+	port = 8787,
+	securePort = 38787,
 	luaCodeCache = "off",
 	serverName = "localhost",
 	errorLog = "error_log logs/error.log;",
 	accessLog = "access_log logs/access.log;",
 	includeDrop = [[#include drop.conf;]],
 	maxBodySize = "50k",
-	minifyJavaScript = false,
-	minifyCommand = [[java -jar ../yuicompressor-2.4.8.jar %s -o %s]],
 	
 	databaseConnection = {
 		rdbms       =   "postgres",

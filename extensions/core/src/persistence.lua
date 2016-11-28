@@ -1,5 +1,10 @@
 -- Internal persistence library
 
+--[[ Override Store ]]
+-- persistence.store(path, obj1, method1, obj2, method2, .....)
+--   Stores arbitrary items to the file at the given path
+--   and add method at the end of every returned object
+
 --[[ Provides ]]
 -- persistence.store(path, ...): Stores arbitrary items to the file at the given path
 -- persistence.load(path): Loads files that were previously stored with store and returns them
@@ -30,7 +35,7 @@ persistence =
 		local n = select("#", ...);
 		-- Count references
 		local objRefCount = {}; -- Stores reference that will be exported
-		for i = 1, n do
+		for i = 1, n, 2 do
 			refCount(objRefCount, (select(i,...)));
 		end;
 		-- Export Objects with more than one ref and assign name
@@ -58,15 +63,20 @@ persistence =
 			end;
 		end;
 		-- Create the remaining objects
-		for i = 1, n do
+		for i = 1, n, 2 do
 			file:write("local ".."obj"..i.." = ");
 			write(file, (select(i,...)), 0, objRefNames);
 			file:write("\n");
+			local method = select(i+1,...)
+			if method then
+				file:write(method);
+				file:write("\n");
+			end
 		end
 		-- Return them
 		if n > 0 then
 			file:write("return obj1");
-			for i = 2, n do
+			for i = 3, n, 2 do
 				file:write(" ,obj"..i);
 			end;
 			file:write("\n");

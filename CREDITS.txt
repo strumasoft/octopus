@@ -20,4 +20,3 @@ ace | https://github.com/ajaxorg/ace | Copyright (c) 2010, Ajax.org B.V.
 google-diff-match-patch | https://code.google.com/p/google-diff-match-patch/ | Apache License 2.0
 jQuery.PrettyTextDiff | https://github.com/arnab/jQuery.PrettyTextDiff | Copyright (c) 2013 Arnab Deka.
 jsdifflib | https://github.com/cemerick/jsdifflib | Copyright (c) 2007, Snowtide Informatics Systems, Inc.
-yuicompressor | https://github.com/yui/yuicompressor/ | Copyright (c) 2013 Yahoo! Inc.

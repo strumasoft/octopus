@@ -1,12 +1,14 @@
-return function (err)
-	ngx.status = ngx.HTTP_INTERNAL_SERVER_ERROR
+local json = require "json"
+
+
+return function (err, status)
+	ngx.status = status or ngx.HTTP_INTERNAL_SERVER_ERROR
 
 	if type(err) == "table" then
-		local k,v = next(err)
-		ngx.say(v)
-	else
+		ngx.say(json.encode(err))
+	elseif err then
 		ngx.say(err)
 	end
 
-	ngx.exit(ngx.HTTP_OK)
+	return ngx.exit(ngx.HTTP_OK)
 end

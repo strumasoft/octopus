@@ -3,8 +3,8 @@ local config = {} -- extension configuration
 
 config.modules = {
 	{name = "access", script = "access.lua"},
-	{name = "databaseListeners", script = "databaseListeners.lua"},
-	--forbidStatic.lua
+	--forbidstatic.lua
+	{name = "htmltemplates", script = "htmltemplates.lua"},
 	--javascripts.lua
 	{name = "localization", script = "localization.lua"},
 	--locations.lua
@@ -119,7 +119,7 @@ local nginxConfigTemplate = [[
 		# this prevents hidden files (beginning with a period) from being served
 		location ~ /\.          { access_log off; log_not_found off; deny all; }
 		
-		{{forbidStaticLocations}}
+		{{forbidstaticLocations}}
 
 		{{staticLocations}}
 
@@ -291,65 +291,6 @@ local function generateOverrideTypesTable (siteConfig)
 end -- end generateOverrideTypesTable
 
 
-local function generateDatabaseListeners (siteConfig)
-
-	local persistence = require "persistence"
-
-
-	local modules = {}
-
-	-- aggregates all databaseListeners --
-	for i=1, #siteConfig.extensions do
-		local extensionName = siteConfig.extensions[i][2]
-		local extensionDir = siteConfig.extensions[i][1] .. "/" .. extensionName
-
-		local config = evalConfig(siteConfig, extensionDir)
-
-
-		if config.databaseListeners then
-			for k,v in pairs(config.databaseListeners) do
-				if modules[k] then
-					local allDatabaseListenersNames = modules[k]
-					for i=1,#v do
-						local listenerExists = false
-						for j=1,#allDatabaseListenersNames do
-							if allDatabaseListenersNames[j] == v[i] then
-								listenerExists = true
-							end
-						end
-
-						if not listenerExists then -- do not add duplicate listeners
-							table.insert(allDatabaseListenersNames, v[i])
-						end
-					end
-				else
-					local allDatabaseListenersNames = {}
-					for i=1,#v do
-						local listenerExists = false
-						for j=1,#allDatabaseListenersNames do
-							if allDatabaseListenersNames[j] == v[i] then
-								listenerExists = true
-							end
-						end
-
-						if not listenerExists then -- do not add duplicate listeners
-							table.insert(allDatabaseListenersNames, v[i])
-						end
-					end
-					modules[k] = allDatabaseListenersNames
-				end
-			end
-		end
-	end
-
-	-- persist databaseListeners --
-	persistence.store(siteConfig.octopusHostDir .. "/build/src/databaseListeners.lua", modules);
-
-	return modules
-
-end -- end generateDatabaseListeners
-
-
 local function generatePropertyTable (siteConfig, type, last)
 
 	local json = require "json"
@@ -392,7 +333,7 @@ local function generatePropertyTable (siteConfig, type, last)
 end -- end generatePropertyTable
 
 
-local function generateOverrideTable (siteConfig, type, extras)
+local function generateOverrideTable (siteConfig, type, extras, method)
 
 	local persistence = require "persistence"
 
@@ -427,7 +368,7 @@ local function generateOverrideTable (siteConfig, type, extras)
 				else
 					local meta = {extensionDir = extensionDir, octopusHostDir = siteConfig.octopusHostDir, extension = i}
 
-					if extras then
+					if extras and #extras > 0 then
 						for k=1, #extras do
 							meta[extras[k]] = module[extras[k]]
 						end
@@ -439,32 +380,54 @@ local function generateOverrideTable (siteConfig, type, extras)
 		end
 	end
 
-	persistence.store(siteConfig.octopusHostDir .. "/build/src/" .. type .. ".lua", modules);
+	persistence.store(siteConfig.octopusHostDir .. "/build/src/" .. type .. ".lua", modules, method);
 
 	return modules
 
 end -- end generateOverrideTable
 
 
-local function aggregateOverrideTable (siteConfig, modules, fileName, meta)
+local function getAggregateFile (siteConfig, files, folder, meta, customFile)
+	
+	local json = require "json"
+	
+	local targetFile = customFile or meta.file
+	
+	if not files[targetFile] then
+		local file = assert(io.open(folder .. "/" .. targetFile, "w"))
+		files[targetFile] = file
+		
+		if meta.json then
+			file:write("/* property */ \n\n")
+			file:write("var property = " .. json.encode(siteConfig.properties) .. "\n\n\n")
+	
+			file:write("/* localization */ \n\n")
+			file:write("var localization = " .. json.encode(siteConfig.localizations) .. "\n\n\n")
+		end
+		
+		if meta.css then
+			file:write('@charset "UTF-8"; \n\n\n')
+		end
+	end
+
+	return files[targetFile]
+	
+end -- end getAggregateFile
+
+
+local function closeAggregateFiles (files)
+	for _,file in pairs(files) do
+		file:close()
+	end
+end -- end closeAggregateFiles
+
+
+local function aggregateOverrideTable (siteConfig, modules, folder, meta)
 
 	local parse = require "parse"
-	local json = require "json"
-
-	local file = assert(io.open(fileName, "w"))
-
-	if meta.json then
-		file:write("/* property */ \n\n")
-		file:write("var property = " .. json.encode(siteConfig.properties) .. "\n\n\n")
-
-		file:write("/* localization */ \n\n")
-		file:write("var localization = " .. json.encode(siteConfig.localizations) .. "\n\n\n")
-	end
 	
-	if meta.css then
-		file:write('@charset "UTF-8"; \n\n\n')
-	end
-
+	local files = {}
+	
 	for i=1, #siteConfig.extensions do
 		for name, scripts in pairs(modules) do
 			if scripts[1].extension == i then -- first script is the number of the extension
@@ -474,6 +437,8 @@ local function aggregateOverrideTable (siteConfig, modules, fileName, meta)
 					local f = assert(io.open(script, "r"))
 					local content = f:read("*all")
 					f:close()
+					
+					local file = getAggregateFile(siteConfig, files, folder, meta, scripts[1].into)
 
 					file:write(string.format("/* [%s] %s */ \n\n", name, script))
 
@@ -487,7 +452,7 @@ local function aggregateOverrideTable (siteConfig, modules, fileName, meta)
 		end
 	end
 
-	file:close()
+	closeAggregateFiles(files)
 
 end -- end of aggregateOverrideTable
 
@@ -538,9 +503,9 @@ local function generateForbidStaticConfig (siteConfig)
 
 		local config = evalConfig(siteConfig, extensionDir)
 
-		if config.forbidStatic then
-			for j=1, #config.forbidStatic do
-				local staticDirName = config.static[j]
+		if config.forbidstatic then
+			for j=1, #config.forbidstatic do
+				local staticDirName = config.forbidstatic[j]
 
 				local staticDirPath = "/" .. extensionName .. "/" .. staticDirName .. "/"
 
@@ -549,7 +514,7 @@ local function generateForbidStaticConfig (siteConfig)
 		end
 	end
 
-	persistence.store(siteConfig.octopusHostDir .. "/build/src/forbidStatic.lua", staticDirs);
+	persistence.store(siteConfig.octopusHostDir .. "/build/src/forbidstatic.lua", staticDirs);
 
 	return staticDirs
 
@@ -560,7 +525,7 @@ local function generateNginxConfig (siteConfig)
 
 	local parse = require "parse"
 
-	local accessScripts = generateOverrideTable(siteConfig, "access")
+	local accessScripts = generateOverrideTable(siteConfig, "access", {})
 
 	local locations = {}
 
@@ -616,15 +581,15 @@ local function generateNginxConfig (siteConfig)
 	end
 
 
-	local forbidStaticLocations = {}
+	local forbidstaticLocations = {}
 
-	local forbidStaticDirs = generateForbidStaticConfig(siteConfig)
+	local forbidstaticDirs = generateForbidStaticConfig(siteConfig)
 
-	for i=1, #forbidStaticDirs do
-		local forbidStaticDir = forbidStaticDirs[i]
+	for i=1, #forbidstaticDirs do
+		local forbidstaticDir = forbidstaticDirs[i]
 
-		forbidStaticLocations[#forbidStaticLocations + 1] = parse(
-			siteConfig.nginxForbidStaticLocationTemplate or nginxForbidStaticLocationTemplate, {url = forbidStaticDir})
+		forbidstaticLocations[#forbidstaticLocations + 1] = parse(
+			siteConfig.nginxForbidStaticLocationTemplate or nginxForbidStaticLocationTemplate, {url = forbidstaticDir})
 	end
 
 
@@ -642,7 +607,7 @@ local function generateNginxConfig (siteConfig)
 		accessLog = siteConfig.accessLog,
 		luaCodeCache = siteConfig.luaCodeCache,
 		staticLocations = table.concat(staticLocations),
-		forbidStaticLocations = table.concat(forbidStaticLocations),
+		forbidstaticLocations = table.concat(forbidstaticLocations),
 		includeDrop = siteConfig.includeDrop
 	})
 
@@ -655,42 +620,88 @@ end -- end of generateNginxConfig
 
 local function generateModulesConfig (siteConfig)
 
-	generateOverrideTable(siteConfig, "modules")
+	generateOverrideTable(siteConfig, "modules", {})
 
 end -- end of generateModulesConfig
 
 
 local function generateJavaScriptConfig (siteConfig)
-	local javaScriptFileName = siteConfig.octopusHostDir .. "/build/static/widgets.js" 
-	if minifyJavaScript then javaScriptFileName = siteConfig.octopusHostDir .. "/build/static/widgets.original.js" end
+	local javaScriptFileName = siteConfig.octopusHostDir .. "/build/static"
 
-	local javascripts = generateOverrideTable(siteConfig, "javascripts")
-	aggregateOverrideTable(siteConfig, javascripts, javaScriptFileName, {json = true})
-
-	if minifyJavaScript then
-		javaScriptMinFileName = siteConfig.octopusHostDir .. "/build/static/widgets.js"
-		os.execute(string.format(minifyCommand, javaScriptFileName, javaScriptMinFileName))
-	end
+	local javascripts = generateOverrideTable(siteConfig, "javascripts", {"into"})
+	aggregateOverrideTable(siteConfig, javascripts, javaScriptFileName, {file = "widgets.js", json = true})
 
 end -- end generateJavaScriptConfig
 
 
 local function generateStyleSheetConfig (siteConfig)
 
-	styleSheetFileName = siteConfig.octopusHostDir .. "/build/static/widgets.css" 
+	styleSheetFileName = siteConfig.octopusHostDir .. "/build/static" 
 
-	local stylesheets = generateOverrideTable(siteConfig, "stylesheets")
-	aggregateOverrideTable(siteConfig, stylesheets, styleSheetFileName, {css = true, parse = true})
+	local stylesheets = generateOverrideTable(siteConfig, "stylesheets", {"into"})
+	aggregateOverrideTable(siteConfig, stylesheets, styleSheetFileName, {file = "widgets.css", css = true, parse = true})
 
 end -- end generateStyleSheetConfig
 
 
+local function generateHtmlTemplateConfig (siteConfig)
+	
+	local parse = require "parse"
+	
+	local htmltemplates = generateOverrideTable(siteConfig, "htmltemplates", {})
+	
+	local modules = {}
+	for name, scripts in pairs(htmltemplates) do
+		local scriptFileName = scripts[#scripts] -- use only last script
+		
+		local f = assert(io.open(scriptFileName, "r"))
+		local content = f:read("*all")
+		f:close()
+		
+		modules[name] = content
+	end
+	
+	local method = [=[
+	
+--local parse = require "parse"
+local template = require "template"
+local htmltemplates = obj1
+local htmltemplates_metatable = getmetatable(htmltemplates) or {}
+setmetatable(htmltemplates, htmltemplates_metatable)
+htmltemplates_metatable.__call = function (t, key, context)
+	assert(htmltemplates[key], "unknown html template " .. key)
+	local view = htmltemplates[key]
+	
+	if not context then
+		return view
+	else
+		--return parse(view, context)
+		if {{luaCodeCache}} then
+			return template.parsetemplate(view, context, key)
+		else
+			return template.parsetemplate(view, context, "no-cache")
+		end
+	end
+end
+
+	]=]
+
+	local cache_templates
+	if siteConfig.luaCodeCache == "on" then cache_templates = "true" else cache_templates = "false" end
+	
+	persistence.store(siteConfig.octopusHostDir .. "/build/src/htmltemplates.lua", modules, parse(method, {
+		luaCodeCache = cache_templates,
+	}))
+
+end -- end generateHtmlTemplateConfig
+
+
 local function generateTestConfig (siteConfig)
 
-	testFileName = siteConfig.octopusHostDir .. "/build/static/tests.js" 
+	testFileName = siteConfig.octopusHostDir .. "/build/static" 
 
-	local tests = generateOverrideTable(siteConfig, "tests")
-	aggregateOverrideTable(siteConfig, tests, testFileName, {})
+	local tests = generateOverrideTable(siteConfig, "tests", {"into"})
+	aggregateOverrideTable(siteConfig, tests, testFileName, {file = "tests.js"})
 
 end -- end generateTestConfig
 
@@ -699,7 +710,7 @@ local function generateParseConfig (siteConfig)
 	
 	local parse = require "parse"
 	
-	local parseScripts = generateOverrideTable(siteConfig, "parse")
+	local parseScripts = generateOverrideTable(siteConfig, "parse", {})
 	
 	for name, scripts in pairs(parseScripts) do
 		local scriptFileName = scripts[#scripts] -- use only last script
@@ -734,10 +745,10 @@ local function build (siteConfig)
 	generateParseConfig(siteConfig)
 	generateJavaScriptConfig(siteConfig)
 	generateStyleSheetConfig(siteConfig)
+	generateHtmlTemplateConfig(siteConfig)
 	generateTestConfig(siteConfig)
 	generateNginxConfig(siteConfig)
 	generateOverrideTypesTable(siteConfig)
-	generateDatabaseListeners(siteConfig)
 	generateModulesConfig(siteConfig)
 end
 
@@ -746,13 +757,13 @@ local m = {}
 m.generateOverrideTable = generateOverrideTable
 m.aggregateOverrideTable = aggregateOverrideTable
 m.generateOverrideTypesTable = generateOverrideTypesTable
-m.generateDatabaseListeners = generateDatabaseListeners
 m.generateStaticConfig = generateStaticConfig
 m.generateForbidStaticConfig = generateForbidStaticConfig
 m.generateNginxConfig = generateNginxConfig
 m.generateModulesConfig = generateModulesConfig
 m.generateJavaScriptConfig = generateJavaScriptConfig
 m.generateStyleSheetConfig = generateStyleSheetConfig
+m.generateHtmlTemplateConfig = generateHtmlTemplateConfig
 m.generateTestConfig = generateTestConfig
 m.generateParseConfig = generateParseConfig
 m.build = build

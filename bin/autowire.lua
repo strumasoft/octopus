@@ -64,7 +64,9 @@ local function newRequire (moduleName, moduleType)
 					tempModule = lastModule
 				else
 					local nonLastModule = scriptModule
-					setmetatable(tempModule, { __index = nonLastModule })
+					local mt = getmetatable(tempModule) or {}
+					mt.__index = nonLastModule
+					setmetatable(tempModule, mt)
 					tempModule = nonLastModule
 				end
 			end

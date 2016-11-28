@@ -5,6 +5,7 @@ local property = require "property"
 local localization = require "localization"
 local database = require "database"
 local exception = require "exception"
+local exceptionHandler = require "exceptionHandler"
 local userService = require "userService"
 local localeService = require "localeService"
 local priceService = require "priceService"
@@ -19,7 +20,7 @@ local function process (db, data)
 
 	local cart = cartService.getCart(db)
 	if not cart.productEntries then
-		exception.toCookie("cart does not have products")
+		exceptionHandler.toCookie("cart does not have products")
 		data.redirectUrl = property.shopUrl .. property.checkoutUrl
 		return
 	end
@@ -38,7 +39,7 @@ local function process (db, data)
 	end
 
 
-	exception.fromCookieToData(data)
+	exceptionHandler.fromCookieToData(data)
 end
 
 
@@ -47,7 +48,7 @@ local db = database.connect()
 local status, err = pcall(process, db, data)
 db:close()
 if not status then 
-	exception.toData(data, err)
+	exceptionHandler.toData(data, err)
 end
 
 

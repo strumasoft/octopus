@@ -48,7 +48,7 @@ cd bin/unix
 . ./server.sh install
 . ./server.sh restart
 ```
-then just open [localhost:7878](http://localhost:7878)
+then just open [localhost:8787](http://localhost:8787)
 
 Database, users and security
 ============

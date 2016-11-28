@@ -5,6 +5,7 @@ local property = require "property"
 local localization = require "localization"
 local database = require "database"
 local exception = require "exception"
+local exceptionHandler = require "exceptionHandler"
 local exit = require "exit"
 local uuid = require "uuid"
 local localeService = require "localeService"
@@ -23,7 +24,7 @@ local function process (db, data)
 
 	local cart = cartService.getCart(db)
 	if not cart.productEntries or not cart.address or not cart.deliveryMethod or not cart.paymentMethod then
-		exception.toCookie("cart does not have products/address/deliveryMethod/paymentMethod")
+		exceptionHandler.toCookie("cart does not have products/address/deliveryMethod/paymentMethod")
 		data.redirectUrl = property.shopUrl .. property.cartUrl
 		return
 	end
@@ -66,6 +67,6 @@ if status then
 		return ngx.redirect(property.shopUrl .. property.checkoutConfirmationUrl)
 	end
 else
-	exception.toCookie(err)
+	exceptionHandler.toCookie(err)
 	return ngx.redirect(property.shopUrl .. property.checkoutReviewOrderUrl)
 end

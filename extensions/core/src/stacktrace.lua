@@ -1,3 +1,6 @@
+local json = require "json"
+
+
 return function (err)
 	if not ngx then 
 		print(err .. "\n\t" .. debug.traceback())
@@ -6,8 +9,7 @@ return function (err)
 
 	if err then
 		if type(err) == "table" then
-			local k,v = next(err)
-			ngx.log(ngx.ERR, v .. "\n\t" .. debug.traceback())
+			ngx.log(ngx.ERR, json.encode(err) .. "\n\t" .. debug.traceback())
 		else
 			ngx.log(ngx.ERR, err .. "\n\t" .. debug.traceback())
 		end
