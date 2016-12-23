@@ -5,7 +5,7 @@ Home page at [cyberz.eu](http://cyberz.eu/octopus)
 
 Documentation at [cyberz.eu](http://cyberz.eu/octopus/documentation)
 
-Extensions at [cyberz.eu](http://cyberz.eu/octopus/extensions)
+Extensions at [cyberz.eu](http://cyberz.eu/octopus#extensions)
 
 Introduction
 ============
@@ -54,7 +54,7 @@ Database, users and security
 ============
 
 * Set up database connection - databaseConnection object in [config.lua](extensions/config.lua)
-* Import test user from security extension [import.lua](extensions/security/src/import.lua) file in [localhost:7878/database](http://localhost:7878/database)
+* Import test user from security extension [import.lua](extensions/security/src/import.lua) file in [localhost:8787/database](http://localhost:8787/database)
 ```lua
 db:dropAllTables()
 db:createAllTables()
