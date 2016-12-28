@@ -14,7 +14,7 @@ local function authenticate (db, email, password)
 		local user = db:findOne({user = {email = op.equal(email)}})
 
 		-- failed authentication policy
-		if user.failedLoginAttempts and user.failedLoginAttempts >= property.failedLoginAttempts then
+		if user.failedLoginAttempts and user.failedLoginAttempts - property.failedLoginAttempts >= 0 then
 			if user.lastFailedLoginTime then
 				local elapsedTime = os.time() - user.lastFailedLoginTime
 				if elapsedTime < 0 or elapsedTime < property.failedLoginAttemptsTimeout then
