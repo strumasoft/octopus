@@ -89,7 +89,7 @@ function nginx_install {
 	# install zlib
 	# apt-get install zlib1g-dev
 	zlib=zlib
-	zlib_version=1.2.8
+	zlib_version=1.2.10
 	zlib_url=http://zlib.net/zlib-$zlib_version.tar.gz
 	download $zlib tar.gz $zlib_url
 
