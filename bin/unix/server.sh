@@ -38,7 +38,7 @@ function nginx_install {
 
 	# nginx
 	nginx=nginx
-	nginx_version=1.10.1
+	nginx_version=1.10.2
 	nginx_url=http://nginx.org/download/nginx-$nginx_version.tar.gz
 	download $nginx tar.gz $nginx_url
 
@@ -52,7 +52,7 @@ function nginx_install {
 
 	# lua-nginx-module
 	lua_nginx_module=lua-nginx-module
-	lua_nginx_module_version=0.10.5
+	lua_nginx_module_version=0.10.7
 	lua_nginx_module_url=https://github.com/openresty/lua-nginx-module/archive/v$lua_nginx_module_version.tar.gz
 	download $lua_nginx_module tar.gz $lua_nginx_module_url
 
@@ -81,8 +81,8 @@ function nginx_install {
 
 	# install PCRE
 	pcre=pcre
-	pcre_version=8.38
-	pcre_url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-$pcre_version.tar.gz
+	pcre_version=8.39
+	pcre_url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/$pcre-$pcre_version.tar.gz
 	download $pcre tar.gz $pcre_url
 
 
