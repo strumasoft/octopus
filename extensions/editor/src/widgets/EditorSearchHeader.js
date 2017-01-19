@@ -35,7 +35,7 @@ Widget.EditorSearchHeader = function (title) {
 					<!-- Toggle -->
 					<li><div id="toggleAction" class="button special" 
 						onclick='Widget.EditorSearchHeader.toggle();'>
-						<i class="fa fa-compress"></i></div>
+						<i class="fa fa-expand"></i></div>
 					</li>
 				</ul>
 			</nav>
@@ -47,9 +47,9 @@ Widget.EditorSearchHeader.prototype = {
 	constructor: Widget.EditorSearchHeader
 }
 
-Widget.EditorSearchHeader.toggleNavigation = "3u 12u(medium)"
-Widget.EditorSearchHeader.toggleEditor = "9u 12u(medium)"
-Widget.EditorSearchHeader.toggleName = '<i class="fa fa-expand"></i>'
+Widget.EditorSearchHeader.toggleNavigation = "12u"
+Widget.EditorSearchHeader.toggleEditor = "12u"
+Widget.EditorSearchHeader.toggleName = '<i class="fa fa-compress"></i>'
 
 Widget.EditorSearchHeader.toggle = function () {
 	var navigationClass = $("#editorSearchTemplateNavigation").attr("class")
