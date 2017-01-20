@@ -104,42 +104,32 @@ end
 
 
 local function authorize (db, user, permissions, groups)
-	local allow = true
-
 	if permissions then
-		for i=1,#permissions do
-			-- if not allowed do not authorize
-			if not allow then return false end
-
+		for j=1,#permissions do
 			-- try finding permission in user.permissions
-			local filtered = user.permissions({code = permissions[i]})
-			allow = #filtered > 0
-
-			-- if not found yet search permission in user.groups
-			if not allow then
-				for j=1,#user.groups do
+			local filtered = user.permissions({code = permissions[j]})
+			if #filtered == 0 then
+				-- if not found yet search permission in user.groups
+				local found = false
+				for i=1,#user.groups do
 					-- try finding permission in user.groups[i]
-					if not allow then
-						local filtered = user.groups[i].permissions({code = permissions[i]})
-						allow = #filtered > 0
-					end
+					local filtered = user.groups[i].permissions({code = permissions[j]})
+					if #filtered > 0 then found = true end
 				end
+				if not found then return false end
 			end
 		end
 	end
 
 	if groups then
 		for i=1,#groups do
-			-- if not allowed do not authorize
-			if not allow then return false end
-
 			-- try finding group in user.groups
 			local filtered = user.groups({code = groups[i]})
-			allow = #filtered > 0
+			if #filtered == 0 then return false end
 		end
 	end
 
-	return allow 
+	return true 
 end
 
 
