@@ -122,6 +122,16 @@ local function status (directoryName)
 	return string.format([[cd %s && git status -s .]] .. property.redirectErrorToOutputStream, directoryName)
 end
 
+local function normalizeFileName (fileName)
+	if fileName then
+		fileName = string.trim(fileName)
+		if fileName and 1 < #fileName and fileName:sub(1, 1) == '"' and fileName:sub(#fileName, #fileName) == '"' then
+			fileName = fileName:sub(2, #fileName-1)
+		end
+	end
+	return fileName
+end
+
 function m.status (username, password, directoryName)
 	fileutil.noBackDirectory(directoryName)
 
@@ -134,9 +144,9 @@ function m.status (username, password, directoryName)
 	for line in f:lines() do
 		local fileName
 
-		local oldFileName, newFileName = line:match('^.* (.*) %-%> (.*)')
+		local oldFileName, newFileName = line:match('^%a* (.*) %-%> (.*)')
 		if not oldFileName or not newFileName then
-			fileName = line:match('^.* (.*)')
+			fileName = line:match('^%a* (.*)')
 		end
 
 		if not fileName then fileName = oldFileName end
@@ -146,8 +156,8 @@ function m.status (username, password, directoryName)
 				info = line,
 				oldRevision = "HEAD",
 				newRevision = "LOCAL",
-				fileName = fileName,
-				newFileName = newFileName,
+				fileName = normalizeFileName(fileName),
+				newFileName = normalizeFileName(newFileName),
 			}
 		end
 	end
