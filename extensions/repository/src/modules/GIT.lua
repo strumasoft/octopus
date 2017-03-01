@@ -144,9 +144,9 @@ function m.status (username, password, directoryName)
 	for line in f:lines() do
 		local fileName
 
-		local oldFileName, newFileName = line:match('^%a* (.*) %-%> (.*)')
+		local oldFileName, newFileName = line:match('^%s*%?*%!*%a* (.*) %-%> (.*)')
 		if not oldFileName or not newFileName then
-			fileName = line:match('^%a* (.*)')
+			fileName = line:match('^%s*%?*%!*%a* (.*)')
 		end
 
 		if not fileName then fileName = oldFileName end
