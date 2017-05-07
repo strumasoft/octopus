@@ -66,6 +66,6 @@ db:import("shopImport")
 Copyright and License
 =====================
 
-Copyright (C) 2015, Lazar Gyulev, cyberz.eu@gmail.com, www.cyberz.eu
+Copyright (C) 2015, Lazar Gyulev, info@cyberz.eu, www.cyberz.eu
 
 All rights reserved. BSD license.
