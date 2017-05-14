@@ -1,4 +1,4 @@
-Copyright (C) 2015, Lazar Gyulev, cyberz.eu@gmail.com, www.cyberz.eu
+Copyright (C) 2017, Lazar Gyulev
 
 All rights reserved.
 
