@@ -1,11 +1,22 @@
-Octopus - The Lua Web Framework
+# Octopus - The Lua Web Framework
+
+Wiki
 ===============================
 
-Home page at [cyberz.eu](http://cyberz.eu/octopus)
+[Extension](https://github.com/cyberz-eu/octopus/wiki/Extension)
 
-Documentation at [cyberz.eu](http://cyberz.eu/octopus/documentation)
+[Graphical widget](https://github.com/cyberz-eu/octopus/wiki/Graphical-widget)
 
-Extensions at [cyberz.eu](http://cyberz.eu/octopus#extensions)
+[Object relational mapping](https://github.com/cyberz-eu/octopus/wiki/Object-relational-mapping)
+
+[Security](https://github.com/cyberz-eu/octopus/wiki/Security)
+
+[Editor](https://github.com/cyberz-eu/octopus/wiki/Editor)
+
+[Revision control](https://github.com/cyberz-eu/octopus/wiki/Revision-control)
+
+[Database administration](https://github.com/cyberz-eu/octopus/wiki/Database-administration)
+
 
 Introduction
 ============
@@ -66,6 +77,6 @@ db:import("shopImport")
 Copyright and License
 =====================
 
-Copyright (C) 2017, Lazar Gyulev, info@cyberz.eu, www.cyberz.eu
+Copyright (C) 2017, Lazar Gyulev
 
 All rights reserved. BSD license.
