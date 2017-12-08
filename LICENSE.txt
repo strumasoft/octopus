@@ -1,4 +1,4 @@
-Copyright (C) 2017, Lazar Gyulev
+Copyright (C) 2018, Lazar Gyulev
 
 All rights reserved.
 
