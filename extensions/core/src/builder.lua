@@ -598,8 +598,6 @@ local function generateNginxConfig (siteConfig)
 		securePort = siteConfig.securePort,
 		serverName = siteConfig.serverName,
 		sslCertificate = parse(siteConfig.sslCertificate or sslCertificate, {securePort = siteConfig.securePort}),
-		workerProcesses = siteConfig.workerProcesses,
-		workerConnections = siteConfig.workerConnections,
 		locations = table.concat(locations),
 		externalPaths = siteConfig.externalPaths,
 		externalCPaths = siteConfig.externalCPaths,
