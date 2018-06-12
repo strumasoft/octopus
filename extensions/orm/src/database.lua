@@ -1251,7 +1251,7 @@ local function connect ()
 			if proto.orderBy then proto.orderBy = nil end
 			
 			local res = protected(self, select, proto, nil, true, nil)
-			return res[1].count
+			for _, count in pairs(res[1]) do return count end -- count is the first and only value of the object
 		end,
 		add = function (self, proto)
 			return transaction(self, add, proto)
