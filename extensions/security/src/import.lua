@@ -1,12 +1,5 @@
-local admin = require "testUser"
-
-
 return {
 	objects = {
-		user = {
-			admin = admin
-		},
-
 		userPermission = {
 			open = {code = "open"},
 
@@ -18,12 +11,12 @@ return {
 			remove = {code = "remove"},
 			edit = {code = "edit"},
 			save = {code = "save"},
-			refresh = {code = "refresh"}
+			refresh = {code = "refresh"},
 		},
 
 		userGroup = {
 			dbAdmin = {code = "dbAdmin"},
-			codeEditor = {code = "codeEditor"}
+			codeEditor = {code = "codeEditor"},
 		}
 	},
 
@@ -37,16 +30,7 @@ return {
 			dbAdmin_remove = {key = "dbAdmin", value = "remove"},
 			dbAdmin_edit = {key = "dbAdmin", value = "edit"},
 			dbAdmin_save = {key = "dbAdmin", value = "save"},
-			dbAdmin_refresh = {key = "dbAdmin", value = "refresh"}
+			dbAdmin_refresh = {key = "dbAdmin", value = "refresh"},
 		},
-
-		["user.permissions-userPermission.users"] = {
-			admin_open = {key = "admin", value = "open"}
-		},
-
-		["user.groups-userGroup.users"] = {
-			admin_dbAdmin = {key = "admin", value = "dbAdmin"},
-			admin_codeEditor = {key = "admin", value = "codeEditor"}
-		}
 	}
 }

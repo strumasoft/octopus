@@ -12,15 +12,14 @@ local db = database.connect()
 local status, res = pcall(userService.loginAndSetToken, db, parameters.email, parameters.password)
 db:close()
 
-
 if status and res then
 	local to = userService.redirectTo(property.securityLoginUserUrl)
 
 	if util.isNotEmpty(to) then
 		return ngx.redirect(to)
 	else
-		ngx.say("successful login <br/>")
+		ngx.say("successful login")
 	end
 else
-	ngx.say("wrong credentials <br/>")
+	ngx.say("wrong credentials")
 end

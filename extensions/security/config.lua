@@ -5,6 +5,7 @@ config.property = {
 	failedLoginAttemptsTimeout = 10800, -- 3h
 
 	securityLoginUrl = "/security/login",
+	securityRegisterUrl = "/security/register",
 	securityLoginUserUrl = "/security/loginUser",
 	securityRegisterUserUrl = "/security/registerUser",
 }
@@ -15,12 +16,14 @@ config.localization = {
 
 config.locations = {
 	{name = property.securityLoginUrl, script = "controllers/SecurityLoginPageController.lua"},
+	{name = property.securityRegisterUrl, script = "controllers/SecurityRegisterPageController.lua"},
 	{name = property.securityLoginUserUrl, script = "controllers/SecurityLoginUserController.lua", requestBody = true},
 	{name = property.securityRegisterUserUrl, script = "controllers/SecurityRegisterUserController.lua", requestBody = true},
 }
 
 config.javascripts = {
 	{name = "SecurityLoginForm", script = "widgets/LoginForm.js"},
+	{name = "SecurityRegisterForm", script = "widgets/RegisterForm.js"},
 }
 
 config.stylesheets = {
