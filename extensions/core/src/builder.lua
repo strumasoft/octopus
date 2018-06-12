@@ -430,8 +430,8 @@ local function aggregateOverrideTable (siteConfig, modules, folder, meta)
 	
 	for i=1, #siteConfig.extensions do
 		for name, scripts in pairs(modules) do
-			if scripts[1].extension == i then -- first script is the number of the extension
-				for j=2, #scripts do -- first script is the number of the extension
+			if scripts[1].extension == i then -- first script holds metadata
+				for j=2, #scripts do -- first script holds metadata
 					local script = scripts[j]
 
 					local f = assert(io.open(script, "r"))

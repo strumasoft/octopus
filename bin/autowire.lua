@@ -2,82 +2,60 @@
 local oldRequire = require
 
 
-local function newModuleName (moduleName, moduleType)
+local function name (moduleName)
 	local octopusHostDir = ngx.var.octopusHostDir
-
-	if moduleType then
-		return octopusHostDir .. ":" .. moduleType .. ":" .. moduleName
-	else
-		return octopusHostDir .. ":" .. "modules" .. ":" .. moduleName
-	end
+	return octopusHostDir .. ":" .. moduleName
 end
 
 
--- cache modules, locations and access
 package.loaded.MODULES = {}
-local function loadModules (moduleType)
+local function loadModules ()
 	local octopusHostDir = ngx.var.octopusHostDir
 	local MODULES = package.loaded.MODULES
 
-	if not MODULES[octopusHostDir] then
-		MODULES[octopusHostDir] = {}
-	end
-
-	if MODULES[octopusHostDir][moduleType] then
-		return MODULES[octopusHostDir][moduleType]
+	if MODULES[octopusHostDir] then
+		return MODULES[octopusHostDir]
 	else
-		local modules = dofile(octopusHostDir .. "/build/src/" .. moduleType ..".lua")
-		MODULES[octopusHostDir][moduleType] = modules
+		local modules = dofile(octopusHostDir .. "/build/src/modules.lua")
+		MODULES[octopusHostDir] = modules
 		return modules
 	end
 end
 
 
-local function newRequire (moduleName, moduleType)
-	if package.loaded[newModuleName(moduleName, moduleType)] then
-		return package.loaded[newModuleName(moduleName, moduleType)] 
+local function newRequire (moduleName, newModuleValue)
+	if newModuleValue then
+		package.loaded[name(moduleName)] = newModuleValue
+		return newModuleValue
+	end
+	
+	if package.loaded[name(moduleName)] then
+		return package.loaded[name(moduleName)] 
 	end
 
-	if moduleType then
-		local modules = loadModules(moduleType)
+	local modules = loadModules()
+	if modules[moduleName] then
+		local lastModule, tempModule
+		local scripts = modules[moduleName]
+		for i=#scripts, 2, -1 do -- first script holds metadata
+			local scriptModule = dofile(scripts[i])
 
-		if modules[moduleName] then
-			local scripts = modules[moduleName]
-			local lastModule = dofile(scripts[#scripts]) -- use only last script
-
-			package.loaded[newModuleName(moduleName, moduleType)] = lastModule
-
-				return lastModule
+			if i == #scripts then
+				lastModule = scriptModule
+				tempModule = lastModule
+			else
+				local nonLastModule = scriptModule
+				local mt = getmetatable(tempModule) or {}
+				mt.__index = nonLastModule
+				setmetatable(tempModule, mt)
+				tempModule = nonLastModule
+			end
 		end
+		package.loaded[name(moduleName)] = lastModule
+		return lastModule
 	else
-		local modules = loadModules("modules")
-
-		if modules[moduleName] then
-			local lastModule, tempModule
-
-			local scripts = modules[moduleName]
-			for i=#scripts, 2, -1 do -- first script is the number of the extension
-				local scriptModule = dofile(scripts[i])
-
-				if i == #scripts then
-					lastModule = scriptModule
-					tempModule = lastModule
-				else
-					local nonLastModule = scriptModule
-					local mt = getmetatable(tempModule) or {}
-					mt.__index = nonLastModule
-					setmetatable(tempModule, mt)
-					tempModule = nonLastModule
-				end
-			end
-
-			package.loaded[newModuleName(moduleName, moduleType)] = lastModule
-
-				return lastModule
-		else
-			return oldRequire(moduleName)
-			end
-		end
+		return oldRequire(moduleName)
+	end
 end
 
 
