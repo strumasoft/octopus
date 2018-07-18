@@ -4,7 +4,7 @@
 ### prerequisites ###
 # sudo apt-get install libssl-dev
 # sudo apt-get install gcc g++ build-essential
-
+# luarocks install luafilesystem --tree=lualib
 
 current_dir=$(pwd)
 
