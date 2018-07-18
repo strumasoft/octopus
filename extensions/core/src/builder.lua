@@ -55,7 +55,7 @@ local nginxLocationTemplate = [[
 
 	location {{url}} {
 		{{rootPath}}
-		
+		{{custom}}
 		# MIME type determined by default_type:
 		default_type 'text/html';
 
@@ -529,7 +529,7 @@ local function generateNginxConfig (siteConfig)
 
 	local locations = {}
 
-	local locationScripts = generateOverrideTable(siteConfig, "locations", {"requestBody", "uploadBody", "access", "resolver"})
+	local locationScripts = generateOverrideTable(siteConfig, "locations", {"custom", "requestBody", "uploadBody", "access", "resolver"})
 
 	for name, scripts in pairs(locationScripts) do
 		local scriptFileName = scripts[#scripts] -- use only last script
@@ -564,6 +564,9 @@ local function generateNginxConfig (siteConfig)
 			data.resolver = parse([[resolver {{resolver}};]], {resolver = scripts[1].resolver}) 
 		end
 
+		if scripts[1].custom then
+			data.custom = parse([[{{custom}}]], {custom = scripts[1].custom}) 
+		end
 		locations[#locations + 1] = parse(siteConfig.nginxLocationTemplate or nginxLocationTemplate, data)
 	end
 
