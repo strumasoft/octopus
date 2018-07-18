@@ -1,3 +1,29 @@
+local loadExtension = function (extensionsDir, extensionName)
+	package.path = package.path .. ";" .. extensionsDir .. "/" .. extensionName .. "/src/?.lua"
+end
+
+local loadPath = function (path)
+	package.path = package.path .. ";" .. path
+end
+
+local loadCPath = function (cpath)
+	package.cpath = package.cpath .. ";" .. cpath
+end
+
+loadCPath("luajit/lib/?.so;")
+local lfs = require "lfs"
+octopusSitesDir = lfs.currentdir() .. "/../../sites"
+loadExtension(octopusSitesDir .. "/common/", "core")
+loadExtension(octopusSitesDir .. "/common/", "orm")
+local eval = require "eval"
+
+
+local builder = require "builder"
+
+
+local octopusSitesConfig = eval.file(octopusSitesDir .. "/config.lua", {})
+local octopusSites = octopusSitesConfig.sites;
+
 ----------------
 -- nginx.conf --
 ----------------
@@ -8,7 +34,7 @@ http {
 
 	lua_package_path '../?.lua;';
 
-	lua_package_cpath 'luajit/lib/?.so;';
+	lua_package_cpath 'lualib/lib/lua/5.1/?.so;luajit/lib/?.so;';
 
 	init_by_lua 'require "cdefinitions"; require = require "autowire"';
 
@@ -16,7 +42,7 @@ http {
 	include mime.types;
 
 	# applications
-	include nginx.config.*;
+	include conf.d/*.conf;
 
 } # end of http
 
@@ -41,35 +67,18 @@ file:close()
 --------------------------
 
 
-local loadExtension = function (extensionsDir, extensionName)
-	package.path = package.path .. ";" .. extensionsDir .. "/" .. extensionName .. "/src/?.lua"
-end
-
-local loadPath = function (path)
-	package.path = package.path .. ";" .. path
-end
-
-local loadCPath = function (cpath)
-	package.cpath = package.cpath .. ";" .. cpath
-end
 
 
-local octopusExtensionsDir = "../../extensions"
+
+for i=1,#octopusSites do
 
 
-loadCPath("luajit/lib/?.so;")
-loadExtension(octopusExtensionsDir, "core")
-loadExtension(octopusExtensionsDir, "orm")
+	local octopusExtensionsDir = "../../sites/" .. octopusSites[i]
 
-
-local lfs = require "lfs"
-local builder = require "builder"
-local eval = require "eval"
-
-
-local siteConfig = eval.file(octopusExtensionsDir .. "/config.lua", {
-	octopusExtensionsDir = lfs.currentdir() .. "/" .. octopusExtensionsDir,
-	octopusHostDir = lfs.currentdir() .. "/" .. octopusExtensionsDir,
-	})
-siteConfig.nginxConfFileName = "nginx.config.octopus"
-builder.build(siteConfig)
+	local siteConfig = eval.file(octopusExtensionsDir .. "/config.lua", {
+		octopusExtensionsDir = lfs.currentdir() .. "/" .. octopusExtensionsDir,
+		octopusHostDir = lfs.currentdir() .. "/" .. octopusExtensionsDir,
+		})
+	siteConfig.nginxConfFileName = lfs.currentdir()  .. "/conf.d/" .. octopusSites[i] .. ".conf"
+	builder.build(siteConfig)
+end	

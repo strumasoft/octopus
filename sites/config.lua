@@ -1,0 +1,3 @@
+return {
+    sites = {"extensions"}
+}
