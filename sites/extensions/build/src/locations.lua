@@ -155,10 +155,14 @@ local obj1 = {
 		};
 		[2] = "/data/Project/octopus_orig/bin/unix/../../sites/extensions/editor/src/controllers/CompareController.lua";
 	};
-	["/hello"] = {
+	["~ /hello/(?<name>.+)"] = {
 		[1] = {
 			["octopusHostDir"] = "/data/Project/octopus_orig/bin/unix/../../sites/extensions";
 			["extensionDir"] = "/data/Project/octopus_orig/bin/unix/../../sites/extensions/demo";
+			["custom"] = "\9\9limit_except  GET {\
+\9\9\9deny all;\
+\9\9 }\
+\9";
 			["extension"] = 9;
 		};
 		[2] = "/data/Project/octopus_orig/bin/unix/../../sites/extensions/demo/src/controllers/HelloWorldController.lua";

@@ -1,1 +1,1 @@
-ngx.say("Hello World")
+ngx.say("Hello World " .. ngx.var.name)

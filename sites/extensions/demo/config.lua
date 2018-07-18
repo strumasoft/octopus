@@ -2,7 +2,11 @@ local config = {} -- extension configuration
 
 config.locations = {
 	{name = "/", script = "controllers/IndexController.lua"},
-	{name = "/hello", script = "controllers/HelloWorldController.lua"},
+	{name = "~ /hello/(?<name>.+)", script = "controllers/HelloWorldController.lua", custom = [[
+		limit_except  GET {
+			deny all;
+		 }
+	]]},
 	{name = "/product", script = "controllers/ProductDetailController.lua"},
 }
 
