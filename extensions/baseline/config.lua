@@ -26,7 +26,7 @@ config.modules = {
 	{name = "BaselineHtmlTemplate", script = "BaselineHtmlTemplate.lua"}
 }
 
-config.javascripts = {
+config.javascript = {
 	{name = "Popup", script = "widgets/popup/Popup.js"},
 	{name = "InfoPopup", script = "widgets/popup/InfoPopup.js"},
 	{name = "OneFieldPopup", script = "widgets/popup/OneFieldPopup.js"},
@@ -35,7 +35,7 @@ config.javascripts = {
 	{name = "QuestionPopup", script = "widgets/popup/QuestionPopup.js"}
 }
 
-config.stylesheets = {
+config.stylesheet = {
 	{name = "style", script = "widgets/style.css"},
 	{name = "Popup", script = "widgets/popup/Popup.css"}
 }

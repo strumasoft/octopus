@@ -1,10 +1,5 @@
 -- Internal persistence library
 
---[[ Override Store ]]
--- persistence.store(path, obj1, method1, obj2, method2, .....)
---   Stores arbitrary items to the file at the given path
---   and add method at the end of every returned object
-
 --[[ Provides ]]
 -- persistence.store(path, ...): Stores arbitrary items to the file at the given path
 -- persistence.load(path): Loads files that were previously stored with store and returns them
@@ -26,8 +21,8 @@ persistence =
 			-- Path, open a file
 			file, e = io.open(path, "w");
 			if not file then
-                return error(e);
-            end
+				return error(e);
+			end
 		else
 			-- Just treat it as file
 			file = path;
@@ -35,7 +30,7 @@ persistence =
 		local n = select("#", ...);
 		-- Count references
 		local objRefCount = {}; -- Stores reference that will be exported
-		for i = 1, n, 2 do
+		for i = 1, n do
 			refCount(objRefCount, (select(i,...)));
 		end;
 		-- Export Objects with more than one ref and assign name
@@ -63,20 +58,15 @@ persistence =
 			end;
 		end;
 		-- Create the remaining objects
-		for i = 1, n, 2 do
+		for i = 1, n do
 			file:write("local ".."obj"..i.." = ");
 			write(file, (select(i,...)), 0, objRefNames);
 			file:write("\n");
-			local method = select(i+1,...)
-			if method then
-				file:write(method);
-				file:write("\n");
-			end
 		end
 		-- Return them
 		if n > 0 then
 			file:write("return obj1");
-			for i = 3, n, 2 do
+			for i = 2, n do
 				file:write(" ,obj"..i);
 			end;
 			file:write("\n");
@@ -195,6 +185,7 @@ return persistence
 
 --[[
  Copyright (c) 2010 Gerhard Roethlin
+
  Permission is hereby granted, free of charge, to any person
  obtaining a copy of this software and associated documentation
  files (the "Software"), to deal in the Software without
@@ -203,8 +194,10 @@ return persistence
  copies of the Software, and to permit persons to whom the
  Software is furnished to do so, subject to the following
  conditions:
+
  The above copyright notice and this permission notice shall be
  included in all copies or substantial portions of the Software.
+
  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND

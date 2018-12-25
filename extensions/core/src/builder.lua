@@ -4,16 +4,15 @@ local config = {} -- extension configuration
 config.modules = {
 	{name = "access", script = "access.lua"},
 	--forbidstatic.lua
-	{name = "htmltemplates", script = "htmltemplates.lua"},
-	--javascripts.lua
+	{name = "html", script = "html.lua"},
+	--javascript.lua
 	{name = "localization", script = "localization.lua"},
-	--locations.lua
+	--location.lua
 	{name = "modules", script = "modules.lua"},
 	--parse.lua
 	{name = "property", script = "property.lua"},
 	--static.lua
-	--stylesheets.lua
-	{name = "tests", script = "tests.lua"},
+	--stylesheet.lua
 	{name = "types", script = "types.lua"},
 }
 
@@ -333,7 +332,7 @@ local function generatePropertyTable (siteConfig, type, last)
 end -- end generatePropertyTable
 
 
-local function generateOverrideTable (siteConfig, type, extras, method)
+local function generateOverrideTable (siteConfig, type, extras)
 
 	local persistence = require "persistence"
 
@@ -380,7 +379,7 @@ local function generateOverrideTable (siteConfig, type, extras, method)
 		end
 	end
 
-	persistence.store(siteConfig.octopusHostDir .. "/build/src/" .. type .. ".lua", modules, method);
+	persistence.store(siteConfig.octopusHostDir .. "/build/src/" .. type .. ".lua", modules);
 
 	return modules
 
@@ -529,7 +528,7 @@ local function generateNginxConfig (siteConfig)
 
 	local locations = {}
 
-	local locationScripts = generateOverrideTable(siteConfig, "locations", {"requestBody", "uploadBody", "access", "resolver"})
+	local locationScripts = generateOverrideTable(siteConfig, "location", {"requestBody", "uploadBody", "access", "resolver"})
 
 	for name, scripts in pairs(locationScripts) do
 		local scriptFileName = scripts[#scripts] -- use only last script
@@ -623,10 +622,17 @@ local function generateModulesConfig (siteConfig)
 end -- end of generateModulesConfig
 
 
+local function generateHtmlConfig (siteConfig)
+
+	generateOverrideTable(siteConfig, "html", {})
+
+end -- end of generateHtmlConfig
+
+
 local function generateJavaScriptConfig (siteConfig)
 	local javaScriptFileName = siteConfig.octopusHostDir .. "/build/static"
 
-	local javascripts = generateOverrideTable(siteConfig, "javascripts", {"into"})
+	local javascripts = generateOverrideTable(siteConfig, "javascript", {"into"})
 	aggregateOverrideTable(siteConfig, javascripts, javaScriptFileName, {file = "widgets.js", json = true})
 
 end -- end generateJavaScriptConfig
@@ -636,72 +642,10 @@ local function generateStyleSheetConfig (siteConfig)
 
 	styleSheetFileName = siteConfig.octopusHostDir .. "/build/static" 
 
-	local stylesheets = generateOverrideTable(siteConfig, "stylesheets", {"into"})
+	local stylesheets = generateOverrideTable(siteConfig, "stylesheet", {"into"})
 	aggregateOverrideTable(siteConfig, stylesheets, styleSheetFileName, {file = "widgets.css", css = true, parse = true})
 
 end -- end generateStyleSheetConfig
-
-
-local function generateHtmlTemplateConfig (siteConfig)
-	
-	local parse = require "parse"
-	
-	local htmltemplates = generateOverrideTable(siteConfig, "htmltemplates", {})
-	
-	local modules = {}
-	for name, scripts in pairs(htmltemplates) do
-		local scriptFileName = scripts[#scripts] -- use only last script
-		
-		local f = assert(io.open(scriptFileName, "r"))
-		local content = f:read("*all")
-		f:close()
-		
-		modules[name] = content
-	end
-	
-	local method = [=[
-	
---local parse = require "parse"
-local template = require "template"
-local htmltemplates = obj1
-local htmltemplates_metatable = getmetatable(htmltemplates) or {}
-setmetatable(htmltemplates, htmltemplates_metatable)
-htmltemplates_metatable.__call = function (t, key, context)
-	assert(htmltemplates[key], "unknown html template " .. key)
-	local view = htmltemplates[key]
-	
-	if not context then
-		return view
-	else
-		--return parse(view, context)
-		if {{luaCodeCache}} then
-			return template.parsetemplate(view, context, key)
-		else
-			return template.parsetemplate(view, context, "no-cache")
-		end
-	end
-end
-
-	]=]
-
-	local cache_templates
-	if siteConfig.luaCodeCache == "on" then cache_templates = "true" else cache_templates = "false" end
-	
-	persistence.store(siteConfig.octopusHostDir .. "/build/src/htmltemplates.lua", modules, parse(method, {
-		luaCodeCache = cache_templates,
-	}))
-
-end -- end generateHtmlTemplateConfig
-
-
-local function generateTestConfig (siteConfig)
-
-	testFileName = siteConfig.octopusHostDir .. "/build/static" 
-
-	local tests = generateOverrideTable(siteConfig, "tests", {"into"})
-	aggregateOverrideTable(siteConfig, tests, testFileName, {file = "tests.js"})
-
-end -- end generateTestConfig
 
 
 local function generateParseConfig (siteConfig)
@@ -741,10 +685,9 @@ local function build (siteConfig)
 	siteConfig.localizations = generatePropertyTable(siteConfig, "localization")
 
 	generateParseConfig(siteConfig)
+	generateHtmlConfig(siteConfig)
 	generateJavaScriptConfig(siteConfig)
 	generateStyleSheetConfig(siteConfig)
-	generateHtmlTemplateConfig(siteConfig)
-	generateTestConfig(siteConfig)
 	generateNginxConfig(siteConfig)
 	generateOverrideTypesTable(siteConfig)
 	generateModulesConfig(siteConfig)
@@ -759,10 +702,9 @@ m.generateStaticConfig = generateStaticConfig
 m.generateForbidStaticConfig = generateForbidStaticConfig
 m.generateNginxConfig = generateNginxConfig
 m.generateModulesConfig = generateModulesConfig
+m.generateHtmlConfig = generateHtmlConfig
 m.generateJavaScriptConfig = generateJavaScriptConfig
 m.generateStyleSheetConfig = generateStyleSheetConfig
-m.generateHtmlTemplateConfig = generateHtmlTemplateConfig
-m.generateTestConfig = generateTestConfig
 m.generateParseConfig = generateParseConfig
 m.build = build
 return m

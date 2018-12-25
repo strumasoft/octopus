@@ -23,7 +23,7 @@ config.property = {
 	compareUrl = "/compare",
 }
 
-config.locations = {
+config.location = {
 	{name = property.editorUrl .. property.editorHomeUrl, script = "controllers/EditorController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorFileContentUrl, script = "controllers/operations/FileContentController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorDirectoryUrl, script = "controllers/operations/DirectoryController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
@@ -43,7 +43,7 @@ config.access = {
 	{name = "EditorThrowErrorOnSessionTimeoutFilter", script = "filter/EditorThrowErrorOnSessionTimeoutFilter.lua"},
 }
 
-config.javascripts = {
+config.javascript = {
 	{name = "EditorTemplate", script = "controllers/EditorTemplate.js"},
 	{name = "Editor", script = "widgets/Editor.js"},
 	{name = "EditorNavigation", script = "widgets/EditorNavigation.js"},
@@ -58,7 +58,7 @@ config.javascripts = {
 	{name = "CompareHeader", script = "widgets/CompareHeader.js"},
 }
 
-config.stylesheets = {
+config.stylesheet = {
 	{name = "EditorTemplate", script = "controllers/EditorTemplate.css"},
 	{name = "EditorNavigation", script = "widgets/EditorNavigation.css"},
 	{name = "EditorHeader", script = "widgets/EditorHeader.css"},

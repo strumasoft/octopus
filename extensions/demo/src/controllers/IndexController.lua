@@ -8,7 +8,7 @@ ngx.say([[
 <a href="/editor">Editor</a>
 
 <h1>Database</h1>
-<a href="/database">Database</a>, requires proper database credentials, see config_unix.lua
+<a href="/database">Database</a>, requires proper database credentials, see <b>config.lua</b>
 
 <h1>Shop</h1>
 <a href="/shop/home">Shop</a>, requires import from <a href="/database">Database</a>, execute:
@@ -19,9 +19,10 @@ db:import("shopImport")
 </pre>
 
 <h1>Security</h1>
-Requires setting <b>requireSecurity=true</b> in <b>config_unix.lua</b>, restart and execute import from <a href="/database">Database</a>:
+Requires setting <b>requireSecurity=true</b> in <b>config.lua</b>, restart and execute import from <a href="/database">Database</a>:
 <pre>
 db:import("securityImport")
+db:import("testUser")
 </pre>
 
 ]])

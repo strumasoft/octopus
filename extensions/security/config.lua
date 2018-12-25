@@ -14,25 +14,25 @@ config.localization = {
 
 }
 
-config.locations = {
+config.location = {
 	{name = property.securityLoginUrl, script = "controllers/SecurityLoginPageController.lua"},
 	{name = property.securityRegisterUrl, script = "controllers/SecurityRegisterPageController.lua"},
 	{name = property.securityLoginUserUrl, script = "controllers/SecurityLoginUserController.lua", requestBody = true},
 	{name = property.securityRegisterUserUrl, script = "controllers/SecurityRegisterUserController.lua", requestBody = true},
 }
 
-config.javascripts = {
+config.javascript = {
 	{name = "SecurityLoginForm", script = "widgets/LoginForm.js"},
 	{name = "SecurityRegisterForm", script = "widgets/RegisterForm.js"},
 }
 
-config.stylesheets = {
+config.stylesheet = {
 
 }
 
 config.modules = {
 	{name = "testUser", script = "testUser.lua"},
-	{name = "securityImport", script = "import.lua"},
+	{name = "securityImport", script = "securityImport.lua"},
 	{name = "userService", script = "modules/UserService.lua"}
 }
 
@@ -42,10 +42,6 @@ config.static = {
 
 config.types = {
 	"types.lua"
-}
-
-config.tests = {
-
 }
 
 return config -- return extension configuration

@@ -22,7 +22,7 @@ config.property = {
 	repositoryMergeUrl = "/merge",
 }
 
-config.locations = {
+config.location = {
 	{name = property.repositoryUrl .. property.repositoryStatusUrl, script = "controllers/RepositoryStatusController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 	{name = property.repositoryUrl .. property.repositoryFileHistoryUrl, script = "controllers/RepositoryFileHistoryController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 	{name = property.repositoryUrl .. property.repositoryLogHistoryUrl, script = "controllers/RepositoryLogHistoryController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
@@ -38,7 +38,7 @@ config.locations = {
 	{name = property.repositoryUrl .. property.repositoryMergeUrl, script = "controllers/operations/MergeController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 }
 
-config.javascripts = {
+config.javascript = {
 	{name = "RepositoryTemplate", script = "controllers/RepositoryTemplate.js"},
 	{name = "RepositoryStatusNavigation", script = "widgets/RepositoryStatusNavigation.js"},
 	{name = "RepositoryStatusHeader", script = "widgets/RepositoryStatusHeader.js"},
@@ -49,7 +49,7 @@ config.javascripts = {
 	{name = "RepositoryLog", script = "widgets/RepositoryLog.js"},
 }
 
-config.stylesheets = {
+config.stylesheet = {
 	{name = "RepositoryTemplate", script="controllers/RepositoryTemplate.css"},
 }
 

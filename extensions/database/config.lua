@@ -23,7 +23,7 @@ config.localization = {
 
 }
 
-config.locations = {
+config.location = {
 	{name = property.databaseUrl .. property.databaseHomeUrl, script = "controllers/DatabaseController.lua", access = "DatabaseRedirectOnSessionTimeoutFilter"},
 	{name = property.databaseUrl .. property.databaseExecuteUrl, script = "controllers/DatabaseExecuteController.lua", requestBody = true, access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
 	{name = property.databaseUrl .. property.databaseDeleteUrl, script = "controllers/DatabaseDeleteController.lua", requestBody = true, access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
@@ -40,7 +40,7 @@ config.access = {
 	{name = "DatabaseThrowErrorOnSessionTimeoutFilter", script = "filter/DatabaseThrowErrorOnSessionTimeoutFilter.lua"},
 }
 
-config.javascripts = {
+config.javascript = {
 	{name = "DatabaseTemplate", script = "controllers/DatabaseTemplate.js"},
 	{name = "DatabaseNavigation", script = "widgets/DatabaseNavigation.js"},
 	{name = "DatabaseHeader", script = "widgets/DatabaseHeader.js"},
@@ -50,7 +50,7 @@ config.javascripts = {
 	{name = "DatabaseEditObject", script = "widgets/DatabaseEditObject.js"}
 }
 
-config.stylesheets = {
+config.stylesheet = {
 	{name = "DatabaseTemplate", script = "controllers/DatabaseTemplate.css"},
 	{name = "DatabaseNavigation", script = "widgets/DatabaseNavigation.css"},
 	{name = "DatabaseHeader", script = "widgets/DatabaseHeader.css"},

@@ -24,7 +24,7 @@ config.modules = {
 	{name = "uuid", script = "uuid.lua"},
 }
 
-config.javascripts = {
+config.javascript = {
 	{name = "parse", script = "js/parse.js"},
 	{name = "widget", script = "js/widget.js"}
 }

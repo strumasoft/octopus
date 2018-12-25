@@ -83,7 +83,7 @@ config.localization = {
 	addToCart = {en = "Add To Cart", bg = "Добави В Кошницата"},
 }
 
-config.locations = {
+config.location = {
 	-- test controllers --
 	{name = property.shopUrl .. property.testUrl .. "/controllers", script = "controllers/test/TestControllersController.lua"},
 	{name = property.shopUrl .. property.testUrl .. "/modules", script = "controllers/test/TestModulesController.lua"},
@@ -138,7 +138,7 @@ config.access = {
 	{name = "ShopThrowErrorOnSessionTimeoutFilter", script = "filter/ShopThrowErrorOnSessionTimeoutFilter.lua"},
 }
 
-config.javascripts = {
+config.javascript = {
 	-- header --
 	{name = "Background", script = "widgets/header/Background.js"},
 	{name = "Logo", script = "widgets/header/Logo.js"},
@@ -168,7 +168,7 @@ config.javascripts = {
 	{name = "PaymentMethodForm", script = "widgets/checkout/PaymentMethodForm.js"},
 }
 
-config.stylesheets = {
+config.stylesheet = {
 	-- header --
 	--{name = "RegBackgroundWithPicture", script = "widgets/header/RegBackgroundWithPicture.css"}
 
@@ -201,10 +201,6 @@ config.static = {
 
 config.types = {
 	"types.lua"
-}
-
-config.tests = {
-	{name = "testshop", script = "tests.js"}
 }
 
 return config -- return extension configuration

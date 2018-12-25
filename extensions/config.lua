@@ -23,9 +23,9 @@ return {
 	maxBodySize = "50k",
 	
 	databaseConnection = {
-		rdbms       =   "postgres",
+		rdbms       =   "mysql",
 		host        =   "127.0.0.1",
-		port        =   5432, 
+		port        =   3306, 
 		database    =   "demo",
 		user        =   "demo",
 		password    =   "demo",
