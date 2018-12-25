@@ -30,11 +30,8 @@ local function transform (text, data, delimiter, nestedCycles, nestedConditions)
 				local array = eval.code(arrayExpression, data, true)
 				
 				-- find element that will be repeated
-				local endDelimiter = delimiter.close .. multiplyString("#", nestedCycles)
+				local endDelimiter = delimiter.close .. multiplyString("#", nestedCycles) .. "\n"
 				local endDelimiterIndex = text:indexOf(endDelimiter, arrayExpressionEndIndex + 1)
-				while text:charAt(endDelimiterIndex + endDelimiter:len()) == "#" do
-					endDelimiterIndex = text:indexOf(endDelimiter, endDelimiterIndex + 1)
-				end
 				local element = text:sub(arrayExpressionEndIndex + 1, endDelimiterIndex - 1)
 				
 				-- iterate the array over the element
@@ -57,11 +54,8 @@ local function transform (text, data, delimiter, nestedCycles, nestedConditions)
 				local condition = eval.code(conditionExpression, data, true)
 				
 				-- find element that will be conditioned
-				local endDelimiter = delimiter.close .. multiplyString("?", nestedConditions)
+				local endDelimiter = delimiter.close .. multiplyString("?", nestedConditions) .. "\n"
 				local endDelimiterIndex = text:indexOf(endDelimiter, conditionExpressionEndIndex + 1)
-				while text:charAt(endDelimiterIndex + endDelimiter:len()) == "?" do
-					endDelimiterIndex = text:indexOf(endDelimiter, endDelimiterIndex + 1)
-				end
 				local element = text:sub(conditionExpressionEndIndex + 1, endDelimiterIndex - 1)
 				
 				-- condition over the element

@@ -1,10 +1,10 @@
 local _ = require "template"
-	
-ngx.say(_.t1{
-	_ = _,
-	message1 = "Hello",
-	message2 = "World",
-	message3 = _.t2{
-		message = "!!!"
-	}
+
+ngx.header.content_type = 'text/plain'
+
+ngx.say(_.t2{
+	message = "gogo",
+	array = {{1,2}, {3,4}, {5,6}},
+	array2 = {7,8},
+	logo = "$"
 })
