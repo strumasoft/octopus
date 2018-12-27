@@ -17,13 +17,6 @@ db:dropAllTables()
 db:createAllTables()
 db:import("shopImport")
 </pre>
-
-<h1>Security</h1>
-Security requires import from <a href="/database">Database</a>, execute: 
-<pre>
-db:import("securityImport")
-db:import("testUserImport")
-</pre>
-then setting <b>requireSecurity=true</b> in <b>config.lua</b>, restart server
+use the following credentials - username 'test@test.com' and password 'test'
 
 ]])

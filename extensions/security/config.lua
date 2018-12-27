@@ -31,9 +31,8 @@ config.stylesheet = {
 }
 
 config.module = {
-	{name = "testUserImport", script = "import/testUserImport.lua"},
-	{name = "securityImport", script = "import/securityImport.lua"},
-	{name = "userService", script = "module/UserService.lua"}
+	{name = "userService", script = "module/UserService.lua"},
+	{name = "securityImport", script = "import.lua"},
 }
 
 config.static = {

@@ -61,18 +61,17 @@ cd bin/unix
 ```
 then just open [localhost:8787](http://localhost:8787)
 
-Database, users and security
+Demo Shop
 ============
 
-* Set up database connection - databaseConnection object in [config.lua](extensions/config.lua)
-* Import test user from security extension [import.lua](extensions/security/src/import.lua) file in [localhost:8787/database](http://localhost:8787/database)
+* Create database and set up database connection - databaseConnection object in [config.lua](extensions/config.lua)
+* Create tables and import data - go to [localhost:8787/database](http://localhost:8787/database) and execute
 ```lua
 db:dropAllTables()
 db:createAllTables()
-db:import("securityImport")
 db:import("shopImport")
 ```
-* Enable security - set `requireSecurity = true` in globalParameters object in [config.lua](extensions/config.lua) and edit database connection parameters
+* use the following credentials - username 'test@test.com' and password 'test'
 
 Copyright and License
 =====================

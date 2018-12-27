@@ -6,7 +6,7 @@ local userService = require "userService"
 
 
 -- security --
-if property.requireSecurity then
+if property.shopRequireSecurity then
 	local db = database.connect()
 	local status, res = pcall(userService.loggedIn, db)
 	db:close()

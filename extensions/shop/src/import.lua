@@ -641,11 +641,17 @@ return {
 			},
 		},
 
-
+		user = {
+			testUser = {
+				email               =   "test@test.com", -- password is "test"
+				passwordSalt        =   "zYQ3CgsFOBFwAHHA+v+O",
+				passwordHash        =   "yPaXabiIXNPexjVtQkxDgPv61NQN2uiZczUNN1vlViA=",
+			},
+		},
+	
 		userGroup = {
 			netUser = {code = "netUser"},
 		},
-
 
 		-- delivery and payment --
 

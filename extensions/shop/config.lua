@@ -1,13 +1,15 @@
 local config = {} -- extension configuration
 
 config.property = {
+	-- security --
+	shopRequireSecurity = true,
+	
 	-- country & locale --
 	defaultCountryIsocode = "GB",
 
 	----------
 	-- URLs --
 	----------
-
 	shopUrl = "/shop",
 
 	-- home --
