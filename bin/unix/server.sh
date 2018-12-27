@@ -17,7 +17,8 @@ export LUAJIT_LIB=$luajit_install/lib
 export LUAJIT_INC=$luajit_install/include/luajit-2.0
 
 
-function download {
+
+function download_archive {
 	file_name="$destination_folder/$1.$2"
 	url=$3
 
@@ -40,28 +41,28 @@ function nginx_install {
 	nginx=nginx
 	nginx_version=1.15.8
 	nginx_url=http://nginx.org/download/nginx-$nginx_version.tar.gz
-	download $nginx tar.gz $nginx_url
+	download_archive $nginx tar.gz $nginx_url
 
 
 	# ngx_devel_kit
 	ngx_devel_kit=ngx_devel_kit
 	ngx_devel_kit_version=0.3.1rc1
 	ngx_devel_kit_url=https://github.com/simpl/ngx_devel_kit/archive/v$ngx_devel_kit_version.tar.gz
-	download $ngx_devel_kit tar.gz $ngx_devel_kit_url
+	download_archive $ngx_devel_kit tar.gz $ngx_devel_kit_url
 
 
 	# lua-nginx-module
 	lua_nginx_module=lua-nginx-module
 	lua_nginx_module_version=0.10.13
 	lua_nginx_module_url=https://github.com/openresty/lua-nginx-module/archive/v$lua_nginx_module_version.tar.gz
-	download $lua_nginx_module tar.gz $lua_nginx_module_url
+	download_archive $lua_nginx_module tar.gz $lua_nginx_module_url
 
 
 	# install LuaJIT
 	luajit=LuaJIT
 	luajit_version=2.0.5
 	luajit_url=http://luajit.org/download/LuaJIT-$luajit_version.tar.gz
-	download $luajit tar.gz $luajit_url
+	download_archive $luajit tar.gz $luajit_url
 	cd $destination_folder/$luajit-$luajit_version
 	make
 	make install PREFIX=$luajit_install
@@ -72,7 +73,7 @@ function nginx_install {
 	lfs=luafilesystem
 	lfs_version=1_7_0_2
 	lfs_url=https://github.com/keplerproject/luafilesystem/archive/v$lfs_version.tar.gz
-	download $lfs tar.gz $lfs_url
+	download_archive $lfs tar.gz $lfs_url
 	cd $destination_folder/$lfs-$lfs_version
 	cat $nginx_install/config/lfs.config > config
 	make
@@ -83,7 +84,7 @@ function nginx_install {
 	pcre=pcre
 	pcre_version=8.42
 	pcre_url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/$pcre-$pcre_version.tar.gz
-	download $pcre tar.gz $pcre_url
+	download_archive $pcre tar.gz $pcre_url
 
 
 	# install zlib
@@ -91,7 +92,7 @@ function nginx_install {
 	zlib=zlib
 	zlib_version=1.2.11
 	zlib_url=http://zlib.net/zlib-$zlib_version.tar.gz
-	download $zlib tar.gz $zlib_url
+	download_archive $zlib tar.gz $zlib_url
 
 
 	# install nginx
