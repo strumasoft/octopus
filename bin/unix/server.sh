@@ -38,28 +38,28 @@ function nginx_install {
 
 	# nginx
 	nginx=nginx
-	nginx_version=1.10.2
+	nginx_version=1.15.8
 	nginx_url=http://nginx.org/download/nginx-$nginx_version.tar.gz
 	download $nginx tar.gz $nginx_url
 
 
 	# ngx_devel_kit
 	ngx_devel_kit=ngx_devel_kit
-	ngx_devel_kit_version=0.3.0
+	ngx_devel_kit_version=0.3.1rc1
 	ngx_devel_kit_url=https://github.com/simpl/ngx_devel_kit/archive/v$ngx_devel_kit_version.tar.gz
 	download $ngx_devel_kit tar.gz $ngx_devel_kit_url
 
 
 	# lua-nginx-module
 	lua_nginx_module=lua-nginx-module
-	lua_nginx_module_version=0.10.7
+	lua_nginx_module_version=0.10.13
 	lua_nginx_module_url=https://github.com/openresty/lua-nginx-module/archive/v$lua_nginx_module_version.tar.gz
 	download $lua_nginx_module tar.gz $lua_nginx_module_url
 
 
 	# install LuaJIT
 	luajit=LuaJIT
-	luajit_version=2.0.4
+	luajit_version=2.0.5
 	luajit_url=http://luajit.org/download/LuaJIT-$luajit_version.tar.gz
 	download $luajit tar.gz $luajit_url
 	cd $destination_folder/$luajit-$luajit_version
@@ -70,8 +70,8 @@ function nginx_install {
 	# install lfs
 	# config/lfs.config
 	lfs=luafilesystem
-	lfs_version=v_1_6_3
-	lfs_url=https://github.com/keplerproject/luafilesystem/archive/$lfs_version.tar.gz
+	lfs_version=1_7_0_2
+	lfs_url=https://github.com/keplerproject/luafilesystem/archive/v$lfs_version.tar.gz
 	download $lfs tar.gz $lfs_url
 	cd $destination_folder/$lfs-$lfs_version
 	cat $nginx_install/config/lfs.config > config
@@ -81,7 +81,7 @@ function nginx_install {
 
 	# install PCRE
 	pcre=pcre
-	pcre_version=8.39
+	pcre_version=8.42
 	pcre_url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/$pcre-$pcre_version.tar.gz
 	download $pcre tar.gz $pcre_url
 
