@@ -84,48 +84,48 @@ config.localization = {
 
 config.location = {
 	-- home --
-	{name = property.shopUrl .. property.shopHomeUrl, script = "controllers/HomePageController.lua"},
-	{name = property.shopUrl .. property.changeCountryUrl, script = "controllers/ChangeCountryController.lua"},
+	{name = property.shopUrl .. property.shopHomeUrl, script = "controller/HomePageController.lua"},
+	{name = property.shopUrl .. property.changeCountryUrl, script = "controller/ChangeCountryController.lua"},
 
 	-- catalog --
-	{name = property.shopUrl .. property.productUrl, script = "controllers/catalog/ProductPageController.lua"},
-	{name = property.shopUrl .. property.categoryUrl, script = "controllers/catalog/CategoryPageController.lua"},
+	{name = property.shopUrl .. property.productUrl, script = "controller/catalog/ProductPageController.lua"},
+	{name = property.shopUrl .. property.categoryUrl, script = "controller/catalog/CategoryPageController.lua"},
 
 	-- account --
-	{name = property.shopUrl .. property.accountUrl, script = "controllers/account/AccountPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
-	{name = property.shopUrl .. property.loginUrl, script = "controllers/account/LoginPageController.lua"},
-	{name = property.shopUrl .. property.registerUrl, script = "controllers/account/RegisterPageController.lua"},
+	{name = property.shopUrl .. property.accountUrl, script = "controller/account/AccountPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.loginUrl, script = "controller/account/LoginPageController.lua"},
+	{name = property.shopUrl .. property.registerUrl, script = "controller/account/RegisterPageController.lua"},
 
-	{name = property.shopUrl .. property.accountOrdersUrl, script = "controllers/account/AccountOrdersPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
-	{name = property.shopUrl .. property.accountOrderUrl, script = "controllers/account/AccountOrderPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.accountOrdersUrl, script = "controller/account/AccountOrdersPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.accountOrderUrl, script = "controller/account/AccountOrderPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
 
-	{name = property.shopUrl .. property.accountAddressesUrl, script = "controllers/account/AccountAddressesPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
-	{name = property.shopUrl .. property.accountAddressUrl, script = "controllers/account/AccountAddressPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
-	{name = property.shopUrl .. property.accountAddUpdateAddressUrl, requestBody = true, script = "controllers/account/AccountAddUpdateAddressController.lua", access = "ShopThrowErrorOnSessionTimeoutFilter"},
-	{name = property.shopUrl .. property.accountRemoveAddressUrl, script = "controllers/account/AccountRemoveAddressController.lua", access = "ShopThrowErrorOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.accountAddressesUrl, script = "controller/account/AccountAddressesPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.accountAddressUrl, script = "controller/account/AccountAddressPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.accountAddUpdateAddressUrl, script = "controller/account/AccountAddUpdateAddressController.lua", requestBody = true, access = "ShopThrowErrorOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.accountRemoveAddressUrl, script = "controller/account/AccountRemoveAddressController.lua", access = "ShopThrowErrorOnSessionTimeoutFilter"},
 
 	-- checkout --
-	{name = property.shopUrl .. property.cartUrl, script = "controllers/checkout/CartPageController.lua"},
-	{name = property.shopUrl .. property.addToCartUrl, script = "controllers/checkout/AddToCartController.lua"},
-	{name = property.shopUrl .. property.updateProductEntryUrl, script = "controllers/checkout/UpdateProductEntryController.lua"},
+	{name = property.shopUrl .. property.cartUrl, script = "controller/checkout/CartPageController.lua"},
+	{name = property.shopUrl .. property.addToCartUrl, script = "controller/checkout/AddToCartController.lua"},
+	{name = property.shopUrl .. property.updateProductEntryUrl, script = "controller/checkout/UpdateProductEntryController.lua"},
 
-	{name = property.shopUrl .. property.checkoutUrl, script = "controllers/checkout/CheckoutPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.checkoutUrl, script = "controller/checkout/CheckoutPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
 
-	{name = property.shopUrl .. property.checkoutReviewOrderUrl, script = "controllers/checkout/CheckoutReviewOrderPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
-	{name = property.shopUrl .. property.checkoutPlaceOrderUrl, script = "controllers/checkout/CheckoutPlaceOrderController.lua", access = "ShopThrowErrorOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.checkoutReviewOrderUrl, script = "controller/checkout/CheckoutReviewOrderPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.checkoutPlaceOrderUrl, script = "controller/checkout/CheckoutPlaceOrderController.lua", access = "ShopThrowErrorOnSessionTimeoutFilter"},
 
-	{name = property.shopUrl .. property.checkoutConfirmationUrl, script = "controllers/checkout/CheckoutConfirmationPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.checkoutConfirmationUrl, script = "controller/checkout/CheckoutConfirmationPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
 
-	{name = property.shopUrl .. property.checkoutAddressesUrl, script = "controllers/checkout/CheckoutAddressesPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
-	{name = property.shopUrl .. property.checkoutAddressUrl, script = "controllers/checkout/CheckoutAddressPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
-	{name = property.shopUrl .. property.checkoutAddAddressUrl, requestBody = true, script = "controllers/checkout/CheckoutAddAddressController.lua", access = "ShopThrowErrorOnSessionTimeoutFilter"},
-	{name = property.shopUrl .. property.checkoutSetAddressUrl, script = "controllers/checkout/CheckoutSetAddressController.lua", access = "ShopThrowErrorOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.checkoutAddressesUrl, script = "controller/checkout/CheckoutAddressesPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.checkoutAddressUrl, script = "controller/checkout/CheckoutAddressPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.checkoutAddAddressUrl, script = "controller/checkout/CheckoutAddAddressController.lua", requestBody = true, access = "ShopThrowErrorOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.checkoutSetAddressUrl, script = "controller/checkout/CheckoutSetAddressController.lua", access = "ShopThrowErrorOnSessionTimeoutFilter"},
 
-	{name = property.shopUrl .. property.checkoutDeliveryMethodUrl, script = "controllers/checkout/CheckoutDeliveryMethodPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
-	{name = property.shopUrl .. property.checkoutSetDeliveryMethodUrl, script = "controllers/checkout/CheckoutSetDeliveryMethodController.lua", access = "ShopThrowErrorOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.checkoutDeliveryMethodUrl, script = "controller/checkout/CheckoutDeliveryMethodPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.checkoutSetDeliveryMethodUrl, script = "controller/checkout/CheckoutSetDeliveryMethodController.lua", access = "ShopThrowErrorOnSessionTimeoutFilter"},
 
-	{name = property.shopUrl .. property.checkoutPaymentMethodUrl, script = "controllers/checkout/CheckoutPaymentMethodPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
-	{name = property.shopUrl .. property.checkoutSetPaymentMethodUrl, script = "controllers/checkout/CheckoutSetPaymentMethodController.lua", access = "ShopThrowErrorOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.checkoutPaymentMethodUrl, script = "controller/checkout/CheckoutPaymentMethodPageController.lua", access = "ShopRedirectOnSessionTimeoutFilter"},
+	{name = property.shopUrl .. property.checkoutSetPaymentMethodUrl, script = "controller/checkout/CheckoutSetPaymentMethodController.lua", access = "ShopThrowErrorOnSessionTimeoutFilter"},
 }
 
 config.access = {
@@ -135,45 +135,45 @@ config.access = {
 
 config.javascript = {
 	-- header --
-	{name = "Background", script = "widgets/header/Background.js"},
-	{name = "Logo", script = "widgets/header/Logo.js"},
-	{name = "CallUs", script = "widgets/header/CallUs.js"},
-	{name = "Search", script = "widgets/header/Search.js"},
-	{name = "MiniCart", script = "widgets/header/MiniCart.js"},
-	{name = "ShopHeader", script = "widgets/header/ShopHeader.js"},
-	{name = "Error", script = "widgets/header/Error.js"},
+	{name = "Background", script = "widget/header/Background.js"},
+	{name = "Logo", script = "widget/header/Logo.js"},
+	{name = "CallUs", script = "widget/header/CallUs.js"},
+	{name = "Search", script = "widget/header/Search.js"},
+	{name = "MiniCart", script = "widget/header/MiniCart.js"},
+	{name = "ShopHeader", script = "widget/header/ShopHeader.js"},
+	{name = "Error", script = "widget/header/Error.js"},
 
 	-- catalog --
-	{name = "HorizontalNavigation", script = "widgets/catalog/HorizontalNavigation.js"},
-	{name = "ProductsGrid", script = "widgets/catalog/ProductsGrid.js"},
-	{name = "ProductAttributeFilter", script = "widgets/catalog/ProductAttributeFilter.js"},
-	{name = "ProductDetail", script = "widgets/catalog/ProductDetail.js"},
+	{name = "HorizontalNavigation", script = "widget/catalog/HorizontalNavigation.js"},
+	{name = "ProductsGrid", script = "widget/catalog/ProductsGrid.js"},
+	{name = "ProductAttributeFilter", script = "widget/catalog/ProductAttributeFilter.js"},
+	{name = "ProductDetail", script = "widget/catalog/ProductDetail.js"},
 
 	-- account --
-	{name = "RegisterForm", script = "widgets/account/RegisterForm.js"},
-	{name = "AccountOptions", script = "widgets/account/AccountOptions.js"},
-	{name = "Orders", script = "widgets/account/Orders.js"},
-	{name = "Order", script = "widgets/account/Order.js"},
-	{name = "Addresses", script = "widgets/account/Addresses.js"},
-	{name = "AddressForm", script = "widgets/account/AddressForm.js"},
+	{name = "RegisterForm", script = "widget/account/RegisterForm.js"},
+	{name = "AccountOptions", script = "widget/account/AccountOptions.js"},
+	{name = "Orders", script = "widget/account/Orders.js"},
+	{name = "Order", script = "widget/account/Order.js"},
+	{name = "Addresses", script = "widget/account/Addresses.js"},
+	{name = "AddressForm", script = "widget/account/AddressForm.js"},
 
 	-- checkout --
-	{name = "Cart", script = "widgets/checkout/Cart.js"},
-	{name = "DeliveryMethodForm", script = "widgets/checkout/DeliveryMethodForm.js"},
-	{name = "PaymentMethodForm", script = "widgets/checkout/PaymentMethodForm.js"},
+	{name = "Cart", script = "widget/checkout/Cart.js"},
+	{name = "DeliveryMethodForm", script = "widget/checkout/DeliveryMethodForm.js"},
+	{name = "PaymentMethodForm", script = "widget/checkout/PaymentMethodForm.js"},
 }
 
 config.stylesheet = {
 	-- header --
-	--{name = "RegBackgroundWithPicture", script = "widgets/header/RegBackgroundWithPicture.css"}
+	--{name = "RegBackgroundWithPicture", script = "widget/header/RegBackgroundWithPicture.css"}
 
 	-- catalog --
-	{name = "HorizontalNavigation", script = "widgets/catalog/HorizontalNavigation.css"},
+	{name = "HorizontalNavigation", script = "widget/catalog/HorizontalNavigation.css"},
 
 	-- account --
 
 	-- checkout --
-	{name = "Cart", script = "widgets/checkout/Cart.css"},
+	{name = "Cart", script = "widget/checkout/Cart.css"},
 }
 
 config.module = {
@@ -181,13 +181,13 @@ config.module = {
 	{name = "shopImport", script = "import.lua"},
 
 	-- services --
-	{name = "countryService", script = "modules/CountryService.lua"},
-	{name = "localeService", script = "modules/LocaleService.lua"},
-	{name = "priceService", script = "modules/PriceService.lua"},
-	{name = "cartService", script = "modules/CartService.lua"},
+	{name = "countryService", script = "module/CountryService.lua"},
+	{name = "localeService", script = "module/LocaleService.lua"},
+	{name = "priceService", script = "module/PriceService.lua"},
+	{name = "cartService", script = "module/CartService.lua"},
 
 	-- exception --
-	{name = "exceptionHandler", script = "modules/ExceptionHandler.lua"},
+	{name = "exceptionHandler", script = "module/ExceptionHandler.lua"},
 }
 
 config.static = {

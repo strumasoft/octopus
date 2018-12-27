@@ -14,25 +14,25 @@ config.localization = {
 }
 
 config.location = {
-	{name = "/", script = "controllers/IndexController.lua"},
-	{name = "/hello", script = "controllers/HelloWorldController.lua"},
-	{name = "/product", script = "controllers/ProductDetailController.lua"},
+	{name = "/", script = "controller/IndexController.lua"},
+	{name = "/hello", script = "controller/HelloWorldController.lua"},
+	{name = "/product", script = "controller/ProductDetailController.lua"},
 }
 
 config.module = {
-	{name = "DemoProductService", script = "modules/DemoProductService.lua"},
+	{name = "DemoProductService", script = "module/DemoProductService.lua"},
 }
 
 config.html = {
-	{name = "t1", script = "widgets/DemoTemplate1.lua"},
-	{name = "t2", script = "widgets/DemoTemplate2.lua"},
+	{name = "t1", script = "widget/DemoTemplate1.lua"},
+	{name = "t2", script = "widget/DemoTemplate2.lua"},
 }
 
 config.javascript = {
-	{name = "DemoProductDetail", script = "widgets/DemoProductDetail.js"},
-	{name = "DemoError", script = "widgets/DemoError.js"},
-	{name = "DemoHeader", script = "widgets/DemoHeader.js"},
-	{name = "DemoFooter", script = "widgets/DemoFooter.js"},
+	{name = "DemoProductDetail", script = "widget/DemoProductDetail.js"},
+	{name = "DemoError", script = "widget/DemoError.js"},
+	{name = "DemoHeader", script = "widget/DemoHeader.js"},
+	{name = "DemoFooter", script = "widget/DemoFooter.js"},
 }
 
 config.stylesheet = {

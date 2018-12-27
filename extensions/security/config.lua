@@ -15,15 +15,15 @@ config.localization = {
 }
 
 config.location = {
-	{name = property.securityLoginUrl, script = "controllers/SecurityLoginPageController.lua"},
-	{name = property.securityRegisterUrl, script = "controllers/SecurityRegisterPageController.lua"},
-	{name = property.securityLoginUserUrl, script = "controllers/SecurityLoginUserController.lua", requestBody = true},
-	{name = property.securityRegisterUserUrl, script = "controllers/SecurityRegisterUserController.lua", requestBody = true},
+	{name = property.securityLoginUrl, script = "controller/SecurityLoginPageController.lua"},
+	{name = property.securityRegisterUrl, script = "controller/SecurityRegisterPageController.lua"},
+	{name = property.securityLoginUserUrl, script = "controller/SecurityLoginUserController.lua", requestBody = true},
+	{name = property.securityRegisterUserUrl, script = "controller/SecurityRegisterUserController.lua", requestBody = true},
 }
 
 config.javascript = {
-	{name = "SecurityLoginForm", script = "widgets/LoginForm.js"},
-	{name = "SecurityRegisterForm", script = "widgets/RegisterForm.js"},
+	{name = "SecurityLoginForm", script = "widget/LoginForm.js"},
+	{name = "SecurityRegisterForm", script = "widget/RegisterForm.js"},
 }
 
 config.stylesheet = {
@@ -33,7 +33,7 @@ config.stylesheet = {
 config.module = {
 	{name = "testUserImport", script = "import/testUserImport.lua"},
 	{name = "securityImport", script = "import/securityImport.lua"},
-	{name = "userService", script = "modules/UserService.lua"}
+	{name = "userService", script = "module/UserService.lua"}
 }
 
 config.static = {

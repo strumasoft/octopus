@@ -27,21 +27,21 @@ config.module = {
 }
 
 config.javascript = {
-	{name = "Popup", script = "widgets/popup/Popup.js"},
-	{name = "InfoPopup", script = "widgets/popup/InfoPopup.js"},
-	{name = "OneFieldPopup", script = "widgets/popup/OneFieldPopup.js"},
-	{name = "TwoFieldsPopup", script = "widgets/popup/TwoFieldsPopup.js"},
-	{name = "ThreeFieldsPopup", script = "widgets/popup/ThreeFieldsPopup.js"},
-	{name = "QuestionPopup", script = "widgets/popup/QuestionPopup.js"}
+	{name = "Popup", script = "widget/popup/Popup.js"},
+	{name = "InfoPopup", script = "widget/popup/InfoPopup.js"},
+	{name = "OneFieldPopup", script = "widget/popup/OneFieldPopup.js"},
+	{name = "TwoFieldsPopup", script = "widget/popup/TwoFieldsPopup.js"},
+	{name = "ThreeFieldsPopup", script = "widget/popup/ThreeFieldsPopup.js"},
+	{name = "QuestionPopup", script = "widget/popup/QuestionPopup.js"}
 }
 
 config.stylesheet = {
-	{name = "style", script = "widgets/style.css"},
-	{name = "Popup", script = "widgets/popup/Popup.css"}
+	{name = "style", script = "widget/style.css"},
+	{name = "Popup", script = "widget/popup/Popup.css"}
 }
 
 config.parse = {
-	{name = "/build/static/nav.css", script = "widgets/nav.css"}
+	{name = "/build/static/nav.css", script = "widget/nav.css"}
 }
 
 config.static = {

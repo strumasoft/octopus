@@ -24,15 +24,15 @@ config.localization = {
 }
 
 config.location = {
-	{name = property.databaseUrl .. property.databaseHomeUrl, script = "controllers/DatabaseController.lua", access = "DatabaseRedirectOnSessionTimeoutFilter"},
-	{name = property.databaseUrl .. property.databaseExecuteUrl, script = "controllers/DatabaseExecuteController.lua", requestBody = true, access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
-	{name = property.databaseUrl .. property.databaseDeleteUrl, script = "controllers/DatabaseDeleteController.lua", requestBody = true, access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
-	{name = property.databaseUrl .. property.databaseDeleteReferenceUrl, script = "controllers/DatabaseDeleteReferenceController.lua", requestBody = true, access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
-	{name = property.databaseUrl .. property.databaseDeleteAllReferencesUrl, script = "controllers/DatabaseDeleteAllReferencesController.lua", requestBody = true, access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
-	{name = property.databaseUrl .. property.databaseAddUrl, script = "controllers/DatabaseAddController.lua", access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
-	{name = property.databaseUrl .. property.databaseAddReferenceUrl, script = "controllers/DatabaseAddReferenceController.lua", access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
-	{name = property.databaseUrl .. property.databaseEditUrl, script = "controllers/DatabaseEditController.lua", access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
-	{name = property.databaseUrl .. property.databaseSaveUrl, script = "controllers/DatabaseSaveController.lua", requestBody = true, access = "DatabaseThrowErrorOnSessionTimeoutFilter"}
+	{name = property.databaseUrl .. property.databaseHomeUrl, script = "controller/DatabaseController.lua", access = "DatabaseRedirectOnSessionTimeoutFilter"},
+	{name = property.databaseUrl .. property.databaseExecuteUrl, script = "controller/DatabaseExecuteController.lua", requestBody = true, access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
+	{name = property.databaseUrl .. property.databaseDeleteUrl, script = "controller/DatabaseDeleteController.lua", requestBody = true, access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
+	{name = property.databaseUrl .. property.databaseDeleteReferenceUrl, script = "controller/DatabaseDeleteReferenceController.lua", requestBody = true, access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
+	{name = property.databaseUrl .. property.databaseDeleteAllReferencesUrl, script = "controller/DatabaseDeleteAllReferencesController.lua", requestBody = true, access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
+	{name = property.databaseUrl .. property.databaseAddUrl, script = "controller/DatabaseAddController.lua", access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
+	{name = property.databaseUrl .. property.databaseAddReferenceUrl, script = "controller/DatabaseAddReferenceController.lua", access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
+	{name = property.databaseUrl .. property.databaseEditUrl, script = "controller/DatabaseEditController.lua", access = "DatabaseThrowErrorOnSessionTimeoutFilter"},
+	{name = property.databaseUrl .. property.databaseSaveUrl, script = "controller/DatabaseSaveController.lua", requestBody = true, access = "DatabaseThrowErrorOnSessionTimeoutFilter"}
 }
 
 config.access = {
@@ -41,19 +41,19 @@ config.access = {
 }
 
 config.javascript = {
-	{name = "DatabaseTemplate", script = "controllers/DatabaseTemplate.js"},
-	{name = "DatabaseNavigation", script = "widgets/DatabaseNavigation.js"},
-	{name = "DatabaseHeader", script = "widgets/DatabaseHeader.js"},
-	{name = "DatabaseEditor", script = "widgets/DatabaseEditor.js"},
-	{name = "DatabaseTabs", script = "widgets/DatabaseTabs.js"},
-	{name = "DatabaseResult", script = "widgets/DatabaseResult.js"},
-	{name = "DatabaseEditObject", script = "widgets/DatabaseEditObject.js"}
+	{name = "DatabaseTemplate", script = "controller/DatabaseTemplate.js"},
+	{name = "DatabaseNavigation", script = "widget/DatabaseNavigation.js"},
+	{name = "DatabaseHeader", script = "widget/DatabaseHeader.js"},
+	{name = "DatabaseEditor", script = "widget/DatabaseEditor.js"},
+	{name = "DatabaseTabs", script = "widget/DatabaseTabs.js"},
+	{name = "DatabaseResult", script = "widget/DatabaseResult.js"},
+	{name = "DatabaseEditObject", script = "widget/DatabaseEditObject.js"}
 }
 
 config.stylesheet = {
-	{name = "DatabaseTemplate", script = "controllers/DatabaseTemplate.css"},
-	{name = "DatabaseNavigation", script = "widgets/DatabaseNavigation.css"},
-	{name = "DatabaseHeader", script = "widgets/DatabaseHeader.css"},
+	{name = "DatabaseTemplate", script = "controller/DatabaseTemplate.css"},
+	{name = "DatabaseNavigation", script = "widget/DatabaseNavigation.css"},
+	{name = "DatabaseHeader", script = "widget/DatabaseHeader.css"},
 }
 
 config.module = {
