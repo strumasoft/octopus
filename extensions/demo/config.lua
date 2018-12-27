@@ -19,7 +19,7 @@ config.location = {
 	{name = "/product", script = "controllers/ProductDetailController.lua"},
 }
 
-config.modules = {
+config.module = {
 	{name = "DemoProductService", script = "modules/DemoProductService.lua"},
 }
 
@@ -43,7 +43,7 @@ config.static = {
 	"static"
 }
 
-config.types = {
+config.type = {
 
 }
 

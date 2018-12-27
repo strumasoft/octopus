@@ -64,7 +64,7 @@ config.stylesheet = {
 	{name = "EditorHeader", script = "widgets/EditorHeader.css"},
 }
 
-config.modules = {
+config.module = {
 	{name = "Directory", script = "modules/Directory.lua"},
 	{name = "Editor", script = "modules/Editor.lua"}
 }

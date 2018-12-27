@@ -16,7 +16,7 @@ local function loadModules ()
 	if MODULES[octopusHostDir] then
 		return MODULES[octopusHostDir]
 	else
-		local modules = dofile(octopusHostDir .. "/build/src/modules.lua")
+		local modules = dofile(octopusHostDir .. "/build/src/module.lua")
 		MODULES[octopusHostDir] = modules
 		return modules
 	end

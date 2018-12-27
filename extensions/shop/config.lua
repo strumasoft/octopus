@@ -7,7 +7,6 @@ config.property = {
 	----------
 	-- URLs --
 	----------
-	testUrl = "/test",
 
 	shopUrl = "/shop",
 
@@ -84,10 +83,6 @@ config.localization = {
 }
 
 config.location = {
-	-- test controllers --
-	{name = property.shopUrl .. property.testUrl .. "/controllers", script = "controllers/test/TestControllersController.lua"},
-	{name = property.shopUrl .. property.testUrl .. "/modules", script = "controllers/test/TestModulesController.lua"},
-
 	-- home --
 	{name = property.shopUrl .. property.shopHomeUrl, script = "controllers/HomePageController.lua"},
 	{name = property.shopUrl .. property.changeCountryUrl, script = "controllers/ChangeCountryController.lua"},
@@ -181,7 +176,7 @@ config.stylesheet = {
 	{name = "Cart", script = "widgets/checkout/Cart.css"},
 }
 
-config.modules = {
+config.module = {
 	-- import --
 	{name = "shopImport", script = "import.lua"},
 
@@ -199,7 +194,7 @@ config.static = {
 	"static"
 }
 
-config.types = {
+config.type = {
 	"types.lua"
 }
 

@@ -30,9 +30,9 @@ config.stylesheet = {
 
 }
 
-config.modules = {
-	{name = "testUser", script = "testUser.lua"},
-	{name = "securityImport", script = "securityImport.lua"},
+config.module = {
+	{name = "testUserImport", script = "import/testUserImport.lua"},
+	{name = "securityImport", script = "import/securityImport.lua"},
 	{name = "userService", script = "modules/UserService.lua"}
 }
 
@@ -40,7 +40,7 @@ config.static = {
 
 }
 
-config.types = {
+config.type = {
 	"types.lua"
 }
 

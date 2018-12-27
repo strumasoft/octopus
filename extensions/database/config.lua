@@ -56,7 +56,7 @@ config.stylesheet = {
 	{name = "DatabaseHeader", script = "widgets/DatabaseHeader.css"},
 }
 
-config.modules = {
+config.module = {
 }
 
 config.static = {

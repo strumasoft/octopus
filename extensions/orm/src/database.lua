@@ -1136,7 +1136,7 @@ end
 local function connect ()
 	-- get types & connection parameters --
 
-	local types = require "types"
+	local types = require "type"
 
 	if types["_"] then
 		connection = types["_"] -- set connection only the first time

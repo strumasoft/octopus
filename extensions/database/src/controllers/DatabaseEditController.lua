@@ -2,7 +2,7 @@ local json = require "json"
 local param = require "param"
 local util = require "util"
 local database = require "database"
-local types = require "types"
+local types = require "type"
 
 
 local id = param.id

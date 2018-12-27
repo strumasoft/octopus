@@ -19,10 +19,11 @@ db:import("shopImport")
 </pre>
 
 <h1>Security</h1>
-Requires setting <b>requireSecurity=true</b> in <b>config.lua</b>, restart and execute import from <a href="/database">Database</a>:
+Security requires import from <a href="/database">Database</a>, execute: 
 <pre>
 db:import("securityImport")
-db:import("testUser")
+db:import("testUserImport")
 </pre>
+then setting <b>requireSecurity=true</b> in <b>config.lua</b>, restart server
 
 ]])

@@ -1,7 +1,7 @@
 local json = require "json"
 local param = require "param"
 local util = require "util"
-local types = require "types"
+local types = require "type"
 
 
 local typeName = param.type

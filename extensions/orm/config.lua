@@ -5,7 +5,7 @@ config.property = {
 	debugDB = false,
 }
 
-config.modules = {
+config.module = {
 	{name = "database", script = "database.lua"},
 	{name = "db.api.common", script = "db/api/common.lua"},
 	{name = "db.api.mysql", script = "db/api/mysql.lua"},

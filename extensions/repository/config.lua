@@ -53,7 +53,7 @@ config.stylesheet = {
 	{name = "RepositoryTemplate", script="controllers/RepositoryTemplate.css"},
 }
 
-config.modules = {
+config.module = {
 	{name = "SVN", script = "modules/SVN.lua"},
 	{name = "GIT", script = "modules/GIT.lua"},
 }

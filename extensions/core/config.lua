@@ -1,6 +1,6 @@
 local config = {} -- extension configuration
 
-config.modules = {
+config.module = {
 	{name = "builder", script = "builder.lua"},
 	{name = "cookie", script = "cookie.lua"},
 	{name = "crypto", script = "crypto.lua"},

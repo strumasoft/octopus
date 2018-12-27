@@ -22,7 +22,7 @@ config.property = {
 	baseline_font2 = '"Courier New", monospace',
 }
 
-config.modules = {
+config.module = {
 	{name = "BaselineHtmlTemplate", script = "BaselineHtmlTemplate.lua"}
 }
 

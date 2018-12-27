@@ -1,19 +1,19 @@
 local buildExtensionConfig = [[
 local config = {} -- extension configuration
 
-config.modules = {
+config.module = {
 	{name = "access", script = "access.lua"},
 	--forbidstatic.lua
 	{name = "html", script = "html.lua"},
 	--javascript.lua
 	{name = "localization", script = "localization.lua"},
 	--location.lua
-	{name = "modules", script = "modules.lua"},
+	{name = "module", script = "module.lua"},
 	--parse.lua
 	{name = "property", script = "property.lua"},
 	--static.lua
 	--stylesheet.lua
-	{name = "types", script = "types.lua"},
+	{name = "type", script = "type.lua"},
 }
 
 return config -- return extension configuration
@@ -190,9 +190,9 @@ local function generateOverrideTypesTable (siteConfig)
 
 		local config = evalConfig(siteConfig, extensionDir)
 
-		if config.types then
-			for j=1, #config.types do
-				local module = config.types[j]
+		if config.type then
+			for j=1, #config.type do
+				local module = config.type[j]
 
 				local scriptFileName = extensionDir .. "/src/" .. module
 				local types = eval.file(scriptFileName, {hasMany = hasMany, hasOne = hasOne})
@@ -283,7 +283,7 @@ local function generateOverrideTypesTable (siteConfig)
 
 
 	-- persist types --
-	persistence.store(siteConfig.octopusHostDir .. "/build/src/types.lua", modules);
+	persistence.store(siteConfig.octopusHostDir .. "/build/src/type.lua", modules);
 
 	return modules
 
@@ -338,7 +338,7 @@ local function generateOverrideTable (siteConfig, type, extras)
 
 	local modules = {}
 	
-	if type == "modules" then
+	if type == "module" then
 		local config = loadstring(buildExtensionConfig)()
 		for j=1, #config[type] do
 			local module = config[type][j]
@@ -617,7 +617,7 @@ end -- end of generateNginxConfig
 
 local function generateModulesConfig (siteConfig)
 
-	generateOverrideTable(siteConfig, "modules", {})
+	generateOverrideTable(siteConfig, "module", {})
 
 end -- end of generateModulesConfig
 
