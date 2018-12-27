@@ -17,8 +17,8 @@ export LUAJIT_LIB=$luajit_install/lib
 export LUAJIT_INC=$luajit_install/include/luajit-2.0
 
 
-
-function download_archive {
+function download_archive {		
+	# construct url
 	file_name="$destination_folder/$1.$2"
 	url=$3
 
