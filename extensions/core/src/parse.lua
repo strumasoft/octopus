@@ -35,9 +35,9 @@ local function transform (text, data, delimiter, nestedCycles, nestedConditions)
 				local element = text:sub(arrayExpressionEndIndex + 1, endDelimiterIndex - 1)
 				
 				-- iterate the array over the element
-				if array and #array > 0 then -- do not iterate over non-existing or empty arrays
+				if array then -- do not iterate over non-existing arrays
 					local iterator = multiplyString("i", nestedCycles)
-					for i=1,#array do
+					for i,_ in pairs(array) do
 						data[iterator] = i
 						substrings[#substrings + 1] = transform(element, data, delimiter, nestedCycles + 1, nestedConditions)
 					end
