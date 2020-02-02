@@ -1,15 +1,5 @@
-.directory {
-	color: black;
-	cursor: pointer;
-}
-
-.file {
-	color: {{mainColor}};
-	cursor: pointer;
-}
-
-.unknown {
-	color: red;
+.database {
+	color: {{baseline_color2}};
 	cursor: pointer;
 }
 

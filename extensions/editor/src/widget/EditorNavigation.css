@@ -1,10 +1,10 @@
 .directory {
-	color: black;
+	color: {{baseline_color2}};
 	cursor: pointer;
 }
 
 .file {
-	color: {{mainColor}};
+	color: {{baseline_color2}};
 	cursor: pointer;
 }
 

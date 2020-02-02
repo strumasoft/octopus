@@ -15,11 +15,11 @@ Widget.DatabaseNavigation = function (types) {
 		{{? types.length > 0
 			<ul class="no-bullets">
 				{{# types[i]
-					<li class="file">
+					<li class="database">
 						<div id="{{types[i].guid}}" class="nowrap" 
 						onclick='Widget.DatabaseNavigation.selectType("{{types[i].name}}", "{{types[i].guid}}")'>
 							<i class="fa fa-database"></i>
-							{{types[i].name}}
+							<span class="navigationName">{{types[i].name}}</span>
 						</div>
 					</li>
 				}}#
@@ -37,17 +37,17 @@ Widget.DatabaseNavigation.prototype = {
 }
 
 Widget.DatabaseNavigation.selectType = function (type, guid) {
-	Widget.DatabaseNavigation.selectFileName(guid)
+	Widget.DatabaseNavigation.selectDatabaseGuid(guid)
 	Widget.DatabaseNavigation.type = type
 }
 
-Widget.DatabaseNavigation.selectFileName = function (guid) {
-	if (!isEmpty(editor.fileGuid)) {
-		$("#" + editor.fileGuid).css("font-weight", "normal")
-		$("#" + editor.fileGuid).css("color", property.mainColor)
+Widget.DatabaseNavigation.selectDatabaseGuid = function (guid) {
+	if (!isEmpty(vars.databaseGuid)) {
+		$("#" + vars.databaseGuid).css("font-weight", "normal")
+		$("#" + vars.databaseGuid + " span.navigationName").css('text-decoration', 'none')
 	}
 
-	editor.fileGuid = guid
-	$("#" + editor.fileGuid).css("font-weight", "900")
-	$("#" + editor.fileGuid).css("color", property.selectedColor)
+	vars.databaseGuid = guid
+	$("#" + vars.databaseGuid).css("font-weight", "900")
+	$("#" + vars.databaseGuid + " span.navigationName").css('text-decoration', 'underline')
 }

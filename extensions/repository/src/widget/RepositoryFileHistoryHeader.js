@@ -76,7 +76,7 @@ Widget.RepositoryFileHistoryHeader.compareGIT = function () {
 Widget.compareSVNRepositoryFileHistory = function (oldRevision, newRevision, fileName, revertRevisions) {
 	fileName = encodeURIComponent(fileName)
 
-	$("#compareAction").html('<i class="fa fa-spinner"></i>')
+	// $("#compareAction").html('<i class="fa fa-spinner"></i>')
 
 	var oldRevisionContenUrl, newRevisionContenUrl
 
@@ -126,6 +126,8 @@ Widget.compareSVNRepositoryFileHistory = function (oldRevision, newRevision, fil
 							$("#patch .diffbox").html(Widget.decoratePatch(Widget.createHTML(content)))
 
 							$("#compareAction").html('Compare')
+							
+							Widget.RepositoryDiff.show("patch", $("button.diffComparatorButton:last-child").attr('id'))
 						})
 						.error(function(jqXHR, textStatus, errorThrown) {
 							Widget.errorHandler(jqXHR, textStatus, errorThrown)
@@ -150,7 +152,7 @@ Widget.compareGITRepositoryFileHistory = function (oldRevision, oldFileName, new
 	oldFileName = encodeURIComponent(oldFileName)
 	newFileName = encodeURIComponent(newFileName)
 
-	$("#compareAction").html('<i class="fa fa-spinner"></i>')
+	// $("#compareAction").html('<i class="fa fa-spinner"></i>')
 
 	var oldRevisionContenUrl, newRevisionContenUrl
 
@@ -189,6 +191,8 @@ Widget.compareGITRepositoryFileHistory = function (oldRevision, oldFileName, new
 							$("#patch .diffbox").html(Widget.decoratePatch(Widget.createHTML(content)))
 
 							$("#compareAction").html('Compare')
+							
+							Widget.RepositoryDiff.show("patch", $("button.diffComparatorButton:last-child").attr('id'))
 						})
 						.error(function(jqXHR, textStatus, errorThrown) {
 							Widget.errorHandler(jqXHR, textStatus, errorThrown)

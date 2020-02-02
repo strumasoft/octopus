@@ -21,6 +21,11 @@ config.property = {
 	editorUploadFileUrl = "/uploadFile",
 	
 	compareUrl = "/compare",
+	
+	editorSaved = [[<i class="fa fa-lock" style="font-size: 33px; min-width: 33px;"></i>]],
+	editorUnsaved = [[<i class="fa fa-unlock" style="font-size: 33px; min-width: 33px;"></i>]],
+	editorSearchExpand = [[<i class="fa fa-expand" style="font-size: 33px; min-width: 33px;"></i>]],
+	editorSearchCompress = [[<i class="fa fa-compress" style="font-size: 33px; min-width: 33px;"></i>]],
 }
 
 config.location = {

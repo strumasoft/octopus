@@ -61,8 +61,8 @@
 		}
 
 	#navPanel {
-		background: {{baseline_color2}};
-		color: {{baseline_color1}};
+		background: {{baseline_color1}};
+		color: {{baseline_color2}};
 	}
 
 		#navPanel nav {
@@ -81,14 +81,6 @@
 
 					#navPanel nav ul li:first-child a:not(.button), #navPanel nav ul li:first-child span:not(.button) {
 						border-top: 0;
-					}
-
-					#navPanel nav ul li a:not(.button), #navPanel nav ul li span:not(.button) {
-						border-top: solid 1px {{baseline_color07}};
-						color: {{baseline_color1}};
-						display: block;
-						padding: 0.75em 0;
-						text-decoration: none;
 					}
 
 			#navPanel nav .button {

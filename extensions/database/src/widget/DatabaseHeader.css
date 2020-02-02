@@ -1,5 +1,5 @@
-#menu {
-	color: {{selectedColor}};
+#dbmenu {
+	color: {{baseline_color2}};
 }
 
 .hand {

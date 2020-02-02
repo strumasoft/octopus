@@ -1,8 +1,10 @@
 Widget.DatabaseHeader = function (data) {
+	data.color = property.baseline_color2
+	
 	this.data = data
 	this.html = parse(function(){/*!
 		<header id="header" class="skel-layers-fixed">
-			<h1><div id="menu" class="hand">Database</div></h1>
+			<h1><div id="dbmenu" class="hand">Database</div></h1>
 			<nav id="nav">
 				<ul>
 					<!-- Login -->
@@ -12,7 +14,7 @@ Widget.DatabaseHeader = function (data) {
 					</li>
 
 					<!-- Open New Window -->
-					<li><a id="openNewWindowAction" class="hand" style="color: white;"
+					<li><a id="openNewWindowAction" class="hand" style="color: {{color}};"
 						href="" target="_blank">
 						<i class="fa fa-share"></i></a>
 					</li>
@@ -427,8 +429,8 @@ Widget.DatabaseHeader.refresh = function () {
 
 Widget.DatabaseHeader.showTab = function (tabGuid, tabButtonGuid) {
 	$(".databaseTab").hide()
-	$(".databaseTabButton").css("background-color", property.mainColor)
+	$(".databaseTabButton").css('text-decoration', 'none')
 
 	$("#" + tabGuid).show()
-	$("#" + tabButtonGuid).css("background-color", property.selectedColor)
+	$("#" + tabButtonGuid).css('text-decoration', 'underline')
 }

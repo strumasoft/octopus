@@ -2,9 +2,9 @@ local config = {} -- extension configuration
 
 config.property = {
 	baseline_color1 = "#fff",
-	baseline_color2 = "#444",
+	baseline_color2 = "#000",
 	baseline_color3 = "#49bf9d",
-	baseline_color4 = "#666",
+	baseline_color4 = "#000",
 	baseline_color5 = "144, 144, 144",
 	baseline_color6 = "#bbb",
 	baseline_color7 = "#737373",
@@ -17,6 +17,8 @@ config.property = {
 	baseline_color05 = "#f2f2f2",
 	baseline_color06 = "0, 0, 0",
 	baseline_color07 = "#555",
+	baseline_color08 = "#ebebeb",
+	baseline_color09 = "#d9d9d9",
 	
 	baseline_font1 = "Arial, Helvetica, sans-serif",
 	baseline_font2 = '"Courier New", monospace',

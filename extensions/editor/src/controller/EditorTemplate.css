@@ -5,3 +5,7 @@
 #directoryNavigation {
 	overflow-x: scroll;
 }
+
+#editorArea, #editorSearchTemplateEditor {
+	padding: 0;
+}

@@ -15,7 +15,7 @@ Widget.EditorNavigation = function (dirs, parent) {
 							<div id="{{dirs[i].guid}}" class="nowrap" 
 							onclick='Widget.EditorNavigation.directoryEntries("{{dirs[i].path}}", "{{dirs[i].guid}}", "{{dirs[i].childrenGuid}}")'>
 								<i class="fa fa-folder-open"></i>
-								{{dirs[i].name}}
+								<span class="navigationName">{{dirs[i].name}}</span>
 							</div>
 							<div id="{{dirs[i].childrenGuid}}"></div>
 						</li>
@@ -26,7 +26,7 @@ Widget.EditorNavigation = function (dirs, parent) {
 							<div id="{{dirs[i].guid}}" class="nowrap" 
 							onclick='Widget.EditorNavigation.openFile("{{dirs[i].path}}", "{{dirs[i].guid}}")'>
 								<i class="fa fa-file-o"></i>
-								{{dirs[i].name}}
+								<span class="navigationName">{{dirs[i].name}}</span>
 							</div>
 						</li>
 					}}??
@@ -35,7 +35,7 @@ Widget.EditorNavigation = function (dirs, parent) {
 						<li class="{{dirs[i].mode}}">
 							<div id="{{dirs[i].guid}}" class="nowrap">
 								<i class="fa fa-exclamation-circle"></i>
-								{{dirs[i].name}}
+								<span class="navigationName">{{dirs[i].name}}</span>
 							</div>
 						</li>
 					}}??
@@ -51,7 +51,7 @@ Widget.EditorNavigation = function (dirs, parent) {
 					<div id="{{guid}}" class="nowrap" 
 					onclick='Widget.EditorNavigation.directoryEntries("{{parent.path}}", "{{guid}}", "{{childrenGuid}}")'>
 						<i class="fa fa-folder-open"></i>
-						{{parent.name}}
+						<span class="navigationName">{{parent.name}}</span>
 					</div>
 					<div id="{{childrenGuid}}">{{children}}</div>
 				</li>
@@ -82,9 +82,9 @@ Widget.EditorNavigation.openFile = function (fileName, guid) {
 			editor.setValue(content)
 			editor.setMode(Widget.fileNameExtension(fileName))
 
-			var paths = fileName.split('/');
-			var simpleFileName = paths[paths.length - 1]
-			$("#menu").html(simpleFileName)
+			// var paths = fileName.split('/');
+			// var simpleFileName = paths[paths.length - 1]
+			// $("#menu").html(simpleFileName)
 		})
 		.error(Widget.errorHandler)
 }
@@ -106,21 +106,21 @@ Widget.EditorNavigation.directoryEntries = function (directoryName, guid, childr
 Widget.EditorNavigation.selectFileName = function (guid) {
 	if (!isEmpty(editor.fileGuid)) {
 		$("#" + editor.fileGuid).css("font-weight", "normal")
-		$("#" + editor.fileGuid).css("color", property.mainColor)
+		$("#" + editor.fileGuid + " span.navigationName").css('text-decoration', 'none')
 	}
 
 	editor.fileGuid = guid
 	$("#" + editor.fileGuid).css("font-weight", "900")
-	$("#" + editor.fileGuid).css("color", property.selectedColor)
+	$("#" + editor.fileGuid + " span.navigationName").css('text-decoration', 'underline')
 }
 
 Widget.EditorNavigation.selectDirectoryName = function (guid) {
 	if (!isEmpty(editor.directoryGuid)) {
 		$("#" + editor.directoryGuid).css("font-weight", "normal")
-		$("#" + editor.directoryGuid).css("color", "black")
+		$("#" + editor.directoryGuid + " span.navigationName").css('text-decoration', 'none')
 	}
 
 	editor.directoryGuid = guid
 	$("#" + editor.directoryGuid).css("font-weight", "900")
-	$("#" + editor.directoryGuid).css("color", property.selectedColor)
+	$("#" + editor.directoryGuid + " span.navigationName").css('text-decoration', 'underline')
 }

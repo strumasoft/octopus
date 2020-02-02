@@ -11,7 +11,7 @@ Widget.DatabaseTemplate = function (data) {
 						{{navigation}}
 					</div>
 				</div>
-				<div class="9u 12u(medium)">
+				<div class="9u 12u(medium)" id="editorArea">
 					{{tabs}}
 				</div>
 			</div>

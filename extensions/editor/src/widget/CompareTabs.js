@@ -56,8 +56,8 @@ Widget.CompareTabs.prototype = {
 
 Widget.CompareTabs.show = function (id, guid) {
 	$(".diffComparator").hide()
-	$(".diffComparatorButton").css("background-color", property.mainColor)
+	$(".diffComparatorButton").css('text-decoration', 'none')
 
 	$("#" + id).show()
-	$("#" + guid).css("background-color", property.selectedColor)
+	$("#" + guid).css('text-decoration', 'underline')
 }

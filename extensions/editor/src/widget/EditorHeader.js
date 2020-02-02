@@ -1,5 +1,5 @@
 Widget.EditorHeader = function (title) {
-	var data = {title: title}
+	var data = {title: title, color: property.baseline_color2}
 
 	this.data = data
 	this.html = parse(function(){/*!
@@ -14,13 +14,13 @@ Widget.EditorHeader = function (title) {
 					</li>
 
 					<!-- Database -->
-					<li><a id="database" class="hand" style="color: white;"
+					<li><a id="database" class="hand" style="color: {{color}};"
 						href="{{@ property.databaseUrl + property.databaseHomeUrl}}" target="_blank">
 						<i class="fa fa-database"></i></a>
 					</li>
 					
 					<!-- Comapre -->
-					<li><a id="compare" class="hand" style="color: white;"
+					<li><a id="compare" class="hand" style="color: {{color}};"
 						href="{{@ property.editorUrl + property.compareUrl}}" target="_blank">
 						<i class="fa fa-files-o"></i></a>
 					</li>
@@ -38,7 +38,7 @@ Widget.EditorHeader = function (title) {
 					</li>
 
 					<!-- Open New Window -->
-					<li><a id="openNewWindowAction" class="hand" style="color: white;"
+					<li><a id="openNewWindowAction" class="hand" style="color: {{color}};"
 						href="javascript:;" target="_blank"
 						onclick='Widget.EditorHeader.openNewWindow();'>
 						<i class="fa fa-share"></i></a>
@@ -49,12 +49,12 @@ Widget.EditorHeader = function (title) {
 						onclick='Widget.EditorHeader.setRepository();'>
 						<i class="fa fa-eye"></i> <i class="fa fa-user"></i></div>
 					</li>
-					<li><a id="repositoryFileHistoryAction" class="hand" style="color: white;" 
+					<li><a id="repositoryFileHistoryAction" class="hand" style="color: {{color}};" 
 						href="javascript:;" target="_blank"
 						onclick='return Widget.EditorHeader.repositoryFileHistory();'>
 						<i class="fa fa-eye"></i> <i class="fa fa-file-o"></i></a>
 					</li>
-					<li><a id="repositoryStatusAction" class="hand" style="color: white;" 
+					<li><a id="repositoryStatusAction" class="hand" style="color: {{color}};" 
 						href="javascript:;" target="_blank"
 						onclick='return Widget.EditorHeader.repositoryStatus();'>
 						<i class="fa fa-eye"></i> <i class="fa fa-folder-open"></i></a>
@@ -121,7 +121,7 @@ Widget.EditorHeader = function (title) {
 					<!-- Save -->
 					<li><div id="saveAction" class="button special" 
 						onclick='Widget.EditorHeader.save();'>
-						Save</div>
+						{{@ property.editorSaved}}</div>
 					</li>
 				</ul>
 			</nav>
@@ -746,8 +746,8 @@ Widget.EditorHeader.save = function () {
 
 Widget.EditorHeader.saved = function (isSaved) {
 	if (isSaved) {
-		$("#saveAction").css("background-color", property.mainColor);
+		$("#saveAction").html(property.editorSaved);
 	} else {
-		$("#saveAction").css("background-color", "red");
+		$("#saveAction").html(property.editorUnsaved);
 	}
 }

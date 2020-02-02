@@ -35,5 +35,7 @@ Widget.CompareHeader.compare = function () {
 		originalContent: originalContent,
 		changedContent: changedContent,
 		diffContainer: ".diffbox"
-	});
+	})
+	
+	Widget.CompareTabs.show("comparator", $("button.diffComparatorButton:last-child").attr('id'))
 }

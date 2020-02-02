@@ -11,7 +11,7 @@ Widget.EditorTemplate = function (data) {
 						{{navigation}}
 					</div>
 				</div>
-				<div class="9u 12u(medium)">
+				<div class="9u 12u(medium)" id="editorArea">
 					{{editor}}
 				</div>
 			</div>

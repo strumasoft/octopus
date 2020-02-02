@@ -6,6 +6,10 @@
 	overflow-x: scroll;
 }
 
+#editorArea {
+	padding: 0;
+}
+
 .resultbox {
 	padding: 15px;
 	margin: 15px;
