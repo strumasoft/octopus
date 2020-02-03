@@ -27,6 +27,18 @@ function download_archive {
 	tar -xzf "$file_name" -C $destination_folder
 }
 
+
+function download_repo_and_install {
+	owner=$1
+	repo=$2
+	version=$3
+	folder=$4
+	install_dir=$5
+	download_archive $repo tar.gz "https://github.com/$owner/$repo/archive/v$version.tar.gz"
+	cp -R "$destination_folder/$repo-$version/$folder"/* $install_dir
+}
+
+
 function nginx_install {
 	# make new dirs
 	rm -rf logs
@@ -41,12 +53,10 @@ function nginx_install {
 	mkdir $ace_dir
 
 
-	# ace editor
-	ace_editor=ace-builds
-	ace_editor_version=1.4.8
-	ace_editor_url=https://github.com/ajaxorg/ace-builds/archive/v$ace_editor_version.tar.gz
-	download_archive $ace_editor tar.gz $ace_editor_url
-	cp -R "$destination_folder/$ace_editor-$ace_editor_version/src-min"/* $ace_dir
+	# libraries
+	download_repo_and_install ajaxorg ace-builds 1.4.8 src-min $ace_dir
+	download_repo_and_install openresty lua-resty-core 0.1.18rc1 lib $lib_dir
+	download_repo_and_install openresty lua-resty-lrucache 0.10rc1 lib $lib_dir
 
 
 	# nginx
@@ -63,22 +73,6 @@ function nginx_install {
 	download_archive $ngx_devel_kit tar.gz $ngx_devel_kit_url
 
 
-	# lua-resty-core
-	lua_resty_core=lua-resty-core
-	lua_resty_core_version=0.1.18rc1
-	lua_resty_core_url=https://github.com/openresty/lua-resty-core/archive/v$lua_resty_core_version.tar.gz
-	download_archive $lua_resty_core tar.gz $lua_resty_core_url
-	cp -R "$destination_folder/$lua_resty_core-$lua_resty_core_version/lib"/* $lib_dir
-	
-	
-	# lua-resty-lrucache
-	lua_resty_lrucache=lua-resty-lrucache
-	lua_resty_lrucache_version=0.10rc1
-	lua_resty_lrucache_url=https://github.com/openresty/lua-resty-lrucache/archive/v$lua_resty_lrucache_version.tar.gz
-	download_archive $lua_resty_lrucache tar.gz $lua_resty_lrucache_url
-	cp -R "$destination_folder/$lua_resty_lrucache-$lua_resty_lrucache_version/lib"/* $lib_dir
-	
-	
 	# lua-nginx-module
 	lua_nginx_module=lua-nginx-module
 	lua_nginx_module_version=0.10.16rc1

@@ -1,11 +1,10 @@
-extensions/build/
 extensions/baseline/static/ace/
-bin/unix/lib/
-bin/unix/logs/
+extensions/build/
 bin/unix/downloads/
 bin/unix/html/
+bin/unix/lib/
+bin/unix/logs/
 bin/unix/luajit/
-bin/unix/nginx.old
 bin/unix/fastcgi.conf
 bin/unix/fastcgi.conf.default
 bin/unix/fastcgi_params
@@ -19,6 +18,7 @@ bin/unix/nginx.conf
 bin/unix/nginx.conf.default
 bin/unix/nginx.config.*
 bin/unix/nginx.pid
+bin/unix/nginx.old
 bin/unix/scgi_params
 bin/unix/scgi_params.default
 bin/unix/uwsgi_params
