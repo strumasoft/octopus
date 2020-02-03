@@ -3,6 +3,10 @@ local oldRequire = require
 
 
 local function name (moduleName)
+	if moduleName:find("resty.", 1, true) or moduleName:find("ngx.", 1, true) then 
+		return moduleName
+	end
+
 	local octopusHostDir = ngx.var.octopusHostDir
 	return octopusHostDir .. ":" .. moduleName
 end
@@ -24,6 +28,8 @@ end
 
 
 local function newRequire (moduleName, newModuleValue)
+	if not moduleName then return nil end
+
 	if newModuleValue then
 		package.loaded[name(moduleName)] = newModuleValue
 		return newModuleValue
