@@ -50,13 +50,13 @@ end
 local nginxConf = [[
 http {
 
-	lua_package_path '../?.lua;';
+	lua_package_path '../?.lua;lib/?.lua;;';
 
-	lua_package_cpath 'luajit/lib/?.so;';
-
-	lua_load_resty_core off;
+	lua_package_cpath 'luajit/lib/?.so;;';
 
 	init_by_lua_block {
+		require "resty.core"
+		collectgarbage("collect")
 		require "cdefinitions"
 		require = require "autowire"
 	}

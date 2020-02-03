@@ -10,6 +10,8 @@ current_dir=$(pwd)
 
 export destination_folder="$current_dir/downloads"
 export luajit_install="$current_dir/luajit"
+export lib_dir="$current_dir/lib"
+export ace_dir="$current_dir/../../extensions/baseline/static/ace"
 export nginx_install="$current_dir"
 
 export LUAJIT_BIN=$luajit_install/bin
@@ -27,13 +29,14 @@ function download_archive {
 
 function nginx_install {
 	# make new dirs
+	rm -rf logs
+	mkdir logs
 	rm -rf $destination_folder
 	mkdir $destination_folder
 	rm -rf $luajit_install
 	mkdir $luajit_install
-	rm -rf logs
-	mkdir logs
-	ace_dir="$current_dir/../../extensions/baseline/static/ace"
+	rm -rf $lib_dir
+	mkdir $lib_dir
 	rm -rf $ace_dir
 	mkdir $ace_dir
 
@@ -60,9 +63,25 @@ function nginx_install {
 	download_archive $ngx_devel_kit tar.gz $ngx_devel_kit_url
 
 
+	# lua-resty-core
+	lua_resty_core=lua-resty-core
+	lua_resty_core_version=0.1.18rc1
+	lua_resty_core_url=https://github.com/openresty/lua-resty-core/archive/v$lua_resty_core_version.tar.gz
+	download_archive $lua_resty_core tar.gz $lua_resty_core_url
+	cp -R "$destination_folder/$lua_resty_core-$lua_resty_core_version/lib"/* $lib_dir
+	
+	
+	# lua-resty-lrucache
+	lua_resty_lrucache=lua-resty-lrucache
+	lua_resty_lrucache_version=0.10rc1
+	lua_resty_lrucache_url=https://github.com/openresty/lua-resty-lrucache/archive/v$lua_resty_lrucache_version.tar.gz
+	download_archive $lua_resty_lrucache tar.gz $lua_resty_lrucache_url
+	cp -R "$destination_folder/$lua_resty_lrucache-$lua_resty_lrucache_version/lib"/* $lib_dir
+	
+	
 	# lua-nginx-module
 	lua_nginx_module=lua-nginx-module
-	lua_nginx_module_version=0.10.15
+	lua_nginx_module_version=0.10.16rc1
 	lua_nginx_module_url=https://github.com/openresty/lua-nginx-module/archive/v$lua_nginx_module_version.tar.gz
 	download_archive $lua_nginx_module tar.gz $lua_nginx_module_url
 
@@ -157,9 +176,6 @@ function nginx_restart {
 		tail -f logs/error.log
 	fi
 }
-
-
-
 
 
 if [ -z "$1" ]; then

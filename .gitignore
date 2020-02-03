@@ -1,6 +1,6 @@
 extensions/build/
 extensions/baseline/static/ace/
-
+bin/unix/lib/
 bin/unix/logs/
 bin/unix/downloads/
 bin/unix/html/
