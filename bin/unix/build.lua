@@ -10,7 +10,12 @@ http {
 
 	lua_package_cpath 'luajit/lib/?.so;';
 
-	init_by_lua 'require "cdefinitions"; require = require "autowire"';
+	lua_load_resty_core off;
+
+	init_by_lua_block {
+		require "cdefinitions"
+		require = require "autowire"
+	}
 
 	# mime types
 	include mime.types;

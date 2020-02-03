@@ -1,4 +1,5 @@
 extensions/build/
+extensions/baseline/static/ace/
 
 bin/unix/logs/
 bin/unix/downloads/

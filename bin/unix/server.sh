@@ -14,7 +14,7 @@ export nginx_install="$current_dir"
 
 export LUAJIT_BIN=$luajit_install/bin
 export LUAJIT_LIB=$luajit_install/lib
-export LUAJIT_INC=$luajit_install/include/luajit-2.0
+export LUAJIT_INC=$luajit_install/include/luajit-2.1
 
 
 function download_archive {
@@ -33,33 +33,44 @@ function nginx_install {
 	mkdir $luajit_install
 	rm -rf logs
 	mkdir logs
+	ace_dir="$current_dir/../../extensions/baseline/static/ace"
+	rm -rf $ace_dir
+	mkdir $ace_dir
+
+
+	# ace editor
+	ace_editor=ace-builds
+	ace_editor_version=1.4.8
+	ace_editor_url=https://github.com/ajaxorg/ace-builds/archive/v$ace_editor_version.tar.gz
+	download_archive $ace_editor tar.gz $ace_editor_url
+	cp -R "$destination_folder/$ace_editor-$ace_editor_version/src-min"/* $ace_dir
 
 
 	# nginx
 	nginx=nginx
-	nginx_version=1.15.8
+	nginx_version=1.17.8
 	nginx_url=http://nginx.org/download/nginx-$nginx_version.tar.gz
 	download_archive $nginx tar.gz $nginx_url
 
 
 	# ngx_devel_kit
 	ngx_devel_kit=ngx_devel_kit
-	ngx_devel_kit_version=0.3.1rc1
+	ngx_devel_kit_version=0.3.1
 	ngx_devel_kit_url=https://github.com/simpl/ngx_devel_kit/archive/v$ngx_devel_kit_version.tar.gz
 	download_archive $ngx_devel_kit tar.gz $ngx_devel_kit_url
 
 
 	# lua-nginx-module
 	lua_nginx_module=lua-nginx-module
-	lua_nginx_module_version=0.10.13
+	lua_nginx_module_version=0.10.15
 	lua_nginx_module_url=https://github.com/openresty/lua-nginx-module/archive/v$lua_nginx_module_version.tar.gz
 	download_archive $lua_nginx_module tar.gz $lua_nginx_module_url
 
 
 	# install LuaJIT
-	luajit=LuaJIT
-	luajit_version=2.0.5
-	luajit_url=http://luajit.org/download/LuaJIT-$luajit_version.tar.gz
+	luajit=luajit2
+	luajit_version=2.1-20200102
+	luajit_url=https://github.com/openresty/luajit2/archive/v$luajit_version.tar.gz
 	download_archive $luajit tar.gz $luajit_url
 	cd $destination_folder/$luajit-$luajit_version
 	make
@@ -80,8 +91,8 @@ function nginx_install {
 
 	# install PCRE
 	pcre=pcre
-	pcre_version=8.42
-	pcre_url=ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/$pcre-$pcre_version.tar.gz
+	pcre_version=8.43
+	pcre_url=ftp://ftp.pcre.org/pub/pcre/$pcre-$pcre_version.tar.gz
 	download_archive $pcre tar.gz $pcre_url
 
 
