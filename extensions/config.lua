@@ -13,9 +13,9 @@ return {
 	
 	octopusExtensionsDir = octopusExtensionsDir,
 	octopusHostDir = octopusHostDir,
-	port = 8787,
-	securePort = 38787,
-	luaCodeCache = "off",
+	port = port,
+	securePort = securePort,
+	luaCodeCache = luaCodeCache,
 	serverName = "localhost",
 	errorLog = "error_log logs/error.log;",
 	accessLog = "access_log logs/access.log;",
@@ -23,19 +23,19 @@ return {
 	maxBodySize = "50k",
 	
 	databaseConnection = {
-		rdbms       =   "mysql",
-		host        =   "127.0.0.1",
-		port        =   3306, 
+		rdbms       =   rdbms,
+		host        =   rdbms_host,
+		port        =   rdbms_port,
+		user        =   rdbms_user,
+		password    =   rdbms_password,
 		database    =   "demo",
-		user        =   "demo",
-		password    =   "demo",
 		compact     =   false
 	},
 
 	globalParameters = {
 		octopusHostDir = octopusHostDir,
 		sourceCtxPath = "",
-		requireSecurity = false,
-		sessionTimeout = 3600,
+		requireSecurity = requireSecurity,
+		sessionTimeout = sessionTimeout,
 	},
 }
