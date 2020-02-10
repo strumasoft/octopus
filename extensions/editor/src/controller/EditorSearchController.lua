@@ -41,21 +41,6 @@ local initJSTemplate = [[
 ]]
 
 
-local function doGarbageCollection (counter, limit)
-	if counter.count >= limit then
-		counter.count = 0
-		
-		-- Because of resurrection, objects with finalizers are collected in two phases. 
-		-- If we want to ensure that all garbage in your program has been actually released, we must call collectgarbage twice; 
-		-- the second call will delete the objects that were finalized during the first call.
-		collectgarbage()
-		collectgarbage()
-	else
-		counter.count = counter.count + 1
-	end
-end
-
-
 local function aggregateAllFilesContainingQuery (files, directoryName, query, filter, isPlainString, isFileName, isIgnoreCase, counter)
 	for entry, attr in pairs(directory.entries(directoryName)) do
 		if attr.mode == "file" then
@@ -71,7 +56,7 @@ local function aggregateAllFilesContainingQuery (files, directoryName, query, fi
 						files[#files + 1] = path
 					end
 
-					doGarbageCollection(counter, 1000) -- do collectgarbage of file contents
+					util.doGarbageCollection(counter, 1000) -- do collectgarbage of file contents
 				end
 			end
 		elseif attr.mode == "directory" then
@@ -120,20 +105,19 @@ local function process ()
 		local isPlainString = not isRegex
 
 		aggregateAllFilesContainingQuery(files, directoryName, query, filter, isPlainString, isFileName, isIgnoreCase, {count = 0})
-		doGarbageCollection({count = 0}, 0) -- do collectgarbage of anything left
+		util.doGarbageCollection({count = 0}, 0) -- do collectgarbage of anything left
 
 		if util.isNotEmpty(replace) and #files > 0 then
 			replaceQuery(files, directoryName, query, replace, isPlainString, isFileName, isIgnoreCase, param.repository, param.username, param.password)
 		end
 	end
 
-
 	return parse(require("BaselineHtmlTemplate"), {
-		title = query, 
+		title = util.escapePrintableChars(query), 
 		externalJS = externalJS,
 		externalCSS = externalCSS,
 		initJS = parse(initJSTemplate, {
-			title = fileutil.escapeCommandlineSpecialCharacters(query), 
+			title = util.escapePrintableChars(query), 
 			files = json.encode(files)
 		})
 	})

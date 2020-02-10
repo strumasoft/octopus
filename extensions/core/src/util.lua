@@ -209,6 +209,40 @@ local function lengthOfObject (obj)
 end
 
 
+local function escapePrintableChars (str)
+	if str == nil then return "" end
+	
+	local newString = {}
+	for i=1,#str do
+		local number = string.byte(str, i)
+		if number < 33 and number == 127 then 
+			table.insert(newString, "&#32;")
+		elseif number < 127 then
+			table.insert(newString, "&#" .. number .. ";")
+		else
+			table.insert(newString, string.char(number))
+		end
+	end
+
+	return table.concat(newString)
+end
+
+
+local function doGarbageCollection (counter, limit)
+	if counter.count >= limit then
+		counter.count = 0
+		
+		-- Because of resurrection, objects with finalizers are collected in two phases. 
+		-- If we want to ensure that all garbage in your program has been actually released, we must call collectgarbage twice; 
+		-- the second call will delete the objects that were finalized during the first call.
+		collectgarbage()
+		collectgarbage()
+	else
+		counter.count = counter.count + 1
+	end
+end
+
+
 return {
 	unescape = unescape,
 	isNotEmpty = isNotEmpty,
@@ -220,4 +254,6 @@ return {
 	parseForm = parseForm,
 	requireSecureToken = requireSecureToken,
 	lengthOfObject = lengthOfObject,
+	escapePrintableChars = escapePrintableChars,
+	doGarbageCollection = doGarbageCollection,
 }

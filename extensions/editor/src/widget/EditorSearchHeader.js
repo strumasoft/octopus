@@ -1,5 +1,5 @@
 Widget.EditorSearchHeader = function (title) {
-	var data = {title: title}
+	var data = {title: title, color: property.baseline_color2}
 
 	this.data = data
 	this.html = parse(function(){/*!
@@ -8,7 +8,7 @@ Widget.EditorSearchHeader = function (title) {
 			<nav id="nav">
 				<ul>
 					<!-- View History -->
-					<li><a id="repositoryFileHistoryAction" class="hand" style="color: white;" 
+					<li><a id="repositoryFileHistoryAction" class="hand" style="color: {{color}};" 
 						href="javascript:;" target="_blank"
 						onclick='return Widget.EditorHeader.repositoryFileHistory();'>
 						<i class="fa fa-eye"></i> <i class="fa fa-file-o"></i></a>
