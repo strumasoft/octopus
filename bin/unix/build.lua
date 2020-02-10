@@ -12,7 +12,7 @@ local hosts = {
 }
 
 local hostNames = {}
-for k, v in pairs(hosts) do	table.insert(hostNames, k) end
+for k, v in pairs(hosts) do table.insert(hostNames, k) end
 
 local profiles = {}
 profiles.prod = {

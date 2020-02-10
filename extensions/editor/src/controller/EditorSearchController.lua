@@ -41,7 +41,22 @@ local initJSTemplate = [[
 ]]
 
 
-local function aggregateAllFilesContainingQuery (files, directoryName, query, filter, isPlainString, isFileName, isIgnoreCase)
+local function doGarbageCollection (counter, limit)
+	if counter.count >= limit then
+		counter.count = 0
+		
+		-- Because of resurrection, objects with finalizers are collected in two phases. 
+		-- If we want to ensure that all garbage in your program has been actually released, we must call collectgarbage twice; 
+		-- the second call will delete the objects that were finalized during the first call.
+		collectgarbage()
+		collectgarbage()
+	else
+		counter.count = counter.count + 1
+	end
+end
+
+
+local function aggregateAllFilesContainingQuery (files, directoryName, query, filter, isPlainString, isFileName, isIgnoreCase, counter)
 	for entry, attr in pairs(directory.entries(directoryName)) do
 		if attr.mode == "file" then
 			local path = attr.path
@@ -55,10 +70,12 @@ local function aggregateAllFilesContainingQuery (files, directoryName, query, fi
 					if content:findQuery(query, 1, isPlainString, isIgnoreCase) then
 						files[#files + 1] = path
 					end
+
+					doGarbageCollection(counter, 1000) -- do collectgarbage of file contents
 				end
 			end
 		elseif attr.mode == "directory" then
-			aggregateAllFilesContainingQuery(files, attr.path, query, filter, isPlainString, isFileName, isIgnoreCase)
+			aggregateAllFilesContainingQuery(files, attr.path, query, filter, isPlainString, isFileName, isIgnoreCase, counter)
 		end
 	end
 end
@@ -102,7 +119,8 @@ local function process ()
 	if util.isNotEmpty(query) and util.isNotEmpty(directoryName) then
 		local isPlainString = not isRegex
 
-		aggregateAllFilesContainingQuery(files, directoryName, query, filter, isPlainString, isFileName, isIgnoreCase)
+		aggregateAllFilesContainingQuery(files, directoryName, query, filter, isPlainString, isFileName, isIgnoreCase, {count = 0})
+		doGarbageCollection({count = 0}, 0) -- do collectgarbage of anything left
 
 		if util.isNotEmpty(replace) and #files > 0 then
 			replaceQuery(files, directoryName, query, replace, isPlainString, isFileName, isIgnoreCase, param.repository, param.username, param.password)
