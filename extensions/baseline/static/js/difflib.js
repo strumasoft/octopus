@@ -410,4 +410,3 @@ var difflib = {
 		this.set_seqs(a, b);
 	}
 };
-
