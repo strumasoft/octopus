@@ -2,8 +2,6 @@ local m = {} -- module
 
 
 local fileutil = require "fileutil"
-
-
 local property = require "property"
 local sourceCtxPath = property.sourceCtxPath or ""
 

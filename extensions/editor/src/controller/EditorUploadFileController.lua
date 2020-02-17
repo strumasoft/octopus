@@ -6,9 +6,6 @@ local exit = require "exit"
 local exception = require "exception"
 local util = require "util"
 local fileutil = require "fileutil"
-
-
-
 local property = require "property"
 local sourceCtxPath = property.sourceCtxPath or ""
 

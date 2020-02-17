@@ -4,8 +4,6 @@ local m = {} -- module
 local util = require "util"
 local fileutil = require "fileutil"
 local date = require "date"
-
-
 local property = require "property"
 local sourceCtxPath = property.sourceCtxPath or ""
 

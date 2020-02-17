@@ -4,8 +4,6 @@ local m = {} -- module
 local lfs = require "lfs"
 local exception = require "exception"
 local fileutil = require "fileutil"
-
-
 local property = require "property"
 local sourceCtxPath = property.sourceCtxPath or ""
 
@@ -136,7 +134,6 @@ function m.fileContent (fileName)
 		exception("fileName is empty")
 	end
 end
-
 
 
 return m -- return module

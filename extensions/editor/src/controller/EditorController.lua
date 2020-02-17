@@ -9,27 +9,10 @@ local fileutil = require "fileutil"
 
 
 local directoryName = param.directoryName
-
-
-local dirs = {}
-local parent
-local title
+local dirs, parent, title
 
 if directoryName then
-	-- get map of dir entries and their attributes --
-	local map = directory.entries(directoryName)
-
-	-- sort dir entries --
-	local dirEntries = {}
-	for entry, attr in pairs(map) do dirEntries[#dirEntries + 1] = entry end
-	table.sort(dirEntries)
-
-	-- wrap evrything up --
-	for i=1,#dirEntries do
-		local entry = dirEntries[i]
-		local attr = map[entry]
-		dirs[#dirs + 1] = {path = attr.path, name = entry, mode = attr.mode}
-	end
+	dirs = directory.sortedEntries(directoryName)
 
 	local paths = util.split(directoryName, "/")
 	parent = {path = directoryName, name = paths[#paths], mode = "directory"}
@@ -45,6 +28,7 @@ else
 		drives = {"/"}
 	end
 
+	dirs = {}
 	for i = 1, #drives do
 		dirs[#dirs + 1] = {path = drives[i], name = drives[i], mode = "directory"}
 	end
