@@ -3,19 +3,19 @@
 Wiki
 ===============================
 
-[Extension](https://github.com/cyberz-eu/octopus/wiki/Extension)
+[Extension](https://github.com/strumasoft/octopus/wiki/Extension)
 
-[Graphical widget](https://github.com/cyberz-eu/octopus/wiki/Graphical-widget)
+[Graphical widget](https://github.com/strumasoft/octopus/wiki/Graphical-widget)
 
-[Object relational mapping](https://github.com/cyberz-eu/octopus/wiki/Object-relational-mapping)
+[Object relational mapping](https://github.com/strumasoft/octopus/wiki/Object-relational-mapping)
 
-[Security](https://github.com/cyberz-eu/octopus/wiki/Security)
+[Security](https://github.com/strumasoft/octopus/wiki/Security)
 
-[Editor](https://github.com/cyberz-eu/octopus/wiki/Editor)
+[Editor](https://github.com/strumasoft/octopus/wiki/Editor)
 
-[Revision control](https://github.com/cyberz-eu/octopus/wiki/Revision-control)
+[Revision control](https://github.com/strumasoft/octopus/wiki/Revision-control)
 
-[Database administration](https://github.com/cyberz-eu/octopus/wiki/Database-administration)
+[Database administration](https://github.com/strumasoft/octopus/wiki/Database-administration)
 
 
 Introduction
