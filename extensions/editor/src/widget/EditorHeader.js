@@ -4,7 +4,6 @@ Widget.EditorHeader = function (title) {
 	this.data = data
 	this.html = parse(function(){/*!
 		<header id="header" class="skel-layers-fixed">
-			<h1><div id="menu" class="hand">{{title}}</div></h1>
 			<nav id="nav">
 				<ul>
 					<!-- Login -->

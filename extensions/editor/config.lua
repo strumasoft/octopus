@@ -1,5 +1,7 @@
 local config = {} -- extension configuration
 
+local editorHeaderStyleButton = [[style="font-size: 27px; min-width: 12px; padding-top: 3px;"></i>]]
+
 config.property = {
 	mainColor = "#49bf9d",
 	selectedColor = "#1e90ff",
@@ -22,10 +24,10 @@ config.property = {
 	
 	compareUrl = "/compare",
 	
-	editorSaved = [[<i class="fa fa-lock" style="font-size: 33px; min-width: 33px;"></i>]],
-	editorUnsaved = [[<i class="fa fa-unlock" style="font-size: 33px; min-width: 33px;"></i>]],
-	editorSearchExpand = [[<i class="fa fa-expand" style="font-size: 33px; min-width: 33px;"></i>]],
-	editorSearchCompress = [[<i class="fa fa-compress" style="font-size: 33px; min-width: 33px;"></i>]],
+	editorSaved = [[<i class="fa fa-lock" ]] .. editorHeaderStyleButton,
+	editorUnsaved = [[<i class="fa fa-unlock" ]] .. editorHeaderStyleButton,
+	editorSearchExpand = [[<i class="fa fa-expand" ]] .. editorHeaderStyleButton,
+	editorSearchCompress = [[<i class="fa fa-compress" ]] .. editorHeaderStyleButton,
 }
 
 config.location = {
