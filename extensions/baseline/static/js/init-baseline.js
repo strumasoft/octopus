@@ -23,7 +23,7 @@
 				viewport: { scalable: false }
 			},
 			medium: {
-				media: '(max-width: 980px)',
+				media: '(max-width: 870px)',
 				href: '/build/static/nav.css',
 				containers: '90%'
 			},

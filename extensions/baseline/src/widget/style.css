@@ -22,13 +22,13 @@
 	body, input, select, textarea {
 		color: {{baseline_color2}};
 		font-family: {{baseline_font1}};
-		font-size: 13pt;
+		font-size: 12pt;
 		font-weight: normal;
 		line-height: 1.65em;
 	}
 
 	a {
-		color: {{baseline_color3}};
+		color: {{baseline_color4}};
 		text-decoration: underline;
 	}
 
@@ -207,10 +207,10 @@
 		-o-appearance: none;
 		-ms-appearance: none;
 		appearance: none;
-		background: rgba({{baseline_color5}}, 0.075);
+		background: {{baseline_color1}};
 		border-radius: 4px;
 		border: none;
-		border: solid 1px rgba({{baseline_color5}}, 0.25);
+		border: solid 1px {{baseline_color2}};
 		color: inherit;
 		display: block;
 		outline: 0;
@@ -320,9 +320,9 @@
 
 			input[type="checkbox"] + label:before,
 			input[type="radio"] + label:before {
-				background: rgba({{baseline_color5}}, 0.075);
+				background: {{baseline_color1}};
 				border-radius: 4px;
-				border: solid 1px rgba({{baseline_color5}}, 0.25);
+				border: solid 1px {{baseline_color2}};
 				content: '';
 				display: inline-block;
 				height: 1.65em;
@@ -357,27 +357,27 @@
 	}
 
 	::-webkit-input-placeholder {
-		color: {{baseline_color6}} !important;
+		color: {{baseline_color01}} !important;
 		opacity: 1.0;
 	}
 
 	:-moz-placeholder {
-		color: {{baseline_color6}} !important;
+		color: {{baseline_color01}} !important;
 		opacity: 1.0;
 	}
 
 	::-moz-placeholder {
-		color: {{baseline_color6}} !important;
+		color: {{baseline_color01}} !important;
 		opacity: 1.0;
 	}
 
 	:-ms-input-placeholder {
-		color: {{baseline_color6}} !important;
+		color: {{baseline_color01}} !important;
 		opacity: 1.0;
 	}
 
 	.formerize-placeholder {
-		color: {{baseline_color6}} !important;
+		color: {{baseline_color01}} !important;
 		opacity: 1.0;
 	}
 
@@ -694,20 +694,6 @@
 		white-space: nowrap;
 	}
 
-		input[type="submit"]:hover,
-		input[type="reset"]:hover,
-		input[type="button"]:hover,
-		.button:hover {
-			background-color: {{baseline_color7}};
-		}
-
-		input[type="submit"]:active,
-		input[type="reset"]:active,
-		input[type="button"]:active,
-		.button:active {
-			background-color: {{baseline_color8}};
-		}
-
 		input[type="submit"].icon,
 		input[type="reset"].icon,
 		input[type="button"].icon,
@@ -801,7 +787,7 @@
 /* Header */
 
 	.fa {
-		font-size: 17px;
+		font-size: 15px;
 	}
 
 	#skel-layers-wrapper {
@@ -855,7 +841,7 @@
 				#header nav > ul > li {
 					border-radius: 4px;
 					display: inline-block;
-					margin-left: 1em;
+					margin-left: 0.5em;
 					padding-left: 0;
 				}
 

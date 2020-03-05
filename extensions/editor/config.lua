@@ -1,6 +1,6 @@
 local config = {} -- extension configuration
 
-local editorHeaderStyleButton = [[style="font-size: 27px; min-width: 12px; padding-top: 3px;"></i>]]
+local editorHeaderStyleButton = [[style="font-size: 21px; padding-top: 5px;"></i>]]
 
 config.property = {
 	mainColor = "#49bf9d",
