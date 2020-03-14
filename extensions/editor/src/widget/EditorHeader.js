@@ -67,7 +67,7 @@ Widget.EditorHeader = function (title) {
 						<i class="fa fa-eye"></i> <i class="fa fa-random"></i></div>
 					</li>
 
-					<!-- Upload -->
+					<!-- Upload & Download -->
 					<li><div id="openUploaderAction" class="hand"
 						onclick='Widget.EditorHeader.openUploader();'>
 						<i class="fa fa-university"></i></div>
@@ -78,6 +78,13 @@ Widget.EditorHeader = function (title) {
 						<form action="" method="post" id="uploadFileForm" target="_blank"
 							enctype="multipart/form-data" style="display: none;">
 							<input type="file" name="file" id="uploadFileInput" multiple=""/>
+						<form/>
+					</li>
+					<li><div id="downloadFileAction" class="hand"
+						onclick='Widget.EditorHeader.downloadFile();'>
+						<i class="fa fa-cloud-download"></i></div>
+						<form action="" method="post" id="downloadFileForm" 
+							target="_blank" style="display: none;">
 						<form/>
 					</li>
 					
@@ -509,6 +516,27 @@ Widget.EditorHeader.uploadFile = function () {
 		}})
 	} else {
 		var infoPopup = new Widget.InfoPopup({info: "Select parent directory and file(s) to upload!"})
+	}
+}
+
+Widget.EditorHeader.downloadFile = function () {
+	if (!isEmpty(editor.fileName)) {
+		var fileName = editor.fileName
+
+		var paths = editor.fileName.split('/');
+		var simpleFileName = paths[paths.length - 1]
+		
+		var questionPopup = new Widget.QuestionPopup({
+			question: "Download file " + simpleFileName + "?", 
+			proceed: function () {
+				$("#downloadFileForm").attr("action", 
+					property.editorUrl + property.editorDownloadFileUrl + "?f=" + encodeURIComponent(fileName))
+				$("#downloadFileForm").trigger("submit")
+
+				this.delete()
+		}})
+	} else {
+		var infoPopup = new Widget.InfoPopup({info: "Select file to download!"})
 	}
 }
 

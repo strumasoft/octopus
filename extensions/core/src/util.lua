@@ -140,7 +140,11 @@ local function split (s, separator, isRegex)
 		array[#array + 1] = s:sub(index, #s)
 	end
 
-	return array
+	if #array == 1 then 
+		return array, false
+	else 
+		return array, true
+	end
 end
 
 

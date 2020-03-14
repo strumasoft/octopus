@@ -948,9 +948,11 @@
 /* Selection */
 
 ::-moz-selection { /* Code for Firefox */
-  background: {{baseline_color09}};
+  background: {{baseline_color2}};
+  color: {{baseline_color1}};
 }
 
 ::selection {
-  background: {{baseline_color09}};
+  background: {{baseline_color2}};
+  color: {{baseline_color1}};
 }

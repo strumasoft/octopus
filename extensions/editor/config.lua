@@ -21,6 +21,7 @@ config.property = {
 	editorCreateDirectoryUrl = "/createDirectory",
 	editorEditFileUrl = "/editFile",
 	editorUploadFileUrl = "/uploadFile",
+	editorDownloadFileUrl = "/downloadFile",
 	
 	compareUrl = "/compare",
 	
@@ -42,6 +43,7 @@ config.location = {
 	{name = property.editorUrl .. property.editorCreateDirectoryUrl, script = "controller/operation/CreateDirectoryController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorEditFileUrl, script = "controller/EditorEditFileController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorUploadFileUrl, script = "controller/EditorUploadFileController.lua", uploadBody = "20M", access = "EditorRedirectOnSessionTimeoutFilter"},
+	{name = property.editorUrl .. property.editorDownloadFileUrl, script = "controller/EditorDownloadFileController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.compareUrl, script = "controller/CompareController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 }
 
