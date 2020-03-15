@@ -17,11 +17,17 @@ Widget.EditorHeader = function (title) {
 						href="{{@ property.databaseUrl + property.databaseHomeUrl}}" target="_blank">
 						<i class="fa fa-database"></i></a>
 					</li>
-					
+
 					<!-- Comapre -->
 					<li><a id="compare" class="hand" style="color: {{color}};"
 						href="{{@ property.editorUrl + property.compareUrl}}" target="_blank">
 						<i class="fa fa-files-o"></i></a>
+					</li>
+
+					<!-- Cryptography -->
+					<li><a id="cryptography" class="hand" style="color: {{color}};"
+						href="{{@ property.editorUrl + property.cryptographyUrl}}" target="_blank">
+						<i class="fa fa-key"></i></a>
 					</li>
 
 					<!-- Search -->

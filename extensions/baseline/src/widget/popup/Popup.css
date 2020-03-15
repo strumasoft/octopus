@@ -29,3 +29,7 @@
 .spaced-down {
 	margin: 0px 0px 9px 0px;
 }
+
+.spaced-up {
+	margin: 9px 0px 0px 0px;
+}

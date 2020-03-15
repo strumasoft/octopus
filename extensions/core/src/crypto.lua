@@ -190,6 +190,28 @@ local function decryptAES256 (str, _key, _iv)
 	return cipher(decodeBase64(str), {encdec = 0, cipher = "EVP_aes_256_cbc", key_length = 32, iv_length = 32}, _key, _iv)
 end
 
+local function encrypt (_cipher, str, _key, _iv)
+	if _cipher == "AES128" then
+		local enc, key, iv = encryptAES128(str, _key, _iv)
+		return enc, key, iv
+	elseif _cipher == "AES192" then
+		local enc, key, iv = encryptAES192(str, _key, _iv)
+		return enc, key, iv
+	elseif _cipher == "AES256" then
+		local enc, key, iv = encryptAES256(str, _key, _iv)
+		return enc, key, iv
+	end
+end
+local function decrypt (_cipher, str, _key, _iv)
+	if _cipher == "AES128" then
+		return decryptAES128(str, _key, _iv)
+	elseif _cipher == "AES192" then
+		return decryptAES192(str, _key, _iv)
+	elseif _cipher == "AES256" then
+		return decryptAES256(str, _key, _iv)
+	end
+end
+
 
 return {
 	encodeHex = encodeHex,
@@ -208,4 +230,6 @@ return {
 	decryptAES192 = decryptAES192,
 	encryptAES256 = encryptAES256,
 	decryptAES256 = decryptAES256,
+	encrypt = encrypt,
+	decrypt = decrypt,
 }

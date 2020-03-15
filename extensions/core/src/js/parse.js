@@ -206,7 +206,7 @@ function transform (text, data, delimiter, nestedCycles, iterators, nestedCondit
 	* f - multi line string function
 	*
 	*/
-function multiLineString (f) {
+function multilineString (f) {
 	//return f.toString().slice(15,-3) // (14,-3) without ! // (15,-3) with !
 	return f.toString().replace(/^[^\/]+\/\*!?/, '').replace(/\*\/[^\/]+$/, '')
 }
@@ -222,7 +222,7 @@ function multiLineString (f) {
 function parse(x, data) {
 	var text
 	if (typeof x === "function") {
-		text = multiLineString(x)
+		text = multilineString(x)
 	} else {
 		text = x
 	}

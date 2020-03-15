@@ -24,6 +24,11 @@ config.property = {
 	editorDownloadFileUrl = "/downloadFile",
 	
 	compareUrl = "/compare",
+	cryptographyUrl = "/cryptography",
+	cryptographyEncrypt = "encrypt",
+	cryptographyDecrypt = "decrypt",
+	cryptographyHashPassword = "hashPassword",
+	cryptographyHashPasswordWithSalt = "hashPasswordWithSalt",
 	
 	editorSaved = [[<i class="fa fa-lock" ]] .. editorHeaderStyleButton,
 	editorUnsaved = [[<i class="fa fa-unlock" ]] .. editorHeaderStyleButton,
@@ -35,16 +40,17 @@ config.location = {
 	{name = property.editorUrl .. property.editorHomeUrl, script = "controller/EditorController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorFileContentUrl, script = "controller/operation/FileContentController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorDirectoryUrl, script = "controller/operation/DirectoryController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
-	{name = property.editorUrl .. property.editorSaveUrl, script = "controller/operation/SaveController.lua", requestBody = "10000k", access = "EditorThrowErrorOnSessionTimeoutFilter"},
+	{name = property.editorUrl .. property.editorSaveUrl, script = "controller/operation/SaveController.lua", requestBody = "0", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorSearchUrl, script = "controller/EditorSearchController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorRenameUrl, script = "controller/operation/RenameController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorRemoveUrl, script = "controller/operation/RemoveController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorCreateFileUrl, script = "controller/operation/CreateFileController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorCreateDirectoryUrl, script = "controller/operation/CreateDirectoryController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorEditFileUrl, script = "controller/EditorEditFileController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
-	{name = property.editorUrl .. property.editorUploadFileUrl, script = "controller/EditorUploadFileController.lua", uploadBody = "20M", access = "EditorRedirectOnSessionTimeoutFilter"},
+	{name = property.editorUrl .. property.editorUploadFileUrl, script = "controller/EditorUploadFileController.lua", uploadBody = "0", access = "EditorRedirectOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorDownloadFileUrl, script = "controller/EditorDownloadFileController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.compareUrl, script = "controller/CompareController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
+	{name = property.editorUrl .. property.cryptographyUrl, script = "controller/CryptographyController.lua", requestBody = true, access = "EditorRedirectOnSessionTimeoutFilter"},
 }
 
 config.access = {
@@ -65,6 +71,7 @@ config.javascript = {
 	{name = "CompareEditor", script = "widget/CompareEditor.js"},
 	{name = "CompareTabs", script = "widget/CompareTabs.js"},
 	{name = "CompareHeader", script = "widget/CompareHeader.js"},
+	{name = "CryptographyTabs", script = "widget/CryptographyTabs.js"},
 }
 
 config.stylesheet = {
