@@ -7,36 +7,43 @@ local exception = require "exception"
 local crypto = require "crypto"
 
 
+
+local function cipherLength(cipher)
+	if cipher == "AES256" then
+		return 32
+	elseif cipher == "AES192" then
+		return 24
+	elseif cipher == "AES128" then
+		return 16
+	end
+	
+	exception("unknown cryptography cipher")
+end
+
+
 if util.isNotEmpty(param.operation) then
 	local form = util.parseForm(util.urldecode(ngx.req.get_body_data()))
 	
 	if param.operation == property.cryptographyEncrypt then
-		local encrypted, key, iv = crypto.encrypt(form.cipher, form.plaintext)
-		local decrypted = crypto.decrypt(form.cipher, encrypted, key, iv)
-		if decrypted == form.plaintext then
-			ngx.say(json.encode({encrypted = encrypted, key = key, iv = iv}))
-			return
-		end
-	elseif param.operation == property.cryptographyDecrypt then
-		local decrypted = crypto.decrypt(form.cipher, form.encrypted, form.key, form.iv)
-		local encrypted, key, iv = crypto.encrypt(form.cipher, decrypted, form.key, form.iv)
-		-- encrypted blocks may ends with variable '='
-		-- search whether at least one of the string is containing the other
-		if encrypted:find(form.encrypted, 1, true) or form.encrypted:find(encrypted, 1, true) then
-			ngx.say(json.encode({plaintext = decrypted}))
-			return
-		end
-	elseif param.operation == property.cryptographyHashPassword then
-		local hash, salt = crypto.passwordKey(form.password)
-		local _hash, _salt = crypto.passwordKey(form.password, salt)
-		if hash == _hash then
-			ngx.say(json.encode({hashcode = hash, salt = salt}))
-			return
-		end
-	elseif param.operation == property.cryptographyHashPasswordWithSalt then
-		local hash, salt = crypto.passwordKey(form.password, form.salt)
-		ngx.say(json.encode({hashcode = hash}))
+		local hash, salt = crypto.passwordKey(form.password, nil, cipherLength(form.cipher))
+		local encrypted, key, iv = crypto.encrypt(form.cipher, form.plaintext, hash)
+		ngx.say(json.encode({encrypted = crypto.encodeBase64(encrypted), iv = crypto.encodeBase64(iv), salt = crypto.encodeBase64(salt)}))
 		return
+	elseif param.operation == property.cryptographyDecrypt then
+		local hash, salt = crypto.passwordKey(form.password, crypto.decodeBase64(form.salt), cipherLength(form.cipher))
+		local plaintext = crypto.decrypt(form.cipher, crypto.decodeBase64(form.encrypted), hash, crypto.decodeBase64(form.iv))
+		ngx.say(json.encode({plaintext = plaintext}))
+		return
+	elseif param.operation == property.cryptographyHashPassword then
+		if util.isNotEmpty(form.salt) then
+			local hash, salt = crypto.passwordKey(form.password, crypto.decodeBase64(form.salt), tonumber(form.length))
+			ngx.say(json.encode({hashcode = crypto.encodeBase64(hash), salt = crypto.encodeBase64(salt)}))
+			return
+		else
+			local hash, salt = crypto.passwordKey(form.password, nil, tonumber(form.length))
+			ngx.say(json.encode({hashcode = crypto.encodeBase64(hash), salt = crypto.encodeBase64(salt)}))
+			return
+		end
 	else
 		exception("unknown cryptography cipher")
 	end

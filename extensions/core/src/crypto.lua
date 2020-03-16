@@ -1,4 +1,4 @@
--- Copyright (C) 2016, Lazar Gyulev, cyberz.eu@gmail.com, www.cyberz.eu
+-- Copyright (C) 2020, Lazar Gyulev
 -- Requires LuaJIT's FFI library
 -- Requires OpenSSL
 -- Add new C definitions in octopus/bin/cdefinitions.lua
@@ -56,20 +56,20 @@ local function hashString (str, method, length)
 end
 
 
--- https://www.openssl.org/docs/manmaster/crypto/SHA1.html
+-- https://www.openssl.org/docs/manmaster/man3/SHA1.html
 local function sha1 (str)
 	return encodeHex(hashString(str, "SHA1", 20))
 end
 
 
--- https://www.openssl.org/docs/manmaster/crypto/MD5.html
+-- https://www.openssl.org/docs/manmaster/man3/MD5.html
 local function md5 (str)
 	return encodeHex(hashString(str, "MD5", 16))
 end
 
 
--- https://www.openssl.org/docs/manmaster/crypto/BN_rand.html
--- https://www.openssl.org/docs/manmaster/crypto/BN_new.html
+-- https://www.openssl.org/docs/manmaster/man3/BN_rand.html
+-- https://www.openssl.org/docs/manmaster/man3/BN_new.html
 local function randomNumber (bits)
 	local bn = libssl.BN_new()
 	if libssl.BN_rand(bn, bits, 0, 0) then
@@ -109,7 +109,7 @@ local function randomString (length)
 end
 
 
--- https://www.openssl.org/docs/manmaster/crypto/HMAC.html
+-- https://www.openssl.org/docs/manmaster/man3/HMAC.html
 local function hmac (str, _key)
 	local key = _key or randomString(20)
 	local md = ffi.new("unsigned char[?]", 64)
@@ -119,18 +119,18 @@ local function hmac (str, _key)
 end
 
 
--- https://www.openssl.org/docs/manmaster/crypto/PKCS5_PBKDF2_HMAC_SHA1.html
+-- https://www.openssl.org/docs/manmaster/man3/PKCS5_PBKDF2_HMAC_SHA1.html
 -- http://www.neurotechnics.com/tools/pbkdf2
-local function passwordKey (str, _salt)
+local function passwordKey (str, _salt, _length)
 	local salt = _salt or randomString(20)
-	local md_length = 32
+	local md_length = _length or 32
 	local md = ffi.new("unsigned char[?]", md_length)
-	libssl.PKCS5_PBKDF2_HMAC_SHA1(str, #str, salt, #salt, 1024, md_length, md)
-	return encodeBase64(ffi.string(md, md_length)), salt
+	libssl.PKCS5_PBKDF2_HMAC_SHA1(str, #str, salt, #salt, 2000, md_length, md)
+	return ffi.string(md, md_length), salt
 end
 
 
--- https://www.openssl.org/docs/manmaster/crypto/EVP_aes_128_cbc.html
+-- https://www.openssl.org/docs/manmaster/man3/EVP_aes_128_cbc.html
 local function cipher (str, metadata, _key, _iv)
 	local out = {}
 	local outlen = ffi.new("int[1]", 0)
@@ -170,24 +170,24 @@ local function cipher (str, metadata, _key, _iv)
 end
 local function encryptAES128 (str, _key, _iv)
 	local enc, key, iv = cipher(str, {encdec = 1, cipher = "EVP_aes_128_cbc", key_length = 16, iv_length = 16}, _key, _iv)
-	return encodeBase64(enc), key, iv
+	return enc, key, iv
 end
 local function decryptAES128 (str, _key, _iv)
-	return cipher(decodeBase64(str), {encdec = 0, cipher = "EVP_aes_128_cbc", key_length = 16, iv_length = 16}, _key, _iv)
+	return cipher(str, {encdec = 0, cipher = "EVP_aes_128_cbc", key_length = 16, iv_length = 16}, _key, _iv)
 end
 local function encryptAES192 (str, _key, _iv)
 	local enc, key, iv = cipher(str, {encdec = 1, cipher = "EVP_aes_192_cbc", key_length = 24, iv_length = 24}, _key, _iv)
-	return encodeBase64(enc), key, iv
+	return enc, key, iv
 end
 local function decryptAES192 (str, _key, _iv)
-	return cipher(decodeBase64(str), {encdec = 0, cipher = "EVP_aes_192_cbc", key_length = 24, iv_length = 24}, _key, _iv)
+	return cipher(str, {encdec = 0, cipher = "EVP_aes_192_cbc", key_length = 24, iv_length = 24}, _key, _iv)
 end
 local function encryptAES256 (str, _key, _iv)
 	local enc, key, iv = cipher(str, {encdec = 1, cipher = "EVP_aes_256_cbc", key_length = 32, iv_length = 32}, _key, _iv)
-	return encodeBase64(enc), key, iv
+	return enc, key, iv
 end
 local function decryptAES256 (str, _key, _iv)
-	return cipher(decodeBase64(str), {encdec = 0, cipher = "EVP_aes_256_cbc", key_length = 32, iv_length = 32}, _key, _iv)
+	return cipher(str, {encdec = 0, cipher = "EVP_aes_256_cbc", key_length = 32, iv_length = 32}, _key, _iv)
 end
 
 local function encrypt (_cipher, str, _key, _iv)

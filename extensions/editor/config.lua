@@ -28,7 +28,6 @@ config.property = {
 	cryptographyEncrypt = "encrypt",
 	cryptographyDecrypt = "decrypt",
 	cryptographyHashPassword = "hashPassword",
-	cryptographyHashPasswordWithSalt = "hashPasswordWithSalt",
 	
 	editorSaved = [[<i class="fa fa-lock" ]] .. editorHeaderStyleButton,
 	editorUnsaved = [[<i class="fa fa-unlock" ]] .. editorHeaderStyleButton,

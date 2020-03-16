@@ -644,8 +644,8 @@ return {
 		user = {
 			testUser = {
 				email               =   "test@test.com", -- password is "test"
-				passwordSalt        =   "zYQ3CgsFOBFwAHHA+v+O",
-				passwordHash        =   "yPaXabiIXNPexjVtQkxDgPv61NQN2uiZczUNN1vlViA=",
+				passwordSalt        =   "d3lxREtTTlM3WU9mdDJiWlhQZUo=",
+				passwordHash        =   "VrY/itj29hzcEivUP+ZqlpI99AVCHxtyTy7hh6iNVzY=",
 			},
 		},
 	

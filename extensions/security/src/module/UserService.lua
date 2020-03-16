@@ -31,8 +31,8 @@ local function authenticate (db, email, password)
 			end
 		end
 		
-		local hash = crypto.passwordKey(password, user.passwordSalt)
-		if hash == user.passwordHash then
+		local hash = crypto.passwordKey(password, crypto.decodeBase64(user.passwordSalt), 32)
+		if hash == crypto.decodeBase64(user.passwordHash) then
 			-- failed authentication policy
 			user.failedLoginAttempts = 0
 			user.lastFailedLoginTime = os.time()
@@ -155,9 +155,11 @@ end
 
 
 local function register (db, email, password)
-	local hash, salt = crypto.passwordKey(password)
+	local hash, salt = crypto.passwordKey(password, nil, 32)
 	if util.isNotEmpty(hash) and util.isNotEmpty(salt) then
-		return db:add({user = {email = email, passwordHash = hash, passwordSalt = salt}})
+		local passwordHash = crypto.encodeBase64(hash)
+		local passwordSalt = crypto.encodeBase64(salt)
+		return db:add({user = {email = email, passwordHash = passwordHash, passwordSalt = passwordSalt}})
 	end
 end
 
