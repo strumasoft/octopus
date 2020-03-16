@@ -37,6 +37,7 @@ local requestBody = [[
 	# force reading request body (default off)
 	lua_need_request_body on;
 	client_max_body_size {{maxBodySize}};
+	client_body_buffer_size {{maxBodySize}};
 
 ]]
 
@@ -44,6 +45,7 @@ local requestBody = [[
 local uploadBody = [[
 
 	client_max_body_size {{maxBodySize}};
+	client_body_buffer_size {{maxBodySize}};
 
 ]]
 
