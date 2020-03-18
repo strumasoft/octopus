@@ -32,7 +32,7 @@ Widget.DatabaseNavigation.prototype = {
 	constructor: Widget.DatabaseNavigation,
 
 	init: function () {
-		$("#directoryNavigation").css("max-height", Widget.DatabaseTemplate.maxHeight())
+		$("#databaseNavigation").css("max-height", Widget.DatabaseTemplate.maxHeight())
 	}
 }
 

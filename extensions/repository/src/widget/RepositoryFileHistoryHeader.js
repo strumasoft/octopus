@@ -1,10 +1,10 @@
-Widget.RepositoryFileHistoryHeader = function (fileName) {
-	var data = {fileName: fileName}
+Widget.RepositoryFileHistoryHeader = function (title) {
+	var data = {title: title}
 
 	this.data = data
 	this.html = parse(function(){/*!
 		<header id="header" class="skel-layers-fixed">
-			<h1><div id="menu" class="hand">{{fileName}}</div></h1>
+			<h1><div id="menu" class="hand">{{title}}</div></h1>
 			<nav id="nav">
 				<ul>
 					<!-- Compare -->

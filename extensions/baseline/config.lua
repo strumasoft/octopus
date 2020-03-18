@@ -1,8 +1,8 @@
 local config = {} -- extension configuration
 
 config.property = {
-	baseline_color1 = "#fff",
-	baseline_color2 = "#000",
+	baseline_color1 = "#fff", -- white
+	baseline_color2 = "#000", -- black
 	baseline_color3 = "#888",
 	baseline_color4 = "#000",
 	baseline_color5 = "144, 144, 144",

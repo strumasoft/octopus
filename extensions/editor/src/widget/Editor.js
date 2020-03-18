@@ -27,6 +27,7 @@ Widget.Editor.prototype = {
 		})
 
 		this.aceEditor = aceEditor
+		vars.editor = this
 	},
 
 	setValue: function (content) {
@@ -136,7 +137,15 @@ Widget.Editor.prototype = {
 		document.getElementById(this.data.id).style.fontSize = x
 	},
 	
+	getHeight: function () {
+		return document.getElementById(this.data.id).style.height
+	},
+	
 	setHeight: function (x) {
 		document.getElementById(this.data.id).style.height = x
+	},
+
+	getId: function () {
+		return this.data.id
 	}
 }

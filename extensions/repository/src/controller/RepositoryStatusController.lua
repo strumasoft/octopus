@@ -53,7 +53,7 @@ local initJSTemplate = [[
 
 	var repositoryDiff = new Widget.RepositoryDiff({})
 	var repositoryStatusNavigation = new Widget.RepositoryStatusNavigation({{statuses}})
-	var repositoryStatusHeader = new Widget.RepositoryStatusHeader({{directoryName}})
+	var repositoryStatusHeader = new Widget.RepositoryStatusHeader({{title}})
 
 	var repositoryTemplate = new Widget.RepositoryTemplate({
 		navigation: repositoryStatusNavigation.html, 
@@ -82,7 +82,7 @@ local function process ()
 		customJS = customJS,
 		initJS = parse(initJSTemplate, json.encodeProperties({
 			statuses = repository.status(username, password, directoryName),
-			directoryName = directoryName
+			title = directoryName
 		}))
 	})
 end

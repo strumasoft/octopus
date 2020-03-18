@@ -18,27 +18,38 @@ del {
 
 .diffbox {
 	padding: 15px;
-	margin: 15px;
+	margin: 0px 5px 15px 5px;
 
-	color: #333;
+	color: {{baseline_color2}};
 	font-size: 14px;
 	font-weight: normal;
 	line-height: 16px;
 
-	background: #fff;
+	background: {{baseline_color1}};
 	border-radius: 6px;
-	border: solid 1px #ddd;
+	border: solid 1px {{baseline_color2}};
+
+	overflow-x: scroll;
+}
+
+#listbox {
+	padding-top: 10px;
+	margin: 5px;
+	
+	background: {{baseline_color1}};
+	border-radius: 6px;
+	border: solid 1px {{baseline_color2}};
 
 	overflow-x: scroll;
 }
 
 .repolog {
 	margin: 0 0 0 0;
-	color: #333;
+	color: {{baseline_color2}};
 }
 
 table.diff tbody td {
-	color: #333;
+	color: {{baseline_color2}};
 	font-size: 14px;
 }
 

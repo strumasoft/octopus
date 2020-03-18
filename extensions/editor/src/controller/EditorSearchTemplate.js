@@ -6,12 +6,12 @@ Widget.EditorSearchTemplate = function (data) {
 			{{header}}
 
 			<div class="row">
-				<div class="3u 12u(medium)" id="editorSearchTemplateNavigation">
+				<div class="3u 12u(medium)" id="editorSearchNavigation">
 					<div id="directoryNavigation">
 						{{searchResult}}
 					</div>
 				</div>
-				<div class="9u 12u(medium)" id="editorSearchTemplateEditor">
+				<div class="9u 12u(medium)" id="editorSearchArea">
 					{{editor}}
 				</div>
 			</div>

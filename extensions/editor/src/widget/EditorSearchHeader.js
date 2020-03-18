@@ -52,12 +52,12 @@ Widget.EditorSearchHeader.toggleEditor = "12u"
 Widget.EditorSearchHeader.toggleName = property.editorSearchCompress
 
 Widget.EditorSearchHeader.toggle = function () {
-	var navigationClass = $("#editorSearchTemplateNavigation").attr("class")
-	$("#editorSearchTemplateNavigation").attr("class", Widget.EditorSearchHeader.toggleNavigation)
+	var navigationClass = $("#editorSearchNavigation").attr("class")
+	$("#editorSearchNavigation").attr("class", Widget.EditorSearchHeader.toggleNavigation)
 	Widget.EditorSearchHeader.toggleNavigation = navigationClass
 
-	var editorClass = $("#editorSearchTemplateEditor").attr("class")
-	$("#editorSearchTemplateEditor").attr("class", Widget.EditorSearchHeader.toggleEditor)
+	var editorClass = $("#editorSearchArea").attr("class")
+	$("#editorSearchArea").attr("class", Widget.EditorSearchHeader.toggleEditor)
 	Widget.EditorSearchHeader.toggleEditor = editorClass
 
 	var toggleName = $("#toggleAction").html()

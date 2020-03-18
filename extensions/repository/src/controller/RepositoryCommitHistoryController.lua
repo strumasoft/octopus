@@ -90,6 +90,9 @@ local function process ()
 
 		return parse(require("BaselineHtmlTemplate"), {
 			title = title, 
+			customCSS = [[
+			#skel-layers-wrapper {padding-top: 0;}
+			]],
 			externalJS = externalJS,
 			externalCSS = externalCSS,
 			initJS = parse(initJSTemplate, json.encodeProperties({}))

@@ -7,11 +7,11 @@ Widget.DatabaseTemplate = function (data) {
 
 			<div class="row">
 				<div class="3u 12u(medium)">
-					<div id="directoryNavigation">
+					<div id="databaseNavigation">
 						{{navigation}}
 					</div>
 				</div>
-				<div class="9u 12u(medium)" id="editorArea">
+				<div class="9u 12u(medium)" id="editorDatabaseArea">
 					{{tabs}}
 				</div>
 			</div>

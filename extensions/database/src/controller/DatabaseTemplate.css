@@ -2,11 +2,11 @@
 	padding: 1em 0;
 }
 
-#directoryNavigation {
+#databaseNavigation {
 	overflow-x: scroll;
 }
 
-#editorArea {
+#editorDatabaseArea {
 	padding: 0;
 }
 

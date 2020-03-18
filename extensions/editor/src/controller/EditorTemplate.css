@@ -4,8 +4,9 @@
 
 #directoryNavigation {
 	overflow-x: scroll;
+	margin-right: 8px;
 }
 
-#editorArea, #editorSearchTemplateEditor {
+#editorArea, #editorSearchArea {
 	padding: 0;
 }

@@ -9,7 +9,7 @@ Widget.RepositoryStatusNavigation = function (statuses) {
 	if (getURLParameter("repository") == "SVN") {
 	this.html = parse(function(){/*!
 		{{? statuses.length > 0
-			<ul class="no-bullets">
+			<ul id="listbox" class="no-bullets">
 				{{# statuses[i]
 					<li class="directory">
 						<div class="nowrap">
@@ -29,7 +29,7 @@ Widget.RepositoryStatusNavigation = function (statuses) {
 	} else if (getURLParameter("repository") == "GIT") {
 	this.html = parse(function(){/*!
 		{{? statuses.length > 0
-			<ul class="no-bullets">
+			<ul id="listbox" class="no-bullets">
 				{{# statuses[i]
 					<li class="directory">
 						<div class="nowrap">

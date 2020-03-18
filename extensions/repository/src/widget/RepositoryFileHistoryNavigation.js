@@ -10,7 +10,7 @@ Widget.RepositoryFileHistoryNavigation = function (revisions) {
 	if (getURLParameter("repository") == "SVN") {
 	this.html = parse(function(){/*!
 		{{? revisions.length > 0
-			<ul class="no-bullets">
+			<ul id="listbox" class="no-bullets">
 				{{# revisions[i]
 					<li class="directory">
 						<div class="nowrap">
@@ -27,7 +27,7 @@ Widget.RepositoryFileHistoryNavigation = function (revisions) {
 	} else if (getURLParameter("repository") == "GIT") {
 	this.html = parse(function(){/*!
 		{{? revisions.length > 0
-			<ul class="no-bullets">
+			<ul id="listbox" class="no-bullets">
 				{{# revisions[i]
 					<li class="directory">
 						<div class="nowrap">

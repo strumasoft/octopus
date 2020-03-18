@@ -53,7 +53,7 @@ local initJSTemplate = [[
 
 	var repositoryDiff = new Widget.RepositoryDiff({})
 	var repositoryFileHistoryNavigation = new Widget.RepositoryFileHistoryNavigation({{revisions}})
-	var repositoryFileHistoryHeader = new Widget.RepositoryFileHistoryHeader({{fileName}})
+	var repositoryFileHistoryHeader = new Widget.RepositoryFileHistoryHeader({{title}})
 
 	var repositoryTemplate = new Widget.RepositoryTemplate({
 		navigation: repositoryFileHistoryNavigation.html, 
@@ -83,7 +83,7 @@ local function process ()
 		customJS = customJS,
 		initJS = parse(initJSTemplate, json.encodeProperties({
 			revisions = repository.fileHistory(username, password, fileName, directoryName),
-			fileName = fileName
+			title = title
 		}))
 	})
 end
