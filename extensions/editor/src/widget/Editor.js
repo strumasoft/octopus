@@ -10,6 +10,8 @@ Widget.Editor.prototype = {
 
 	init: function () {
 		var aceEditor = ace.edit(this.data.id)
+		this.aceEditor = aceEditor
+
 		aceEditor.setTheme("ace/theme/chrome")
 		aceEditor.getSession().setMode("ace/mode/text")
 
@@ -25,9 +27,6 @@ Widget.Editor.prototype = {
 			// e.data.action - insertLines|insertText|removeLines|removeText
 			Widget.EditorHeader.saved(false)
 		})
-
-		this.aceEditor = aceEditor
-		vars.editor = this
 	},
 
 	setValue: function (content) {
@@ -143,6 +142,7 @@ Widget.Editor.prototype = {
 	
 	setHeight: function (x) {
 		document.getElementById(this.data.id).style.height = x
+		this.aceEditor.resize()
 	},
 
 	getId: function () {

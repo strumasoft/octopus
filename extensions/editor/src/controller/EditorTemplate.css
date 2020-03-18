@@ -7,6 +7,10 @@
 	margin-right: 8px;
 }
 
-#editorArea, #editorSearchArea {
+#editorArea {
+	padding: 0;
+}
+
+#editorSearchArea.editorSearchWrapper {
 	padding: 0;
 }

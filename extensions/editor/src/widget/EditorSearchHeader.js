@@ -49,6 +49,7 @@ Widget.EditorSearchHeader.prototype = {
 
 Widget.EditorSearchHeader.toggleNavigation = "12u"
 Widget.EditorSearchHeader.toggleEditor = "12u"
+Widget.EditorSearchHeader.toggleEditorHeight = (window.innerHeight - 110) + "px"
 Widget.EditorSearchHeader.toggleName = property.editorSearchCompress
 
 Widget.EditorSearchHeader.toggle = function () {
@@ -59,6 +60,10 @@ Widget.EditorSearchHeader.toggle = function () {
 	var editorClass = $("#editorSearchArea").attr("class")
 	$("#editorSearchArea").attr("class", Widget.EditorSearchHeader.toggleEditor)
 	Widget.EditorSearchHeader.toggleEditor = editorClass
+
+	var editorHeight = vars.searchEditor.getHeight()
+	vars.searchEditor.setHeight(Widget.EditorSearchHeader.toggleEditorHeight)
+	Widget.EditorSearchHeader.toggleEditorHeight = editorHeight
 
 	var toggleName = $("#toggleAction").html()
 	$("#toggleAction").html(Widget.EditorSearchHeader.toggleName)

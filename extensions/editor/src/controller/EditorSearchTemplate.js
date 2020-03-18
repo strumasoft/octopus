@@ -11,7 +11,7 @@ Widget.EditorSearchTemplate = function (data) {
 						{{searchResult}}
 					</div>
 				</div>
-				<div class="9u 12u(medium)" id="editorSearchArea">
+				<div class="9u 12u(medium) editorSearchWrapper" id="editorSearchArea">
 					{{editor}}
 				</div>
 			</div>
