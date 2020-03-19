@@ -38,6 +38,7 @@ local initJSTemplate = [[
 
 	editor.init()
 	$("#directoryNavigation").css("max-height", Widget.EditorTemplate.maxHeight())
+	vars.searchEditor = editor
 ]]
 
 
