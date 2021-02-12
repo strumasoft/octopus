@@ -812,7 +812,7 @@ local function dropAllTables (self)
 	local res = query(self, self.tableConfig.allTablesSQL(self.connection.database))
 
 	for i=1,#res do
-		self:dropTable(res[i].table_name)
+		self:dropTable(res[i].table_name or res[i].TABLE_NAME)
 	end
 end
 

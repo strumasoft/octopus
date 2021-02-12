@@ -63,6 +63,8 @@ Widget.Editor.prototype = {
 			mode = "ace/mode/html"
 		} else if (e == "xml") {
 			mode = "ace/mode/xml"
+		} else if (e == "wsdl") {
+			mode = "ace/mode/xml"
 		} else if (e == "jsp") {
 			mode = "ace/mode/html"
 		} else if (e == "tag") {
