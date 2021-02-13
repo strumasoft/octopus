@@ -1,5 +1,4 @@
 local common = require("db.api.common")
-local json = require "json"
 local uuid = require "uuid"
 local exception = require "exception"
 local property = require "property"
@@ -437,6 +436,7 @@ local function setUpReferences (self, referenceType, res, one, from)
 	if #res > 0 then
 		if one then
 			if #res > 1 then
+				local json = require "json"
 				ngx.log(ngx.ERR, from .." must be one not many ==> " .. json.encode(res)) -- DEBUG
 			end
 
@@ -760,6 +760,7 @@ query = function (self, sql, doNotThrow)
 	else
 		if #res > 0 then
 			if property.debugDB then
+				local json = require "json"
 				ngx.log(ngx.ERR, "\tRESULT: " .. json.encode(res)) -- DEBUG
 			end
 		end
@@ -1239,6 +1240,7 @@ local function connect ()
 			elseif #res == 0 then
 				exception(next(proto) .. " must be one not none")
 			else
+				local json = require "json"
 				exception(next(proto) .. " must be one not many ==> " .. json.encode(res))
 			end
 		end,

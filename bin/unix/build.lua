@@ -1,9 +1,25 @@
----------------------------
--- set up build profiles --
----------------------------
+-- load libraries --
 
+local loadExtension = function (extensionsDir, extensionName)
+	package.path = package.path .. ";" .. extensionsDir .. "/" .. extensionName .. "/src/?.lua"
+end
+
+local loadPath = function (path)
+	package.path = package.path .. ";" .. path
+end
+
+local loadCPath = function (cpath)
+	package.cpath = package.cpath .. ";" .. cpath
+end
 
 local octopusExtensionsDir = "../../extensions"
+
+loadCPath("luajit/lib/?.so;")
+loadExtension(octopusExtensionsDir, "core")
+loadExtension(octopusExtensionsDir, "orm")
+
+
+-- set up build profiles --
 
 -- add project in the following relative form:
 -- key = {"../../../dir", "config.lua"}
@@ -41,11 +57,7 @@ else
 end
 
 
-
-----------------
 -- nginx.conf --
-----------------
-
 
 local nginxConf = [[
 http {
@@ -79,32 +91,7 @@ worker_processes auto;
 ]]
 
 
-
---------------------
--- nginx.config.* --
---------------------
-
-
--- load functions --
-
-local loadExtension = function (extensionsDir, extensionName)
-	package.path = package.path .. ";" .. extensionsDir .. "/" .. extensionName .. "/src/?.lua"
-end
-
-local loadPath = function (path)
-	package.path = package.path .. ";" .. path
-end
-
-local loadCPath = function (cpath)
-	package.cpath = package.cpath .. ";" .. cpath
-end
-
-loadCPath("luajit/lib/?.so;")
-loadExtension(octopusExtensionsDir, "core")
-loadExtension(octopusExtensionsDir, "orm")
-
-
--- remove old configurations --
+-- remove old configurations, nginx.config.* --
 
 local lfs = require "lfs"
 local dir = "."
@@ -129,7 +116,7 @@ file:write(parse(nginxConf, config))
 file:close()
 
 
--- create new configurations --
+-- create new configurations, nginx.config.* --
 
 local builder = require "builder"
 local eval = require "eval"
