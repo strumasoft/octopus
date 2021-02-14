@@ -76,6 +76,6 @@ db:import("shopImport")
 Copyright and License
 =====================
 
-Copyright (C) 2020, Lazar Gyulev
+Copyright (C) 2021, Lazar Gyulev
 
 All rights reserved. BSD license.

@@ -19,7 +19,7 @@ return {
 	serverName = "localhost",
 	errorLog = "error_log logs/error.log;",
 	accessLog = "access_log logs/access.log;",
-	includeDrop = [[#include drop.conf;]],
+	includeDrop = "",
 	maxBodySize = "50k",
 	
 	databaseConnection = {
