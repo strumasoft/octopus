@@ -2,13 +2,13 @@ local buildExtensionConfig = [[
 local config = {} -- extension configuration
 
 config.module = {
-	{name = "access", script = "access.lua"},
+	--access.lua
 	--forbidstatic.lua
 	{name = "html", script = "html.lua"},
 	--javascript.lua
 	{name = "localization", script = "localization.lua"},
 	--location.lua
-	{name = "module", script = "module.lua"},
+	--module.lua
 	--parse.lua
 	{name = "property", script = "property.lua"},
 	--static.lua
@@ -64,6 +64,8 @@ local nginxLocationTemplate = [[
 		
 		{{uploadBody}}
 
+		# ngx.var.octopusExtensionsDir
+		set $octopusExtensionsDir '{{octopusExtensionsDir}}';
 		# ngx.var.octopusHostDir
 		set $octopusHostDir '{{octopusHostDir}}';
 
@@ -537,6 +539,7 @@ local function generateNginxConfig (siteConfig)
 			url = name, 
 			rootPath = "root " .. scripts[1].extensionDir .. ";",
 			script = parse([[content_by_lua_file '{{script}}';]], {script = scriptFileName}),
+			octopusExtensionsDir = siteConfig.octopusExtensionsDir,
 			octopusHostDir = siteConfig.octopusHostDir,
 		}
 		if scripts[1].requestBody then

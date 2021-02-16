@@ -3,7 +3,6 @@ local exception = require "exception"
 local util = require "util"
 
 
-
 local function noBackDirectory (path)
 	if path == ".." or path:find("/..", 1, true) or path:find("../", 1, true) then exception("no back directory allowed") end
 end
