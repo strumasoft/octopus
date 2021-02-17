@@ -3,8 +3,16 @@ local m = {} -- module
 
 local lfs = require "lfs"
 local fileutil = require "fileutil"
-local property = require "property"
-local sourceCtxPath = property.sourceCtxPath or ""
+
+
+--
+-- sourceCtxPath
+--
+
+local function sourceCtxPath ()
+	local property = require "property"
+	return property.sourceCtxPath or ""
+end
 
 
 function m.entries(dir)
@@ -21,7 +29,7 @@ function m.entries(dir)
 
 	-- collect all entries in map with attributes
 	local map = {}
-	for entry in lfs.dir(sourceCtxPath .. dir) do
+	for entry in lfs.dir(sourceCtxPath() .. dir) do
 		if entry ~= "." and entry ~= ".." then
 			local path
 			if dir ~= "/" then 
@@ -30,7 +38,7 @@ function m.entries(dir)
 				path = "/" .. entry
 			end
 
-			local attr = lfs.attributes(sourceCtxPath .. path)
+			local attr = lfs.attributes(sourceCtxPath() .. path)
 			if attr then
 				attr.path = path
 				map[entry] = attr

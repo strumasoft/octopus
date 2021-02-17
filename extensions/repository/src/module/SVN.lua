@@ -2,8 +2,6 @@ local m = {} -- module
 
 
 local fileutil = require "fileutil"
-local property = require "property"
-local sourceCtxPath = property.sourceCtxPath or ""
 
 
 local SVN = "svn "
@@ -12,10 +10,31 @@ local svn = SVN .. "--username %s --password %s --no-auth-cache --non-interactiv
 
 
 --
+-- sourceCtxPath
+--
+
+local function sourceCtxPath ()
+	local property = require "property"
+	return property.sourceCtxPath or ""
+end
+
+
+--
+-- redirectErrorToOutputStream
+--
+
+local function redirectErrorToOutputStream ()
+	local property = require "property"
+	return property.redirectErrorToOutputStream or ""
+end
+
+
+--
 -- logCommand
 --
 
 local function logCommand (command)
+	local property = require "property"
 	if property.debugRepo then
 		ngx.log(ngx.ERR, command) -- DEBUG
 	end
@@ -31,13 +50,13 @@ local function fileHistory (username, password, fileName)
 	password = fileutil.quoteCommandlineArgument(password)
 	fileName = fileutil.quoteCommandlineArgument(fileName)
 
-	return string.format(svn .. [[log -v %s]] .. property.redirectErrorToOutputStream, username, password, fileName)
+	return string.format(svn .. [[log -v %s]] .. redirectErrorToOutputStream(), username, password, fileName)
 end
 
 function m.fileHistory (username, password, fileName)
 	fileutil.noBackDirectory(fileName)
 
-	local command = fileHistory(username, password, sourceCtxPath .. fileName)
+	local command = fileHistory(username, password, sourceCtxPath() .. fileName)
 	logCommand(command)
 
 	local revisions = {}
@@ -78,13 +97,13 @@ local function status (username, password, directoryName)
 	password = fileutil.quoteCommandlineArgument(password)
 	directoryName = fileutil.quoteCommandlineArgument(directoryName)
 
-	return string.format(svn .. [[status -u %s]] .. property.redirectErrorToOutputStream, username, password, directoryName)
+	return string.format(svn .. [[status -u %s]] .. redirectErrorToOutputStream(), username, password, directoryName)
 end
 
 function m.status (username, password, directoryName)
 	fileutil.noBackDirectory(directoryName)
 
-	local command = status(username, password, sourceCtxPath .. directoryName)
+	local command = status(username, password, sourceCtxPath() .. directoryName)
 	logCommand(command)
 
 	local statuses = {}
@@ -94,7 +113,7 @@ function m.status (username, password, directoryName)
 		local fileName = line:match('(%a?:?[/\\].*)')
 		if fileName then
 			local newFileName
-			local i, j = fileName:find(sourceCtxPath, 1, true)
+			local i, j = fileName:find(sourceCtxPath(), 1, true)
 			if i and (i <= j) then
 				newFileName = fileName:sub(j + 1, #fileName)
 			else
@@ -140,10 +159,10 @@ local function logHistory (username, password, directoryName, limit)
 	fileutil.noCommandlineSpecialCharacters(limit)
 
 	if limit then
-		return string.format(svn .. [[log -v -l %s %s]] .. property.redirectErrorToOutputStream, 
+		return string.format(svn .. [[log -v -l %s %s]] .. redirectErrorToOutputStream(), 
 			username, password, limit, directoryName)
 	else
-		return string.format(svn .. [[log -v %s]] .. property.redirectErrorToOutputStream, 
+		return string.format(svn .. [[log -v %s]] .. redirectErrorToOutputStream(), 
 			username, password, directoryName)
 	end
 end
@@ -151,7 +170,7 @@ end
 function m.logHistory (username, password, directoryName, limit)
 	fileutil.noBackDirectory(directoryName)
 
-	local command = logHistory(username, password, sourceCtxPath .. directoryName, limit)
+	local command = logHistory(username, password, sourceCtxPath() .. directoryName, limit)
 	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
@@ -174,14 +193,14 @@ local function commitHistory (username, password, directoryName, newRevision, ol
 	fileutil.noCommandlineSpecialCharacters(newRevision)
 	fileutil.noCommandlineSpecialCharacters(oldRevision)
 
-	return string.format(svn .. [[diff -r %s:%s %s]] .. property.redirectErrorToOutputStream, 
+	return string.format(svn .. [[diff -r %s:%s %s]] .. redirectErrorToOutputStream(), 
 		username, password, oldRevision, newRevision, directoryName)
 end
 
 function m.commitHistory (username, password, directoryName, newRevision, oldRevision)
 	fileutil.noBackDirectory(directoryName)
 
-	local command = commitHistory(username, password, sourceCtxPath .. directoryName, newRevision, oldRevision)
+	local command = commitHistory(username, password, sourceCtxPath() .. directoryName, newRevision, oldRevision)
 	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
@@ -203,13 +222,13 @@ local function fileRevisionContent (username, password, revision, fileName)
 
 	fileutil.noCommandlineSpecialCharacters(revision)
 
-	return string.format(svn .. [[cat -r %s %s]] .. property.redirectErrorToOutputStream, username, password, revision, fileName)
+	return string.format(svn .. [[cat -r %s %s]] .. redirectErrorToOutputStream(), username, password, revision, fileName)
 end
 
 function m.fileRevisionContent (username, password, revision, fileName)
 	fileutil.noBackDirectory(fileName)
 
-	local command = fileRevisionContent(username, password, revision, sourceCtxPath .. fileName)
+	local command = fileRevisionContent(username, password, revision, sourceCtxPath() .. fileName)
 	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
@@ -232,10 +251,10 @@ local function fileDiff (username, password, oldRevision, newRevision, fileName)
 	fileutil.noCommandlineSpecialCharacters(oldRevision)
 	fileutil.noCommandlineSpecialCharacters(newRevision)
 
-	local command = string.format(svn .. [[diff -r %s:%s %s]] .. property.redirectErrorToOutputStream, 
+	local command = string.format(svn .. [[diff -r %s:%s %s]] .. redirectErrorToOutputStream(), 
 		username, password, oldRevision, newRevision, fileName)
 	if newRevision == "LOCAL" then
-		command = string.format(svn .. [[diff -r %s %s]] .. property.redirectErrorToOutputStream, 
+		command = string.format(svn .. [[diff -r %s %s]] .. redirectErrorToOutputStream(), 
 			username, password, oldRevision, fileName)
 	end
 	return command
@@ -244,7 +263,7 @@ end
 function m.fileDiff (username, password, oldRevision, newRevision, fileName)
 	fileutil.noBackDirectory(fileName)
 
-	local command = fileDiff(username, password, oldRevision, newRevision, sourceCtxPath .. fileName)
+	local command = fileDiff(username, password, oldRevision, newRevision, sourceCtxPath() .. fileName)
 	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
@@ -264,13 +283,13 @@ local function add (username, password, path)
 	password = fileutil.quoteCommandlineArgument(password)
 	path = fileutil.quoteCommandlineArgument(path)
 
-	return string.format(SVN .. [[add --force %s]] .. property.redirectErrorToOutputStream, path)
+	return string.format(SVN .. [[add --force %s]] .. redirectErrorToOutputStream(), path)
 end
 
 function m.add (username, password, path)
 	fileutil.noBackDirectory(path)
 
-	local command = add(username, password, sourceCtxPath .. path)
+	local command = add(username, password, sourceCtxPath() .. path)
 	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
@@ -290,13 +309,13 @@ local function delete (username, password, path)
 	password = fileutil.quoteCommandlineArgument(password)
 	path = fileutil.quoteCommandlineArgument(path)
 
-	return string.format(svn .. [[delete --force %s]] .. property.redirectErrorToOutputStream, username, password, path)
+	return string.format(svn .. [[delete --force %s]] .. redirectErrorToOutputStream(), username, password, path)
 end
 
 function m.delete (username, password, path)
 	fileutil.noBackDirectory(path)
 
-	local command = delete(username, password, sourceCtxPath .. path)
+	local command = delete(username, password, sourceCtxPath() .. path)
 	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
@@ -317,14 +336,14 @@ local function move (username, password, oldName, newName)
 	oldName = fileutil.quoteCommandlineArgument(oldName)
 	newName = fileutil.quoteCommandlineArgument(newName)
 
-	return string.format(svn .. [[move --force %s %s]] .. property.redirectErrorToOutputStream, username, password, oldName, newName)
+	return string.format(svn .. [[move --force %s %s]] .. redirectErrorToOutputStream(), username, password, oldName, newName)
 end
 
 function m.move (username, password, oldName, newName)
 	fileutil.noBackDirectory(oldName)
 	fileutil.countBackDirectories(newName) -- only here is allowed to have back directory
 
-	local command = move(username, password, sourceCtxPath .. oldName, sourceCtxPath .. newName)
+	local command = move(username, password, sourceCtxPath() .. oldName, sourceCtxPath() .. newName)
 	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
@@ -348,11 +367,11 @@ local function commit (username, password, message, list)
 	for i=1, #list do
 		fileutil.noBackDirectory(list[i])
 
-		local path = fileutil.quoteCommandlineArgument(sourceCtxPath .. list[i])
+		local path = fileutil.quoteCommandlineArgument(sourceCtxPath() .. list[i])
 		paths = paths .. " " .. path
 	end
 
-	return string.format(svn .. [[commit -m %s %s]] .. property.redirectErrorToOutputStream, 
+	return string.format(svn .. [[commit -m %s %s]] .. redirectErrorToOutputStream(), 
 		username, password, message, paths)
 end
 
@@ -380,10 +399,10 @@ local function update (username, password, revision, path)
 	fileutil.noCommandlineSpecialCharacters(revision)
 
 	if revision then
-		return string.format(svn .. [[update -r%s %s]] .. property.redirectErrorToOutputStream, 
+		return string.format(svn .. [[update -r%s %s]] .. redirectErrorToOutputStream(), 
 			username, password, revision, path)
 	else
-		return string.format(svn .. [[update %s]] .. property.redirectErrorToOutputStream, 
+		return string.format(svn .. [[update %s]] .. redirectErrorToOutputStream(), 
 			username, password, path)
 	end
 end
@@ -391,7 +410,7 @@ end
 function m.update (username, password, revision, path)
 	fileutil.noBackDirectory(path)
 
-	local command = update(username, password, revision, sourceCtxPath .. path)
+	local command = update(username, password, revision, sourceCtxPath() .. path)
 	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
@@ -414,16 +433,16 @@ local function revert (username, password, path, recursively)
 	fileutil.noCommandlineSpecialCharacters(recursively)
 
 	if recursively then
-		return string.format(SVN .. [[revert -R %s]] .. property.redirectErrorToOutputStream, path)
+		return string.format(SVN .. [[revert -R %s]] .. redirectErrorToOutputStream(), path)
 	else
-		return string.format(SVN .. [[revert %s]] .. property.redirectErrorToOutputStream, path)
+		return string.format(SVN .. [[revert %s]] .. redirectErrorToOutputStream(), path)
 	end
 end
 
 function m.revert (username, password, path, recursively)
 	fileutil.noBackDirectory(path)
 
-	local command = revert(username, password, sourceCtxPath .. path, recursively)
+	local command = revert(username, password, sourceCtxPath() .. path, recursively)
 	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
@@ -446,14 +465,14 @@ local function merge (username, password, fromRevision, toRevision, path)
 	fileutil.noCommandlineSpecialCharacters(fromRevision)
 	fileutil.noCommandlineSpecialCharacters(toRevision)
 
-	return string.format([[cd %s && ]] .. svn .. [[merge -r %s:%s .]] .. property.redirectErrorToOutputStream, 
+	return string.format([[cd %s && ]] .. svn .. [[merge -r %s:%s .]] .. redirectErrorToOutputStream(), 
 		path, username, password, fromRevision, toRevision)
 end
 
 function m.merge (username, password, fromRevision, toRevision, path)
 	fileutil.noBackDirectory(path)
 
-	local command = merge(username, password, fromRevision, toRevision, sourceCtxPath .. path)
+	local command = merge(username, password, fromRevision, toRevision, sourceCtxPath() .. path)
 	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))
@@ -473,13 +492,13 @@ local function refresh (username, password, path)
 	password = fileutil.quoteCommandlineArgument(password)
 	path = fileutil.quoteCommandlineArgument(path)
 
-	return string.format(SVN .. [[cleanup %s]] .. property.redirectErrorToOutputStream, path)
+	return string.format(SVN .. [[cleanup %s]] .. redirectErrorToOutputStream(), path)
 end
 
 function m.refresh (username, password, path)
 	fileutil.noBackDirectory(path)
 
-	local command = refresh(username, password, sourceCtxPath .. path)
+	local command = refresh(username, password, sourceCtxPath() .. path)
 	logCommand(command)
 
 	local f = assert(io.popen(command, "r"))

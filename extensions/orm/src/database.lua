@@ -1141,6 +1141,7 @@ local function connect (_connection, _types)
 
 	-- get table config --
 	local tableConfig = require("db.api." .. connection.rdbms)
+	tableConfig.usePreparedStatement = property.usePreparedStatement
 
 	-- connect to database --
 	local db = connectToDatabase(connection)

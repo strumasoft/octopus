@@ -4,9 +4,16 @@ local m = {} -- module
 local lfs = require "lfs"
 local exception = require "exception"
 local fileutil = require "fileutil"
-local property = require "property"
-local sourceCtxPath = property.sourceCtxPath or ""
 
+
+--
+-- sourceCtxPath
+--
+
+local function sourceCtxPath ()
+	local property = require "property"
+	return property.sourceCtxPath or ""
+end
 
 
 --
@@ -17,7 +24,7 @@ function m.createFile (fileName)
 	if fileName then
 		fileutil.noBackDirectory(fileName)
 
-		local file, err = io.open(sourceCtxPath .. fileName, "w")
+		local file, err = io.open(sourceCtxPath() .. fileName, "w")
 
 		if file == nil then
 			exception(err)
@@ -39,7 +46,7 @@ function m.createDirectory (directoryName)
 	if directoryName then
 		fileutil.noBackDirectory(directoryName)
 
-		local ok, err = lfs.mkdir(sourceCtxPath .. directoryName)
+		local ok, err = lfs.mkdir(sourceCtxPath() .. directoryName)
 
 		if not ok then
 			exception(err)
@@ -59,7 +66,7 @@ function m.rename (oldName, newName)
 		fileutil.noBackDirectory(oldName)
 		fileutil.countBackDirectories(newName)
 
-		local ok, err = os.rename(sourceCtxPath .. oldName, sourceCtxPath .. newName)
+		local ok, err = os.rename(sourceCtxPath() .. oldName, sourceCtxPath() .. newName)
 
 		if not ok then
 			exception(err)
@@ -78,7 +85,7 @@ function m.remove (path)
 	if path then
 		fileutil.noBackDirectory(path)
 
-		fileutil.remove(sourceCtxPath .. path)
+		fileutil.remove(sourceCtxPath() .. path)
 	else
 		exception("path is empty")
 	end
@@ -93,7 +100,7 @@ function m.save (fileName, content)
 	if fileName then
 		fileutil.noBackDirectory(fileName)
 
-		local file, err = io.open(sourceCtxPath .. fileName, "w")
+		local file, err = io.open(sourceCtxPath() .. fileName, "w")
 
 		if file == nil then
 			exception(err)
@@ -120,7 +127,7 @@ function m.fileContent (fileName)
 	if fileName then
 		fileutil.noBackDirectory(fileName)
 
-		local file, err = io.open(sourceCtxPath .. fileName, "r")
+		local file, err = io.open(sourceCtxPath() .. fileName, "r")
 
 		if file == nil then
 			exception(err)

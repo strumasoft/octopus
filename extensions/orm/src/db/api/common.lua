@@ -1,4 +1,3 @@
-local property = require "property"
 local exception = require "exception"
 local util = require "util"
 
@@ -116,7 +115,7 @@ local function select (config, typeName, what, join, where, count, page, orderBy
 	local sql = {}
 
 
-	if property.usePreparedStatement and #where > 0 then
+	if config.usePreparedStatement and #where > 0 then
 		sql[#sql + 1] = config.prepare(where)
 	end
 
@@ -158,7 +157,7 @@ local function select (config, typeName, what, join, where, count, page, orderBy
 			sql[#sql + 1] = config.escape .. where[i].type .. config.escape .. "." .. config.escape .. where[i].property .. config.escape
 			sql[#sql + 1] = " " .. where[i].operation.operator .. " "
 
-			if property.usePreparedStatement and #where > 0 then
+			if config.usePreparedStatement and #where > 0 then
 				sql[#sql + 1] = placeholders[i]
 			else
 				sql[#sql + 1] = "'" .. convertToString(where[i].operation.value, config) .. "'"
@@ -194,7 +193,7 @@ local function select (config, typeName, what, join, where, count, page, orderBy
 	end
 
 
-	if property.usePreparedStatement and #where > 0 then
+	if config.usePreparedStatement and #where > 0 then
 		local values = {}
 		for i=1,#where do values[#values + 1] = where[i].operation.value end
 		sql[#sql + 1] = config.executeAndDelete(values)
@@ -217,7 +216,7 @@ local function add (config, typeName, value)
 	local sql = {}
 
 
-	if property.usePreparedStatement then
+	if config.usePreparedStatement then
 		sql[#sql + 1] = config.prepare(value)
 	end
 
@@ -246,7 +245,7 @@ local function add (config, typeName, value)
 	i = 1
 	sql[#sql + 1] = " VALUES ("
 	for k,v in pairs(value) do
-		if property.usePreparedStatement then
+		if config.usePreparedStatement then
 			sql[#sql + 1] = placeholders[i]
 		else
 			sql[#sql + 1] = "'" .. convertToString(v, config) .. "'"
@@ -262,7 +261,7 @@ local function add (config, typeName, value)
 	end
 
 
-	if property.usePreparedStatement then
+	if config.usePreparedStatement then
 		sql[#sql + 1] = config.executeAndDelete(value)
 	end
 
@@ -333,7 +332,7 @@ local function delete (config, typeName, value)
 	local sql = {}
 
 
-	if property.usePreparedStatement then
+	if config.usePreparedStatement then
 		sql[#sql + 1] = config.prepare(value)
 	end
 
@@ -350,7 +349,7 @@ local function delete (config, typeName, value)
 		sql[#sql + 1] = config.escape .. k .. config.escape
 		sql[#sql + 1] = "="
 
-		if property.usePreparedStatement then
+		if config.usePreparedStatement then
 			sql[#sql + 1] = placeholders[i]
 		else
 			sql[#sql + 1] = "'" .. convertToString(v, config) .. "'"
@@ -364,7 +363,7 @@ local function delete (config, typeName, value)
 	end
 
 
-	if property.usePreparedStatement then
+	if config.usePreparedStatement then
 		sql[#sql + 1] = config.executeAndDelete(value)
 	end
 
@@ -385,7 +384,7 @@ local function update (config, typeName, value, set)
 	local sql = {}
 
 
-	if property.usePreparedStatement then
+	if config.usePreparedStatement then
 		sql[#sql + 1] = config.prepare(value, set)
 	end
 
@@ -402,7 +401,7 @@ local function update (config, typeName, value, set)
 		sql[#sql + 1] = config.escape .. k .. config.escape
 		sql[#sql + 1] = "="
 
-		if property.usePreparedStatement then
+		if config.usePreparedStatement then
 			sql[#sql + 1] = placeholders[i]
 		else
 			sql[#sql + 1] = "'" .. convertToString(v, config) .. "'"
@@ -422,7 +421,7 @@ local function update (config, typeName, value, set)
 		sql[#sql + 1] = config.escape .. k .. config.escape
 		sql[#sql + 1] = "="
 
-		if property.usePreparedStatement then
+		if config.usePreparedStatement then
 			sql[#sql + 1] = placeholders[length(set) + i]
 		else
 			sql[#sql + 1] = "'" .. convertToString(v, config) .. "'"
@@ -436,7 +435,7 @@ local function update (config, typeName, value, set)
 	end
 
 
-	if property.usePreparedStatement then
+	if config.usePreparedStatement then
 		sql[#sql + 1] = config.executeAndDelete(set, value)
 	end
 

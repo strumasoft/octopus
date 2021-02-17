@@ -1,4 +1,3 @@
-local property = require "property"
 local uuid = require "uuid"
 local cookie = require "cookie"
 local exception = require "exception"
@@ -8,6 +7,8 @@ local crypto = require "crypto"
 
 
 local function authenticate (db, email, password)
+	local property = require "property"
+	
 	local op = db:operators()
 
 	if util.isNotEmpty(email) and util.isNotEmpty(password) then
@@ -51,6 +52,8 @@ end
 
 
 local function setToken (db, user)
+	local property = require "property"
+	
 	uuid.seed(db:timestamp())
 
 	user.token = uuid()
@@ -80,6 +83,8 @@ end
 -- NOTE: ngx.ctx.user holds the user for the whole request
 --
 local function authenticatedUser (db)
+	local property = require "property"
+	
 	local op = db:operators()
 
 	if ngx.ctx.user then
