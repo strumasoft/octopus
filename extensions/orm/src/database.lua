@@ -5,7 +5,7 @@ local util = require "util"
 
 
 --
--- forward declaration of functions and private properties
+-- forward declaration of functions
 --
 local connectToDatabase
 local getReferences
