@@ -1,14 +1,12 @@
 local common = require("db.api.common")
 local uuid = require "uuid"
 local exception = require "exception"
-local property = require "property"
 local util = require "util"
 
 
 --
 -- forward declaration of functions and private properties
 --
-local connection
 local connectToDatabase
 local getReferences
 local prePopulate
@@ -19,7 +17,6 @@ local query
 -- number of properties of object
 --
 local length = common.length
-
 
 
 --
@@ -672,7 +669,7 @@ local function transaction (self, f, ...)
 		rollbackTransaction(self)
 
 		self.db:close()
-		self.db = connectToDatabase()
+		self.db = connectToDatabase(self.connection)
 
 		error(res)
 	else
@@ -693,7 +690,7 @@ local function protectedTransaction (self, f, ...)
 		rollbackTransaction(self)
 
 		self.db:close()
-		self.db = connectToDatabase()
+		self.db = connectToDatabase(self.connection)
 
 		exception("do not nest transaction inside transaction")
 	else
@@ -706,7 +703,7 @@ local function protected (self, f, ...)
 	local status, res, res2, res3, res4, res5 = pcall(f, self, ...)
 	if not status then
 		self.db:close()
-		self.db = connectToDatabase()
+		self.db = connectToDatabase(self.connection)
 
 		error(res)
 	else
@@ -738,19 +735,19 @@ end
 -- query
 --
 query = function (self, sql, doNotThrow)
-	if property.debugDB then
+	if self.debugDB then
 		ngx.log(ngx.ERR, sql) -- DEBUG
 	end
 
 	local res, err = self.db:query(sql)
 
-	while err == "again" and property.usePreparedStatement do
+	while err == "again" and self.usePreparedStatement do
 		res, err = self.db:read_result() -- we are looking for the last one
 	end
 
 	if err then
 		if doNotThrow then
-			if property.debugDB then
+			if self.debugDB then
 				ngx.log(ngx.ERR, "\tERROR: " .. err) -- DEBUG
 			end
 			return nil, err
@@ -759,7 +756,7 @@ query = function (self, sql, doNotThrow)
 		end
 	else
 		if #res > 0 then
-			if property.debugDB then
+			if self.debugDB then
 				local json = require "json"
 				ngx.log(ngx.ERR, "\tRESULT: " .. json.encode(res)) -- DEBUG
 			end
@@ -1118,7 +1115,7 @@ end
 --
 -- connect
 --
-connectToDatabase = function ()
+connectToDatabase = function (connection)
 	local driver = require("db.driver." .. connection.rdbms)
 
 	local db = driver:new()
@@ -1134,53 +1131,40 @@ connectToDatabase = function ()
 end
 
 
-local function connect ()
-	-- get types & connection parameters --
-
-	local types = require "type"
-
-	if types["_"] then
-		connection = types["_"] -- set connection only the first time
-		types["_"] = nil -- remove connection from types
-	end
-
+local function connect (_connection, _types)
+	-- get connection parameters --
+	local property = require "property"
+	local connection = _connection or property.databaseConnection
+	
+	-- get types
+	local types = _types or require("type")
 
 	-- get table config --
-
 	local tableConfig = require("db.api." .. connection.rdbms)
 
-
 	-- connect to database --
+	local db = connectToDatabase(connection)
 
-	local db = connectToDatabase()
-
-
-	-- timestamp --
-
+	-- timestamp & set uuid seed--
 	local function timestamp ()
 		local res, err = db:query(tableConfig.timestamp.sql)
-
-		if not res then
-			exception(err)
-		end
-
+		if not res then exception(err) end
 		return res[1][tableConfig.timestamp.field] * 10000
 	end
-
 	uuid.seed(timestamp())
 
-
 	-- construct persistence api --
-
-	local database =  {
+	return {
 		db = db,
+		connection = connection,
 		types = types,
+		tableConfig = tableConfig,
 		operators = operators,
 		query = query,
 		close = close,
-
-		connection = connection,
-		tableConfig = tableConfig,
+		
+		usePreparedStatement = property.usePreparedStatement,
+		debugDB = property.debugDB,
 
 		transaction = protectedTransaction,
 		protected = protected,
@@ -1268,9 +1252,6 @@ local function connect ()
 			return transaction(self, update, proto, set)
 		end
 	}
-
-
-	return database
 end
 
 

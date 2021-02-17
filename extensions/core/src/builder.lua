@@ -182,8 +182,6 @@ local function generateOverrideTypesTable (siteConfig)
 	local util = require "util"
 
 	local modules = {}
-	modules["_"] = siteConfig.databaseConnection
-
 
 	-- aggregates all types --
 	for i=1, #siteConfig.extensions do
@@ -216,26 +214,24 @@ local function generateOverrideTypesTable (siteConfig)
 	-- put types in the standart format & add length to string --
 	local tableConfig = require("db.api." .. siteConfig.databaseConnection.rdbms)
 	for name,t in pairs(modules) do
-		if name ~= "_" then
-			for k,v in pairs(t) do
-				if type(v) ~= "table" then
-					if v == "string" then
-						t[k] = {type = "string", length = tableConfig.stringLength}
+		for k,v in pairs(t) do
+			if type(v) ~= "table" then
+				if v == "string" then
+					t[k] = {type = "string", length = tableConfig.stringLength}
+				else
+					if v ~= "id" and v ~= "integer" and v ~= "float" and v ~= "boolean" and v ~= "string" then
+						t[k] = {type = v, has = "one"}
 					else
-						if v ~= "id" and v ~= "integer" and v ~= "float" and v ~= "boolean" and v ~= "string" then
-							t[k] = {type = v, has = "one"}
-						else
-							t[k] = {type = v}
-						end
+						t[k] = {type = v}
 					end
-				elseif v.type == "string" and not v.length then
-					v.length = tableConfig.stringLength
 				end
+			elseif v.type == "string" and not v.length then
+				v.length = tableConfig.stringLength
 			end
-
-			-- add unique ID
-			t.id = {type = "id"}
 		end
+
+		-- add unique ID
+		t.id = {type = "id"}
 	end
 
 
@@ -683,6 +679,9 @@ local function build (siteConfig)
 	file:close()
 	fileutil.createDirectory(siteConfig.octopusHostDir .. "/build/src")
 	fileutil.createDirectory(siteConfig.octopusHostDir .. "/build/static")
+	
+	-- put database connection inside the global parameters
+	siteConfig.globalParameters.databaseConnection = siteConfig.databaseConnection
 	
 	siteConfig.properties = generatePropertyTable(siteConfig, "property", siteConfig.globalParameters)
 	siteConfig.localizations = generatePropertyTable(siteConfig, "localization")
