@@ -1,4 +1,3 @@
-local property = require "property"
 local uuid = require "uuid"
 local cookie = require "cookie"
 local exception = require "exception"
@@ -15,6 +14,7 @@ local function getLocale (db)
 	if util.isEmpty(locale) or err then
 		local country = countryService.getCountry(db)
 		return country.locale
+		--local property = require "property"
 		--return property.defaultLocale
 	else
 		return locale
@@ -23,6 +23,8 @@ end
 
 
 local function setLocale (locale)
+	--local property = require "property"
+
 	-- set locale in cookie
 	local ok, err = cookie:set({
 		key = localeCookieName,

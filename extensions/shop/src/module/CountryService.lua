@@ -1,4 +1,3 @@
-local property = require "property"
 local uuid = require "uuid"
 local cookie = require "cookie"
 local exception = require "exception"
@@ -13,6 +12,8 @@ local countryCookieName = "country"
 -- NOTE: ngx.ctx.country holds country, currency and locale for the whole request
 --
 local function getCountry (db)
+	local property = require "property"
+
 	local op = db:operators()
 
 	if ngx.ctx.country then
@@ -33,6 +34,8 @@ end
 
 
 local function setCountry (countryIsocode)
+	--local property = require "property"
+
 	-- set countryIsocode in cookie
 	local ok, err = cookie:set({
 		key = countryCookieName,

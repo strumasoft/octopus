@@ -1,4 +1,3 @@
-local property = require "property"
 local uuid = require "uuid"
 local cookie = require "cookie"
 local exception = require "exception"
@@ -15,6 +14,8 @@ local cartCookieName = "cart"
 
 
 local function setCartCookie (cartId)
+	local property = require "property"
+	
 	-- set cartId in cookie
 	local ok, err = cookie:set({
 		key = cartCookieName,

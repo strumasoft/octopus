@@ -4,7 +4,7 @@ local config = {} -- extension configuration
 config.module = {
 	--access.lua
 	--forbidstatic.lua
-	{name = "html", script = "html.lua"},
+	--html.lua
 	--javascript.lua
 	{name = "localization", script = "localization.lua"},
 	--location.lua
