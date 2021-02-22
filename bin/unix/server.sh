@@ -6,6 +6,7 @@
 # sudo apt-get install gcc g++ build-essential
 
 
+# cd /octopus/bin/unix
 current_dir=$(pwd)
 
 export destination_folder="$current_dir/downloads"
@@ -156,6 +157,11 @@ function nginx_build {
 }
 
 
+function nginx_clear {
+	$LUAJIT_BIN/luajit build.lua clear
+}
+
+
 # $1 is the name of the build
 function nginx_restart {
 	$LUAJIT_BIN/luajit build.lua $1
@@ -172,6 +178,19 @@ function nginx_restart {
 }
 
 
+# crontab -e
+# */5 * * * * /octopus/bin/unix/server.sh reload
+function nginx_reload {
+	if [ -f octopus.reload ]; then
+		export LD_LIBRARY_PATH="$LUAJIT_LIB":$LD_LIBRARY_PATH
+		./nginx -s stop
+		./nginx -c nginx.conf
+		
+		rm octopus.reload
+	fi
+}
+
+
 if [ -z "$1" ]; then
 	echo "no operation!"
 elif [ "$1" == "install" ]; then
@@ -180,6 +199,9 @@ elif [ "$1" == "install" ]; then
 elif [ "$1" == "build" ]; then
 	echo "build server..."
 	nginx_build $2
+elif [ "$1" == "clear" ]; then
+	echo "clear server..."
+	nginx_clear
 elif [ "$1" == "stop" ]; then
 	echo "stop server..."
 	nginx_stop
@@ -189,6 +211,9 @@ elif [ "$1" == "start" ]; then
 elif [ "$1" == "restart" ]; then
 	echo "restart server..."
 	nginx_restart $2
+elif [ "$1" == "reload" ]; then
+	echo "reload server..."
+	nginx_reload
 else
 	echo "unknown operation!"
 fi

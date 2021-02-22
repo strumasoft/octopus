@@ -669,6 +669,13 @@ local function generateParseConfig (siteConfig)
 end -- end generateParseConfig
 
 
+local function clear (siteConfig)
+	local fileutil = require "fileutil"
+	
+	fileutil.removeDirectory(siteConfig.octopusHostDir .. "/build")
+end
+
+
 local function build (siteConfig)
 	local fileutil = require "fileutil"
 	
@@ -708,5 +715,6 @@ m.generateHtmlConfig = generateHtmlConfig
 m.generateJavaScriptConfig = generateJavaScriptConfig
 m.generateStyleSheetConfig = generateStyleSheetConfig
 m.generateParseConfig = generateParseConfig
+m.clear = clear
 m.build = build
 return m

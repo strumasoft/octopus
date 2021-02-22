@@ -47,7 +47,9 @@ profiles.test = {
 local buildProfile = arg[1]
 if buildProfile then
 	print("[" .. buildProfile .. "]")
-	if profiles[buildProfile] then 
+	if buildProfile == "clear" then
+		config = profiles["test"]
+	elseif profiles[buildProfile] then 
 		config = profiles[buildProfile]
 	else
 		error(buildProfile .. " is not name of build profile")
@@ -110,9 +112,8 @@ end
 
 -- create nginx.conf --
 
-local parse = require "parse"
 local file = assert(io.open("nginx.conf", "w"))
-file:write(parse(nginxConf, config))
+file:write(nginxConf)
 file:close()
 
 
@@ -125,8 +126,8 @@ for i=1,#config.hosts do
 	local extensionsDir = hosts[hostDirName][1]
 	local configFileName = hosts[hostDirName][2]
 
-	local function build ()
-		print("build server from " .. extensionsDir .. "/" .. configFileName)
+	local function process (command)
+		print(command .. " server from " .. extensionsDir .. "/" .. configFileName)
 		
 		-- override site configFileName (config.lua) with the profile configurations
 		config.octopusExtensionsDir = lfs.currentdir() .. "/" .. octopusExtensionsDir
@@ -134,8 +135,12 @@ for i=1,#config.hosts do
 		local siteConfig = eval.file(extensionsDir .. "/" .. configFileName, config)
 		siteConfig.nginxConfFileName = "nginx.config." .. hostDirName
 		
-		builder.build(siteConfig)
+		builder[command](siteConfig)
 	end
-	local status, err = pcall(build)
+	
+	local command = "build"
+	if buildProfile == "clear" then command = "clear" end
+	
+	local status, err = pcall(process, command)
 	if not status then print(err) end
 end
