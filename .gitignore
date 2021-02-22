@@ -19,7 +19,7 @@ bin/unix/nginx.conf.default
 bin/unix/nginx.config.*
 bin/unix/nginx.pid
 bin/unix/nginx.old
-bin/unix/octopus.reload
+bin/unix/server.reload
 bin/unix/scgi_params
 bin/unix/scgi_params.default
 bin/unix/uwsgi_params

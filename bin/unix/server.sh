@@ -181,12 +181,12 @@ function nginx_restart {
 # crontab -e
 # */5 * * * * /octopus/bin/unix/server.sh reload
 function nginx_reload {
-	if [ -f octopus.reload ]; then
+	if [ -f server.reload ]; then
 		export LD_LIBRARY_PATH="$LUAJIT_LIB":$LD_LIBRARY_PATH
 		./nginx -s stop
 		./nginx -c nginx.conf
 		
-		rm octopus.reload
+		rm server.reload
 	fi
 }
 
