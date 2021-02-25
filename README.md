@@ -21,9 +21,9 @@ Wiki
 Introduction
 ============
 
-Octopus is automated process for creating configuration for the excellent [lua-nginx-module](https://github.com/openresty/lua-nginx-module). It can host many aplications/sites. Every aplication/site hosted by octopus is made up of a number of extensions, where every extension is aggregation of logically connected files.
+Octopus is web framework based on [nginx](https://www.nginx.com/), [luajit](https://luajit.org/) and [lua-nginx-module](https://github.com/openresty/lua-nginx-module). It contains an automated process for creating all the required configurations for [lua-nginx-module](https://github.com/openresty/lua-nginx-module). Octopus is capable of hosting many websites at the same time. Every website is made up of units called extensions that aggregate everything needed for an MVC architecture.
 
-The heart of the system is the build process who creates all the necessary nginx configurations, create widgets, creates type system and autowire modules in dependency injection style.
+The heart of the system is the build process which creates all the necessary nginx configurations, create widgets, creates type system and autowire modules in dependency injection style.
 [build.lua](bin/unix/build.lua) together with [config.lua](extensions/config.lua) are responsible for configurating the build/generation process, while [server.sh](bin/unix/server.sh) is responsible for the actual building, installing, starting, stoping and restarting the server:
 
 ```bash
@@ -76,6 +76,6 @@ db:import("shopImport")
 Copyright and License
 =====================
 
-Copyright (C) 2021, Lazar Gyulev
+Copyright (C) 2015-2021, StrumaSoft
 
 All rights reserved. BSD license.
