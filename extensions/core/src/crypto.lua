@@ -1,4 +1,4 @@
--- Copyright (C) 2020, Lazar Gyulev
+-- Copyright (C) 2020, StrumaSoft
 -- Requires LuaJIT's FFI library
 -- Requires OpenSSL
 -- Add new C definitions in octopus/bin/cdefinitions.lua

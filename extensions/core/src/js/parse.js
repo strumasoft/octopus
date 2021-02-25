@@ -1,4 +1,4 @@
-/* parse.js v1.0.0 | Copyright (C) 2015, Lazar Gyulev, cyberz.eu@gmail.com, www.cyberz.eu | MIT licensed */
+/* parse.js v1.0.0 | Copyright (C) 2015, StrumaSoft | MIT licensed */
 
 
 /*
@@ -233,7 +233,7 @@ function parse(x, data) {
 
 
 /*
-	Copyright (C) 2015, Lazar Gyulev, cyberz.eu@gmail.com, www.cyberz.eu
+	Copyright (C) 2015, StrumaSoft
 
 	Permission is hereby granted, free of charge, to any person obtaining a
 	copy of this software and associated documentation files (the

@@ -10,7 +10,7 @@ persistence | http://the-color-black.net/blog/LuaTablePersistence | Copyright (c
 dkjson | http://dkolf.de/src/dkjson-lua.fsl/home | Copyright (C) 2010-2013 David Heiko Kolf
 uuid | https://github.com/Tieske/uuid | Copyright 2012 Rackspace (original), 2013 Thijs Schreijer (modifications)
 date | https://github.com/Tieske/date | Copyright (C) 2006, by Jas Latrix (jastejada@yahoo.com)| Copyright (C) 2013-2014, by Thijs Schreijer
-utf8 | Copyright (c) 2006-2007, Kyle Smith | Modified by Lazar Gyulev, 2016
+utf8 | Copyright (c) 2006-2007, Kyle Smith | Copyright (C) 2016, StrumaSoft
 lua-resty-http | https://github.com/pintsized/lua-resty-http | Copyright (c) 2013, James Hurst
 lua-resty-cookie | https://github.com/cloudflare/lua-resty-cookie | Copyright (C) 2013 Jiale Zhi (calio), Cloudflare Inc.
 lua-resty-upload | https://github.com/openresty/lua-resty-upload | Copyright (C) Yichun Zhang (agentzh)

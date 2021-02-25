@@ -16,7 +16,7 @@
 
 --[[
 Copyright (c) 2006-2007, Kyle Smith
-Modified by Lazar Gyulev, 2016
+Copyright (C) 2016, StrumaSoft
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
