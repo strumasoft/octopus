@@ -4,8 +4,8 @@ local oldRequire = require
 
 package.loaded.MODULES = {}
 local function configuration (moduleName)
-	local octopusHostDir = ngx.var.octopusHostDir
 	local MODULES = package.loaded.MODULES
+	local octopusHostDir = ngx.var.octopusHostDir
 
 	if MODULES[octopusHostDir] then
 		return MODULES[octopusHostDir][moduleName]

@@ -5,8 +5,8 @@ local parse = require "parse"
 
 package.loaded.TEMPLATES = {}
 local function configuration (templateName)
-	local octopusHostDir = ngx.var.octopusHostDir
 	local TEMPLATES = package.loaded.TEMPLATES
+	local octopusHostDir = ngx.var.octopusHostDir
 
 	if TEMPLATES[octopusHostDir] then
 		return TEMPLATES[octopusHostDir][templateName]
@@ -17,21 +17,24 @@ local function configuration (templateName)
 	end
 end
 
-local cache = {}
-local template = {}
 
+package.loaded.TEMPLATES_CACHE = {}
+local template = {}
 setmetatable(template, {
 	__index = function (t, templateName)
-		local octopusHostDir = ngx.var.octopusHostDir
-		if cache[octopusHostDir .. ":" .. templateName] then
-			local view = cache[octopusHostDir .. ":" .. templateName]
+		local CACHE = package.loaded.TEMPLATES_CACHE
+		local key = ngx.var.octopusHostDir .. ":" .. templateName
+		
+		local cached = CACHE[key]
+		if cached then
+			local view = cached
 			return function (context) return parse(view, context) end
 		end
 		
 		local scripts = configuration(templateName)
 		if scripts then
 			local view = eval.file(scripts[#scripts], {})
-			cache[octopusHostDir .. ":" .. templateName] = view
+			CACHE[key] = view
 			return function (context) return parse(view, context) end
 		end
 		
