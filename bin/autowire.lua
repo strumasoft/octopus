@@ -17,26 +17,26 @@ local function configuration (moduleName)
 end
 
 
-local function newRequire (moduleName, newModuleValue)
+local function newRequire (moduleName, newModule)
 	if not moduleName then return nil end
 	
 	local scripts = configuration(moduleName)
 	if scripts then
-		local newModuleName
+		local key
 		if scripts[1]["extensionDir"]:find(ngx.var.octopusExtensionsDir, 1, true) then
-			newModuleName = "octopus." .. moduleName
+			key = "octopus." .. moduleName
 		elseif moduleName:find("global.", 1, true) then
-			newModuleName = moduleName
+			key = moduleName
 		else
-			newModuleName = ngx.var.octopusHostDir .. ":" .. moduleName
+			key = ngx.var.octopusHostDir .. ":" .. moduleName
 		end
 		
-		if newModuleValue then
-			package.loaded[newModuleName] = newModuleValue
+		if newModule then
+			package.loaded[key] = newModule
 			return
 		end
 		
-		local cached = package.loaded[newModuleName]
+		local cached = package.loaded[key]
 		if cached then return cached end
 		
 		local lastModule, tempModule
@@ -55,7 +55,7 @@ local function newRequire (moduleName, newModuleValue)
 			end
 		end
 		
-		package.loaded[newModuleName] = lastModule
+		package.loaded[key] = lastModule
 		return lastModule
 	end
 	

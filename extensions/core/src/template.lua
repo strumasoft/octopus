@@ -23,7 +23,13 @@ local template = {}
 setmetatable(template, {
 	__index = function (t, templateName)
 		local CACHE = package.loaded.TEMPLATES_CACHE
-		local key = ngx.var.octopusHostDir .. ":" .. templateName
+		
+		local key
+		if templateName:find("global.", 1, true) then
+			key = templateName
+		else
+			key = ngx.var.octopusHostDir .. ":" .. templateName
+		end
 		
 		local cached = CACHE[key]
 		if cached then
