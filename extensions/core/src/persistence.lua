@@ -3,6 +3,8 @@
 --[[ Provides ]]
 -- persistence.store(path, ...): Stores arbitrary items to the file at the given path
 -- persistence.load(path): Loads files that were previously stored with store and returns them
+-- persistence.sync(path, ...): The same as persistence.store but first creates PART file 
+--                              and then moves it to the original file path
 
 --[[ Limitations ]]
 -- Does not export userdata, threads or most function values
@@ -13,7 +15,7 @@
 -- Private methods
 local write, writeIndent, writers, refCount;
 
-persistence =
+local persistence = 
 {
 	store = function (path, ...)
 		local file, e;
@@ -85,6 +87,12 @@ persistence =
 		end;
 	end;
 }
+
+persistence.sync = function (path, ...)
+	persistence.store(path .. ".part", ...)
+	os.execute(string.format([[mv '%s' '%s']], path .. ".part", path))
+end;
+
 
 -- Private methods
 
