@@ -15,11 +15,7 @@ local function transform (text, data, delimiter, nestedCycles, nestedConditions)
 	repeat
 		local startDelimiterIndex = text:indexOf(delimiter.open, iteratorIndex)
 		if startDelimiterIndex then
-			if delimiter.preserve then
-				substrings[#substrings + 1] = text:sub(iteratorIndex, startDelimiterIndex + delimiter.open:len() - 1)
-			else
-				substrings[#substrings + 1] = text:sub(iteratorIndex, startDelimiterIndex - 1)
-			end
+			substrings[#substrings + 1] = text:sub(iteratorIndex, startDelimiterIndex - 1)
 			
 			if text:charAt(startDelimiterIndex + delimiter.open:len() + nestedCycles - 1) == "#" then  -- cycle
 				local startExpressionIndex = startDelimiterIndex + delimiter.open:len() + nestedCycles + 1 -- one more because #
@@ -37,9 +33,16 @@ local function transform (text, data, delimiter, nestedCycles, nestedConditions)
 				-- iterate the array over the element
 				if array then -- do not iterate over non-existing arrays
 					local iterator = multiplyString("i", nestedCycles)
-					for i,_ in pairs(array) do
-						data[iterator] = i
-						substrings[#substrings + 1] = transform(element, data, delimiter, nestedCycles + 1, nestedConditions)
+					if util.isArray(array) then
+						for i=1,#array do
+							data[iterator] = i
+							substrings[#substrings + 1] = transform(element, data, delimiter, nestedCycles + 1, nestedConditions)
+						end
+					else -- array is object
+						for i,_ in pairs(array) do
+							data[iterator] = i
+							substrings[#substrings + 1] = transform(element, data, delimiter, nestedCycles + 1, nestedConditions)
+						end
 					end
 					data[iterator] = nil -- reset iterator
 				end
@@ -64,18 +67,36 @@ local function transform (text, data, delimiter, nestedCycles, nestedConditions)
 				end
 				
 				iteratorIndex = endDelimiterIndex + delimiter.close:len() + nestedConditions + 1 -- one more because ?
+			elseif text:charAt(startDelimiterIndex + delimiter.open:len()) == "=" then  -- set
+				local startExpressionIndex = startDelimiterIndex + delimiter.open:len() + 1 -- one more because =
+				local endDelimiterIndex = text:indexOf(delimiter.close .. "=", startExpressionIndex)
+				
+				-- find property name and value
+				local propertyNameEndIndex = text:indexOf("=", startExpressionIndex)
+				local propertyName = text:sub(startExpressionIndex, propertyNameEndIndex - 1)
+				local propertyExpression = text:sub(propertyNameEndIndex + 1, endDelimiterIndex - 1)
+				data[propertyName:trim()] = eval.code(propertyExpression, data, true)
+				
+				iteratorIndex = endDelimiterIndex + delimiter.close:len() + 1 -- one more because =
+			elseif text:charAt(startDelimiterIndex + delimiter.open:len()) == "@" then  -- require
+				local startExpressionIndex = startDelimiterIndex + delimiter.open:len() + 1 -- one more because @
+				local endDelimiterIndex = text:indexOf(delimiter.close .. "@", startExpressionIndex)
+				
+				-- find required module
+				local moduleName = text:sub(startExpressionIndex, endDelimiterIndex - 1)
+				local names = util.split(moduleName:trim(), ".")
+				data[names[#names]] = require(moduleName:trim()) -- set propertyName to be the last name after "."
+				
+				iteratorIndex = endDelimiterIndex + delimiter.close:len() + 1 -- one more because @
 			else  -- replace
 				local startExpressionIndex = startDelimiterIndex + delimiter.open:len()
 				local endDelimiterIndex = text:indexOf(delimiter.close, startExpressionIndex)
 
-				local propertyName = text:sub(startExpressionIndex, endDelimiterIndex - 1)
-				substrings[#substrings + 1] = eval.code(propertyName, data, true)
+				-- find property value
+				local propertyExpression = text:sub(startExpressionIndex, endDelimiterIndex - 1)
+				substrings[#substrings + 1] = eval.code(propertyExpression, data, true)
 
-				if delimiter.preserve then
-					iteratorIndex = endDelimiterIndex
-				else
-					iteratorIndex = endDelimiterIndex + delimiter.close:len()
-				end
+				iteratorIndex = endDelimiterIndex + delimiter.close:len()
 			end
 		else
 			substrings[#substrings + 1] = text:sub(iteratorIndex, text:len())
@@ -86,6 +107,8 @@ local function transform (text, data, delimiter, nestedCycles, nestedConditions)
 end
 
 
-return function (text, data)
-	return transform(text, data, {open = "{{", close = "}}", preserve = false}, 1, 1)
+return function (text, input)
+	local data = {}
+	if input then setmetatable(data, {__index = input}) end
+	return transform(text, data, {open = "{{", close = "}}"}, 1, 1)
 end

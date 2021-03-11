@@ -11,6 +11,12 @@ return [[
 {{
   _.t2({message = message1 .. message2 .. message3})
 }}
+
+{{= ddd = message1 .. message2 .. message3 }}=
+ddd={{ddd}}
+
+{{@ json }}@
+{{ json.encode({a = 3, b = 2}) }}
 </body>
 </html>
 

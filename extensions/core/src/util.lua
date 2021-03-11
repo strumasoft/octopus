@@ -213,6 +213,12 @@ local function lengthOfObject (obj)
 end
 
 
+local function isArray (array)
+	if array and #array > 0 then return true end
+	return false
+end
+
+
 local function escapePrintableChars (str)
 	if str == nil then return "" end
 	
@@ -258,6 +264,7 @@ return {
 	parseForm = parseForm,
 	requireSecureToken = requireSecureToken,
 	lengthOfObject = lengthOfObject,
+	isArray = isArray,
 	escapePrintableChars = escapePrintableChars,
 	doGarbageCollection = doGarbageCollection,
 }
