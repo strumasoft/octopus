@@ -107,8 +107,8 @@ local function transform (text, data, delimiter, nestedCycles, nestedConditions)
 end
 
 
-return function (text, input)
-	local data = {}
-	if input then setmetatable(data, {__index = input}) end
-	return transform(text, data, {open = "{{", close = "}}"}, 1, 1)
+return function (text, data, parameters)
+	local datapool = parameters or {}
+	if data then setmetatable(datapool, {__index = data}) end
+	return transform(text, datapool, {open = "{{", close = "}}"}, 1, 1)
 end

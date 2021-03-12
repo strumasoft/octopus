@@ -34,14 +34,14 @@ setmetatable(template, {
 		local cached = CACHE[key]
 		if cached then
 			local view = cached
-			return function (context) return parse(view, context) end
+			return function (context, arguments) return parse(view, context, arguments) end
 		end
 		
 		local scripts = configuration(templateName)
 		if scripts then
 			local view = eval.file(scripts[#scripts], {})
 			CACHE[key] = view
-			return function (context) return parse(view, context) end
+			return function (context, arguments) return parse(view, context, arguments) end
 		end
 		
 		exception("html template " .. templateName .. " does not exists")
