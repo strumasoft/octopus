@@ -1,15 +1,6 @@
 local config = {} -- extension configuration
 
-config.property = {
-	-- security --
-	shopRequireSecurity = true,
-	
-	-- country & locale --
-	defaultCountryIsocode = "GB",
-
-	----------
-	-- URLs --
-	----------
+config.frontend = {
 	shopUrl = "/shop",
 
 	-- home --
@@ -57,12 +48,19 @@ config.property = {
 	checkoutPaymentMethodUrl = "/checkout/paymentMethod",
 	checkoutSetPaymentMethodUrl = "/checkout/setPaymentMethod",
 
-
 	-- picture sizes --
 	pictureWidth = "300px",
 	pictureHeight = "400px",
 	thumbnailPictureWidth = "46px",
 	thumbnailPictureHeight = "62px",
+}
+
+config.property = {
+	-- security --
+	shopRequireSecurity = true,
+	
+	-- country & locale --
+	defaultCountryIsocode = "GB",
 }
 
 config.localization = {

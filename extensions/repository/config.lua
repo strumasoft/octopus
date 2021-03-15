@@ -1,10 +1,6 @@
 local config = {} -- extension configuration
 
-config.property = {
-	debugRepo = false,
-	
-	redirectErrorToOutputStream = " 2>&1",
-
+config.frontend = {
 	repositoryUrl = "/repository",
 
 	repositoryStatusUrl = "/status",
@@ -20,6 +16,11 @@ config.property = {
 	repositoryDeleteUrl = "/delete",
 	repositoryRefreshUrl = "/refresh",
 	repositoryMergeUrl = "/merge",
+}
+
+config.property = {
+	debugRepo = false,
+	redirectErrorToOutputStream = " 2>&1",
 }
 
 config.location = {

@@ -1,6 +1,6 @@
 local config = {} -- extension configuration
 
-config.property = {
+config.frontend = {
 	baseline_color1 = "#fff", -- white
 	baseline_color2 = "#000", -- black
 	baseline_color3 = "#888",

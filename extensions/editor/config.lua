@@ -2,11 +2,9 @@ local config = {} -- extension configuration
 
 local editorHeaderStyleButton = [[style="font-size: 21px; padding-top: 5px;"></i>]]
 
-config.property = {
+config.frontend = {
 	mainColor = "#49bf9d",
 	selectedColor = "#1e90ff",
-	
-	fileUploadChunkSize = 8196,
 
 	editorUrl = "/editor",
 	editorHomeUrl = "",
@@ -33,6 +31,10 @@ config.property = {
 	editorUnsaved = [[<i class="fa fa-unlock" ]] .. editorHeaderStyleButton,
 	editorSearchExpand = [[<i class="fa fa-expand" ]] .. editorHeaderStyleButton,
 	editorSearchCompress = [[<i class="fa fa-compress" ]] .. editorHeaderStyleButton,
+}
+
+config.property = {
+	fileUploadChunkSize = 8196,
 }
 
 config.location = {

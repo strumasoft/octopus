@@ -1,13 +1,15 @@
 local config = {} -- extension configuration
 
-config.property = {
-	failedLoginAttempts = 7,
-	failedLoginAttemptsTimeout = 10800, -- 3h
-
+config.frontend = {
 	securityLoginUrl = "/security/login",
 	securityRegisterUrl = "/security/register",
 	securityLoginUserUrl = "/security/loginUser",
 	securityRegisterUserUrl = "/security/registerUser",
+}
+
+config.property = {
+	failedLoginAttempts = 7,
+	failedLoginAttemptsTimeout = 10800, -- 3h
 }
 
 config.localization = {

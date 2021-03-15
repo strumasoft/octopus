@@ -4,6 +4,7 @@ local config = {} -- extension configuration
 config.module = {
 	--access.lua
 	--forbidstatic.lua
+	--frontend.lua
 	--html.lua
 	--javascript.lua
 	{name = "localization", script = "localization.lua"},
@@ -144,11 +145,16 @@ local function hasExtension (siteConfig, extensionName)
 end
 
 
-local function evalConfig (siteConfig, extensionDir, propertyModule)
+local function evalConfig (siteConfig, extensionDir)
 	local eval = require "eval"
 
 	local env = {}
-	if propertyModule then env.property = propertyModule else env.property = siteConfig.properties end
+	if siteConfig.data.properties then 
+		env.property = siteConfig.data.properties
+	else
+		env.property = {}
+		setmetatable(env.property, { __index = function (t, k) return "" end }) -- workaround "Attempt to concatenate a nil value"
+	end
 	setmetatable(env, { __index = _G })
 
 	local config = eval.file(extensionDir .. "/config.lua", env)
@@ -281,7 +287,7 @@ local function generateOverrideTypesTable (siteConfig)
 
 
 	-- persist types --
-	persistence.store(siteConfig.octopusHostDir .. "/build/src/type.lua", modules);
+	persistence.store(siteConfig.octopusHostDir .. "/build/src/type.lua", modules)
 
 	return modules
 
@@ -294,18 +300,17 @@ local function generatePropertyTable (siteConfig, type, last)
 	local persistence = require "persistence"
 
 	local modules = {}
-	setmetatable(modules, { __index = function (t, k) return "" end }) -- workaround "Attempt to concatenate a nil value"
+
+	-- init property with frontend data 
+	if type == "property" then
+		for k,v in pairs(siteConfig.data.frontend) do modules[k] = v end
+	end
 
 	for i=1, #siteConfig.extensions do
 		local extensionName = siteConfig.extensions[i][2]
 		local extensionDir = siteConfig.extensions[i][1] .. "/" .. extensionName
 
-		local config
-		if type == "property" then
-			config = evalConfig(siteConfig, extensionDir, modules)
-		else
-			config = evalConfig(siteConfig, extensionDir)
-		end
+		local config = evalConfig(siteConfig, extensionDir)
 
 		if config[type] then
 			for k,v in pairs(config[type]) do
@@ -321,9 +326,7 @@ local function generatePropertyTable (siteConfig, type, last)
 		end
 	end
 
-	setmetatable(modules, nil) -- remove the workaround
-
-	persistence.store(siteConfig.octopusHostDir .. "/build/src/" .. type .. ".lua", modules);
+	persistence.store(siteConfig.octopusHostDir .. "/build/src/" .. type .. ".lua", modules)
 
 	return modules
 
@@ -377,7 +380,7 @@ local function generateOverrideTable (siteConfig, type, extras)
 		end
 	end
 
-	persistence.store(siteConfig.octopusHostDir .. "/build/src/" .. type .. ".lua", modules);
+	persistence.store(siteConfig.octopusHostDir .. "/build/src/" .. type .. ".lua", modules)
 
 	return modules
 
@@ -395,15 +398,15 @@ local function getAggregateFile (siteConfig, files, folder, meta, customFile)
 		files[targetFile] = file
 		
 		if meta.json then
-			file:write("/* property */ \n\n")
-			file:write("var property = " .. json.encode(siteConfig.properties) .. "\n\n\n")
+			file:write("/* property */ \n")
+			file:write("var property = " .. json.encode(siteConfig.data.frontend) .. "\n")
 	
-			file:write("/* localization */ \n\n")
-			file:write("var localization = " .. json.encode(siteConfig.localizations) .. "\n\n\n")
+			file:write("/* localization */ \n")
+			file:write("var localization = " .. json.encode(siteConfig.data.localizations) .. "\n")
 		end
 		
 		if meta.css then
-			file:write('@charset "UTF-8"; \n\n\n')
+			file:write('@charset "UTF-8"; \n')
 		end
 	end
 
@@ -437,12 +440,12 @@ local function aggregateOverrideTable (siteConfig, modules, folder, meta)
 					
 					local file = getAggregateFile(siteConfig, files, folder, meta, scripts[1].into)
 
-					file:write(string.format("/* [%s] %s */ \n\n", name, script))
+					file:write(string.format("/* [%s] */ \n", name))
 
 					if meta.parse then 
-						file:write(parse(content, siteConfig.properties) .. "\n\n\n")
+						file:write(parse(content, siteConfig.data.properties) .. "\n")
 					else
-						file:write(content .. "\n\n\n")
+						file:write(content .. "\n")
 					end
 				end
 			end
@@ -477,7 +480,7 @@ local function generateStaticConfig (siteConfig)
 		end
 	end
 
-	persistence.store(siteConfig.octopusHostDir .. "/build/src/static.lua", staticDirs);
+	persistence.store(siteConfig.octopusHostDir .. "/build/src/static.lua", staticDirs)
 
 	return staticDirs
 
@@ -511,7 +514,7 @@ local function generateForbidStaticConfig (siteConfig)
 		end
 	end
 
-	persistence.store(siteConfig.octopusHostDir .. "/build/src/forbidstatic.lua", staticDirs);
+	persistence.store(siteConfig.octopusHostDir .. "/build/src/forbidstatic.lua", staticDirs)
 
 	return staticDirs
 
@@ -629,20 +632,20 @@ end -- end of generateHtmlConfig
 
 
 local function generateJavaScriptConfig (siteConfig)
-	local javaScriptFileName = siteConfig.octopusHostDir .. "/build/static"
+	local folder = siteConfig.octopusHostDir .. "/build/static"
 
 	local javascripts = generateOverrideTable(siteConfig, "javascript", {"into"})
-	aggregateOverrideTable(siteConfig, javascripts, javaScriptFileName, {file = "widgets.js", json = true})
+	aggregateOverrideTable(siteConfig, javascripts, folder, {file = "widgets.js", json = true})
 
 end -- end generateJavaScriptConfig
 
 
 local function generateStyleSheetConfig (siteConfig)
 
-	styleSheetFileName = siteConfig.octopusHostDir .. "/build/static" 
+	folder = siteConfig.octopusHostDir .. "/build/static" 
 
 	local stylesheets = generateOverrideTable(siteConfig, "stylesheet", {"into"})
-	aggregateOverrideTable(siteConfig, stylesheets, styleSheetFileName, {file = "widgets.css", css = true, parse = true})
+	aggregateOverrideTable(siteConfig, stylesheets, folder, {file = "widgets.css", css = true, parse = true})
 
 end -- end generateStyleSheetConfig
 
@@ -660,7 +663,7 @@ local function generateParseConfig (siteConfig)
 		local content = f:read("*all")
 		f:close()
 					
-		local parsedContent = parse(content, siteConfig.properties)
+		local parsedContent = parse(content, siteConfig.data.properties)
 		
 		local file = assert(io.open(siteConfig.octopusHostDir .. name, "w"))
 		file:write(parsedContent)
@@ -686,12 +689,12 @@ local function build (siteConfig)
 	file:close()
 	fileutil.createDirectory(siteConfig.octopusHostDir .. "/build/src")
 	fileutil.createDirectory(siteConfig.octopusHostDir .. "/build/static")
-	
-	-- put database connection inside the global parameters
+
+	siteConfig.data = {}
+	siteConfig.data.frontend = generatePropertyTable(siteConfig, "frontend")
 	siteConfig.globalParameters.databaseConnection = siteConfig.databaseConnection
-	
-	siteConfig.properties = generatePropertyTable(siteConfig, "property", siteConfig.globalParameters)
-	siteConfig.localizations = generatePropertyTable(siteConfig, "localization")
+	siteConfig.data.properties = generatePropertyTable(siteConfig, "property", siteConfig.globalParameters)
+	siteConfig.data.localizations = generatePropertyTable(siteConfig, "localization")
 
 	generateParseConfig(siteConfig)
 	generateHtmlConfig(siteConfig)

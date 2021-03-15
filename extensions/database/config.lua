@@ -1,8 +1,6 @@
 local config = {} -- extension configuration
 
-config.property = {
-	forbidDirectSqlQuery = true,
-	
+config.frontend = {
 	mainColor = "#49bf9d",
 	selectedColor = "#1e90ff",
 
@@ -17,6 +15,10 @@ config.property = {
 	databaseAddReferenceUrl = "/addReference",
 	databaseEditUrl = "/edit",
 	databaseSaveUrl = "/save",
+}
+
+config.property = {
+	forbidDirectSqlQuery = true,
 }
 
 config.localization = {
