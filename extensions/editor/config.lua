@@ -41,7 +41,7 @@ config.location = {
 	{name = property.editorUrl .. property.editorHomeUrl, script = "controller/EditorController.lua", access = "EditorRedirectOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorFileContentUrl, script = "controller/operation/FileContentController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorDirectoryUrl, script = "controller/operation/DirectoryController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
-	{name = property.editorUrl .. property.editorSaveUrl, script = "controller/operation/SaveController.lua", requestBody = "10M", access = "EditorThrowErrorOnSessionTimeoutFilter"},
+	{name = property.editorUrl .. property.editorSaveUrl, script = "controller/operation/SaveController.lua", requestBody = "20M", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorSearchUrl, script = "controller/EditorSearchController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorRenameUrl, script = "controller/operation/RenameController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},
 	{name = property.editorUrl .. property.editorRemoveUrl, script = "controller/operation/RemoveController.lua", access = "EditorThrowErrorOnSessionTimeoutFilter"},

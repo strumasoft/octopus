@@ -16,7 +16,6 @@ local externalJS = [[
 ]]
 
 
-
 local externalCSS = [[
 	<link href="/editor/static/editor-favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 ]]
@@ -40,6 +39,8 @@ local initJSTemplate = [[
 	editor.init()
 	$("#directoryNavigation").css("max-height", Widget.EditorTemplate.maxHeight())
 	vars.searchEditor = editor
+	
+	Widget.EditorSearchHeader.toggle();
 ]]
 
 
