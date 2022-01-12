@@ -1,10 +1,51 @@
+// Util functions
+
+function isEmpty(str) {
+	return (!str || 0 === str.length);
+}
+
+function getURLParameter(name) {
+	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+}
+
+function escapeRegExp(string) {
+	return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+}
+
+function replaceAll(string, find, replace) {
+	return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
+
+function encodeBase64(str) {
+	return btoa(unescape(encodeURIComponent(str)));
+}
+
+function decodeBase64(str) {
+	return decodeURIComponent(escape(atob(str)));
+}
+
+function b64Encode(str) {
+	return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+		return String.fromCharCode('0x' + p1);
+	}));
+}
+
+function b64Decode(str) {
+	return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+		return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+	}).join(''));
+}
+
+
+// Widget functions
+
 Widget = {id: '#widgets'} // namespace
 
+function localize(key) {return localization[key][vars.locale]}
 
 Widget.setHtmlToPage = function (html) {
 	$(Widget.id).html(html)
 }
-
 
 Widget.guid = function () {
 	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -12,7 +53,6 @@ Widget.guid = function () {
 		return v.toString(16);
 	});
 }
-
 
 Widget.fileNameExtension = function (filename) {
 	var a = filename.split(".");
@@ -22,17 +62,6 @@ Widget.fileNameExtension = function (filename) {
 	return a.pop().toLowerCase();
 }
 
-
-// onclick='   ;Widget.stopPropagation(event);'
-Widget.stopPropagation = function (e) {
-	if (typeof e.stopPropagation != "undefined") {
-		e.stopPropagation();
-	} else {
-		e.cancelBubble = true;
-	}
-}
-
-
 Widget.json = function (data) {
 	try {
 		return eval("(function(){return " + data + ";})()");
@@ -40,17 +69,6 @@ Widget.json = function (data) {
 		return null
 	}
 }
-
-
-function isEmpty(str) {
-	return (!str || 0 === str.length);
-}
-
-
-function getURLParameter(name) {
-	return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
-}
-
 
 Widget.createHTML = function(text) {
 	var pattern_amp = /&/g;
@@ -84,7 +102,6 @@ Widget.extractStringUpTo = function (string, toDelimiter, fromIndex) {
 	}
 }
 
-
 Widget.createContainerCell = function (cell) {
 	var html = '<div' 
 	if (!isEmpty(cell.id)) {html += ' id="' + cell.id + '"'}
@@ -108,7 +125,6 @@ Widget.createContainerCell = function (cell) {
 	return html
 }
 
-
 Widget.createContainerRow = function (row) {
 	var html = '<div class="row">'
 	for (var i = 0; i < row.length; i++) {
@@ -128,7 +144,6 @@ Widget.createContainerRow = function (row) {
 	return html
 }
 
-
 Widget.setContainerToPage = function (rows) {
 	var html = '<div id="main" class="container">'
 	for (var i = 0; i < rows.length; i++) {
@@ -144,23 +159,15 @@ Widget.setContainerToPage = function (rows) {
 	Widget.setHtmlToPage(html)
 }
 
-
 Widget.setHeader = function (widget) {
 	var html = widget.html || widget // widget or plain string
 	$(html).insertBefore(Widget.id)
 }
 
-
 Widget.setFooter = function (widget) {
 	var html = widget.html || widget // widget or plain string
 	$(html).insertAfter(Widget.id)
 }
-
-
-function localize(key) {
-	return localization[key][vars.locale]
-}
-
 
 Widget.validateRadioButton = function (name) {
 	if ($('input[name=' + name + ']:checked').val()) {
@@ -169,17 +176,6 @@ Widget.validateRadioButton = function (name) {
 		return false
 	}
 }
-
-
-function escapeRegExp(string) {
-	return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
-}
-
-
-function replaceAll(string, find, replace) {
-	return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-}
-
 
 Widget.escapeHtml = function (str) {
 	if (!isEmpty(str)) {

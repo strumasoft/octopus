@@ -22,6 +22,7 @@ end
 
 local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 local function encodeBase64 (data)
+    if not data then return nil end
     return ((data:gsub('.', function(x) 
         local r,b='',x:byte()
         for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
@@ -34,6 +35,7 @@ local function encodeBase64 (data)
     end)..({ '', '==', '=' })[#data%3+1])
 end
 local function decodeBase64 (data)
+    if not data then return nil end
     data = string.gsub(data, '[^'..b..'=]', '')
     return (data:gsub('.', function(x)
         if (x == '=') then return '' end
