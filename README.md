@@ -45,8 +45,7 @@ Prerequisites
 ============
 
 ```
-sudo apt-get install libssl-dev
-sudo apt-get install gcc g++ build-essential
+sudo apt-get install libssl-dev gcc g++ build-essential libtool zlib1g
 ```
 
 Set Up
