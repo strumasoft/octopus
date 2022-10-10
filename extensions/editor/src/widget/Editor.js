@@ -53,10 +53,22 @@ Widget.Editor.prototype = {
 
 		if (e == "js") {
 			mode = "ace/mode/javascript"
+		} else if (e == "ts") {
+			mode = "ace/mode/typescript"
+		} else if (e == "jsx") {
+			mode = "ace/mode/jsx"
+		} else if (e == "tsx") {
+			mode = "ace/mode/tsx"
 		} else if (e == "json") {
 			mode = "ace/mode/json"
 		} else if (e == "css") {
 			mode = "ace/mode/css"
+		} else if (e == "less") {
+			mode = "ace/mode/less"
+		} else if (e == "sass") {
+			mode = "ace/mode/sass"
+		} else if (e == "scss") {
+			mode = "ace/mode/scss"
 		} else if (e == "html") {
 			mode = "ace/mode/html"
 		} else if (e == "xhtml") {
@@ -69,6 +81,10 @@ Widget.Editor.prototype = {
 			mode = "ace/mode/html"
 		} else if (e == "tag") {
 			mode = "ace/mode/html"
+		} else if (e == "vm") {
+			mode = "ace/mode/velocity"
+		} else if (e == "properties") {
+			mode = "ace/mode/properties"
 		} else if (e == "c") {
 			mode = "ace/mode/c_cpp"
 		} else if (e == "cpp") {
@@ -79,6 +95,8 @@ Widget.Editor.prototype = {
 			mode = "ace/mode/c_cpp"
 		} else if (e == "ino") {
 			mode = "ace/mode/c_cpp"
+		} else if (e == "qml") {
+			mode = "ace/mode/qml"
 		} else if (e == "cs") {
 			mode = "ace/mode/csharp"
 		} else if (e == "java") {
@@ -127,6 +145,20 @@ Widget.Editor.prototype = {
 			mode = "ace/mode/tcl"
 		} else if (e == "yaml") {
 			mode = "ace/mode/yaml"
+		} else if (e == "dockerfile") {
+			mode = "ace/mode/dockerfile"
+		} else if (e == "v") {
+			mode = "ace/mode/verilog"
+		} else if (e == "vh") {
+			mode = "ace/mode/verilog"
+		} else if (e == "vlg") {
+			mode = "ace/mode/verilog"
+		} else if (e == "verilog") {
+			mode = "ace/mode/verilog"
+		} else if (e == "vhd") {
+			mode = "ace/mode/vhdl"
+		} else if (e == "vhdl") {
+			mode = "ace/mode/vhdl"
 		} else {
 			mode = "ace/mode/text"
 		}
