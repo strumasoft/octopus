@@ -2,8 +2,7 @@
 
 
 ### prerequisites ###
-# sudo apt-get install libssl-dev
-# sudo apt-get install gcc g++ build-essential
+# sudo apt-get install libssl-dev gcc g++ build-essential libtool zlib1g
 
 
 # cd /octopus/bin/unix
@@ -35,7 +34,7 @@ function download_repo_and_install {
 	version=$3
 	folder=$4
 	install_dir=$5
-	download_archive $repo tar.gz "https://github.com/$owner/$repo/archive/v$version.tar.gz"
+	download_archive $repo tar.gz "https://github.com/$owner/$repo/archive/refs/tags/v$version.tar.gz"
 	cp -R "$destination_folder/$repo-$version/$folder"/* $install_dir
 }
 
@@ -55,14 +54,14 @@ function nginx_install {
 
 
 	# libraries
-	download_repo_and_install ajaxorg ace-builds 1.4.8 src-min $ace_dir
-	download_repo_and_install openresty lua-resty-core 0.1.18rc1 lib $lib_dir
-	download_repo_and_install openresty lua-resty-lrucache 0.10rc1 lib $lib_dir
+	download_repo_and_install ajaxorg ace-builds 1.5.0 src-min $ace_dir
+	download_repo_and_install openresty lua-resty-core 0.1.24 lib $lib_dir
+	download_repo_and_install openresty lua-resty-lrucache 0.13 lib $lib_dir
 
 
 	# nginx
 	nginx=nginx
-	nginx_version=1.17.8
+	nginx_version=1.19.9
 	nginx_url=http://nginx.org/download/nginx-$nginx_version.tar.gz
 	download_archive $nginx tar.gz $nginx_url
 
@@ -70,21 +69,21 @@ function nginx_install {
 	# ngx_devel_kit
 	ngx_devel_kit=ngx_devel_kit
 	ngx_devel_kit_version=0.3.1
-	ngx_devel_kit_url=https://github.com/simpl/ngx_devel_kit/archive/v$ngx_devel_kit_version.tar.gz
+	ngx_devel_kit_url=https://github.com/simpl/ngx_devel_kit/archive/refs/tags/v$ngx_devel_kit_version.tar.gz
 	download_archive $ngx_devel_kit tar.gz $ngx_devel_kit_url
 
 
 	# lua-nginx-module
 	lua_nginx_module=lua-nginx-module
-	lua_nginx_module_version=0.10.16rc1
-	lua_nginx_module_url=https://github.com/openresty/lua-nginx-module/archive/v$lua_nginx_module_version.tar.gz
+	lua_nginx_module_version=0.10.22
+	lua_nginx_module_url=https://github.com/openresty/lua-nginx-module/archive/refs/tags/v$lua_nginx_module_version.tar.gz
 	download_archive $lua_nginx_module tar.gz $lua_nginx_module_url
 
 
 	# install LuaJIT
 	luajit=luajit2
-	luajit_version=2.1-20200102
-	luajit_url=https://github.com/openresty/luajit2/archive/v$luajit_version.tar.gz
+	luajit_version=2.1-20220915
+	luajit_url=https://github.com/openresty/luajit2/archive/refs/tags/v$luajit_version.tar.gz
 	download_archive $luajit tar.gz $luajit_url
 	cd $destination_folder/$luajit-$luajit_version
 	make
@@ -95,7 +94,7 @@ function nginx_install {
 	# config/lfs.config
 	lfs=luafilesystem
 	lfs_version=1_7_0_2
-	lfs_url=https://github.com/keplerproject/luafilesystem/archive/v$lfs_version.tar.gz
+	lfs_url=https://github.com/keplerproject/luafilesystem/archive/refs/tags/v$lfs_version.tar.gz
 	download_archive $lfs tar.gz $lfs_url
 	cd $destination_folder/$lfs-$lfs_version
 	cat $nginx_install/config/lfs.config > config
@@ -104,16 +103,21 @@ function nginx_install {
 
 
 	# install PCRE
+	#pcre=pcre2
+	#pcre_version=pcre2-10.40
+	#pcre_url=https://github.com/PCRE2Project/pcre2/archive/refs/tags/$pcre_version.tar.gz
+	#download_archive $pcre tar.gz $pcre_url
+	#cd $destination_folder/$pcre-$pcre_version
+	#./autogen.sh
 	pcre=pcre
-	pcre_version=8.43
-	pcre_url=ftp://ftp.pcre.org/pub/pcre/$pcre-$pcre_version.tar.gz
+	pcre_version=8.45
+	pcre_url=https://jztkft.dl.sourceforge.net/project/pcre/pcre/$pcre_version/pcre-$pcre_version.tar.gz
 	download_archive $pcre tar.gz $pcre_url
 
 
 	# install zlib
-	# apt-get install zlib1g-dev
 	zlib=zlib
-	zlib_version=1.2.11
+	zlib_version=1.2.12
 	zlib_url=http://zlib.net/zlib-$zlib_version.tar.gz
 	download_archive $zlib tar.gz $zlib_url
 
@@ -129,7 +133,9 @@ function nginx_install {
 			--with-http_ssl_module \
 			--add-module=../$ngx_devel_kit-$ngx_devel_kit_version \
 			--add-module=../$lua_nginx_module-$lua_nginx_module_version
-
+	# compile with deprecated OpenSSL library
+	nginx_cflags="$(sed -n '3p' $destination_folder/$nginx-$nginx_version/objs/Makefile) -Wno-deprecated-declarations"
+	sed -i "4i $nginx_cflags" $destination_folder/$nginx-$nginx_version/objs/Makefile
 	make -j2
 	make install
 
