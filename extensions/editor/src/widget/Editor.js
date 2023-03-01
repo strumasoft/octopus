@@ -59,6 +59,8 @@ Widget.Editor.prototype = {
 			mode = "ace/mode/jsx"
 		} else if (e == "tsx") {
 			mode = "ace/mode/tsx"
+		} else if (e == "vue") {
+			mode = "ace/mode/xml"
 		} else if (e == "json") {
 			mode = "ace/mode/json"
 		} else if (e == "css") {
