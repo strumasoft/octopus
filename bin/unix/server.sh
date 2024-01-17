@@ -54,35 +54,35 @@ function nginx_install {
 
 
   # libraries
-  download_repo_and_install ajaxorg ace-builds 1.5.0 src-min $ace_dir
-  download_repo_and_install openresty lua-resty-core 0.1.24 lib $lib_dir
+  download_repo_and_install ajaxorg ace-builds 1.32.3 src-min $ace_dir
+  download_repo_and_install openresty lua-resty-core 0.1.28 lib $lib_dir
   download_repo_and_install openresty lua-resty-lrucache 0.13 lib $lib_dir
 
 
   # nginx
   nginx=nginx
-  nginx_version=1.19.9
+  nginx_version=1.25.3
   nginx_url=http://nginx.org/download/nginx-$nginx_version.tar.gz
   download_archive $nginx tar.gz $nginx_url
 
 
   # ngx_devel_kit
   ngx_devel_kit=ngx_devel_kit
-  ngx_devel_kit_version=0.3.1
-  ngx_devel_kit_url=https://github.com/simpl/ngx_devel_kit/archive/refs/tags/v$ngx_devel_kit_version.tar.gz
+  ngx_devel_kit_version=0.3.3
+  ngx_devel_kit_url=https://github.com/vision5/ngx_devel_kit/archive/refs/tags/v$ngx_devel_kit_version.tar.gz
   download_archive $ngx_devel_kit tar.gz $ngx_devel_kit_url
 
 
   # lua-nginx-module
   lua_nginx_module=lua-nginx-module
-  lua_nginx_module_version=0.10.22
+  lua_nginx_module_version=0.10.26
   lua_nginx_module_url=https://github.com/openresty/lua-nginx-module/archive/refs/tags/v$lua_nginx_module_version.tar.gz
   download_archive $lua_nginx_module tar.gz $lua_nginx_module_url
 
 
   # install LuaJIT
   luajit=luajit2
-  luajit_version=2.1-20220915
+  luajit_version=2.1-20231117
   luajit_url=https://github.com/openresty/luajit2/archive/refs/tags/v$luajit_version.tar.gz
   download_archive $luajit tar.gz $luajit_url
   cd $destination_folder/$luajit-$luajit_version
@@ -93,7 +93,7 @@ function nginx_install {
   # install lfs
   # config/lfs.config
   lfs=luafilesystem
-  lfs_version=1_7_0_2
+  lfs_version=1_8_0
   lfs_url=https://github.com/keplerproject/luafilesystem/archive/refs/tags/v$lfs_version.tar.gz
   download_archive $lfs tar.gz $lfs_url
   cd $destination_folder/$lfs-$lfs_version
@@ -111,13 +111,13 @@ function nginx_install {
   #./autogen.sh
   pcre=pcre
   pcre_version=8.45
-  pcre_url=https://jztkft.dl.sourceforge.net/project/pcre/pcre/$pcre_version/pcre-$pcre_version.tar.gz
+  pcre_url=https://netix.dl.sourceforge.net/project/pcre/pcre/$pcre_version/pcre-$pcre_version.tar.gz
   download_archive $pcre tar.gz $pcre_url
 
 
   # install zlib
   zlib=zlib
-  zlib_version=1.2.12
+  zlib_version=1.3
   zlib_url=http://zlib.net/zlib-$zlib_version.tar.gz
   download_archive $zlib tar.gz $zlib_url
 

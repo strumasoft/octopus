@@ -75,6 +75,6 @@ db:import("shopImport")
 Copyright and License
 =====================
 
-Copyright (C) 2015-2021, StrumaSoft
+Copyright (C) 2015-2024, StrumaSoft
 
 All rights reserved. BSD license.
