@@ -16,8 +16,11 @@ Widget.Editor.prototype = {
 		aceEditor.getSession().setMode("ace/mode/text")
 
 		aceEditor.setShowPrintMargin(false)
-		aceEditor.getSession().setTabSize(4)
-		aceEditor.getSession().setUseSoftTabs(false)
+
+		aceEditor.getSession().setOptions({ tabSize: 2, useSoftTabs: true });
+		//aceEditor.getSession().setTabSize(4)
+		//aceEditor.getSession().setUseSoftTabs(false)
+
 		//aceEditor.getSession().setUseWorker(false) // disable syntax checker and information
 
 		this.setFontSize("14px")
