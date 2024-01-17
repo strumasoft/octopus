@@ -76,6 +76,13 @@ Widget.RepositoryStatusHeader = function (title) {
       </nav>
     </header>
   */}, data)
+
+  document.addEventListener('keydown', function (event) {
+    if (event.ctrlKey && event.key === ' ') {
+      event.preventDefault()
+      Widget.RepositoryStatusHeader.compare()
+    }
+  })
 }
 
 Widget.RepositoryStatusHeader.prototype = {

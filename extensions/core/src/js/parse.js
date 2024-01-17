@@ -50,6 +50,12 @@ function multiplyString (str, n) {
   * {{? age > 10 || ( name == "ivan" )
   * }}?
   * 
+  * 
+  * call global condition like 'isEmpty', but prepend internale references with 'data.' 
+  * {{?@ !isEmpty(data.info) 
+  * }}?
+  *
+  *
   * always put space before property name
   * 
   */

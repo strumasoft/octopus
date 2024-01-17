@@ -139,6 +139,13 @@ Widget.EditorHeader = function (title) {
       </nav>
     </header>
   */}, data)
+
+  document.addEventListener('keydown', function (event) {
+    if (event.ctrlKey && event.key === ' ') {
+      event.preventDefault()
+      Widget.EditorHeader.search()
+    }
+  })
 }
 
 Widget.EditorHeader.prototype = {

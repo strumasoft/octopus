@@ -14,8 +14,11 @@ Widget.DatabaseEditor.prototype = {
     aceEditor.getSession().setMode("ace/mode/lua")
 
     aceEditor.setShowPrintMargin(false)
-    aceEditor.getSession().setTabSize(4)
-    aceEditor.getSession().setUseSoftTabs(true)
+
+    aceEditor.getSession().setOptions({ tabSize: 2, useSoftTabs: true });
+    //aceEditor.getSession().setTabSize(4)
+    //aceEditor.getSession().setUseSoftTabs(true)
+
     //aceEditor.getSession().setUseWorker(false) // disable syntax checker and information
 
     document.getElementById(this.data.id).style.fontSize = "14px"

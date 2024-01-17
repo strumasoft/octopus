@@ -103,12 +103,6 @@ function nginx_install {
 
 
   # install PCRE
-  #pcre=pcre2
-  #pcre_version=pcre2-10.40
-  #pcre_url=https://github.com/PCRE2Project/pcre2/archive/refs/tags/$pcre_version.tar.gz
-  #download_archive $pcre tar.gz $pcre_url
-  #cd $destination_folder/$pcre-$pcre_version
-  #./autogen.sh
   pcre=pcre
   pcre_version=8.45
   pcre_url=https://netix.dl.sourceforge.net/project/pcre/pcre/$pcre_version/pcre-$pcre_version.tar.gz
@@ -125,17 +119,14 @@ function nginx_install {
   # install nginx
   cd "$destination_folder/$nginx-$nginx_version"
   ./configure --prefix=$nginx_install \
-      --sbin-path=$nginx_install/nginx \
-      --conf-path=$nginx_install/nginx.conf \
-      --pid-path=$nginx_install/nginx.pid \
-      --with-pcre=../$pcre-$pcre_version \
-      --with-zlib=../$zlib-$zlib_version \
-      --with-http_ssl_module \
-      --add-module=../$ngx_devel_kit-$ngx_devel_kit_version \
-      --add-module=../$lua_nginx_module-$lua_nginx_module_version
-  # compile with deprecated OpenSSL library
-  nginx_cflags="$(sed -n '3p' $destination_folder/$nginx-$nginx_version/objs/Makefile) -Wno-deprecated-declarations"
-  sed -i "4i $nginx_cflags" $destination_folder/$nginx-$nginx_version/objs/Makefile
+    --sbin-path=$nginx_install/nginx \
+    --conf-path=$nginx_install/nginx.conf \
+    --pid-path=$nginx_install/nginx.pid \
+    --with-pcre=../$pcre-$pcre_version \
+    --with-zlib=../$zlib-$zlib_version \
+    --with-http_ssl_module \
+    --add-module=../$ngx_devel_kit-$ngx_devel_kit_version \
+    --add-module=../$lua_nginx_module-$lua_nginx_module_version
   make -j2
   make install
 

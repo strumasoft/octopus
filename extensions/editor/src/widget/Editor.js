@@ -3,12 +3,19 @@ Widget.Editor = function (data) {
   this.html = parse(function(){/*!
     <div id="{{id}}"></div>
   */}, data)
+
+  document.addEventListener('keydown', function (event) {
+    if (event.ctrlKey && event.key === 's') {
+      event.preventDefault()
+      Widget.EditorHeader.save()
+    }
+  })
 }
 
 Widget.Editor.prototype = {
   constructor: Widget.Editor,
 
-  init: function () {
+  init: function (hight) {
     var aceEditor = ace.edit(this.data.id)
     this.aceEditor = aceEditor
 
@@ -24,7 +31,7 @@ Widget.Editor.prototype = {
     //aceEditor.getSession().setUseWorker(false) // disable syntax checker and information
 
     this.setFontSize("14px")
-    this.setHeight(Widget.EditorTemplate.maxHeight())
+    this.setHeight(hight ? hight : Widget.EditorTemplate.maxHeight())
 
     aceEditor.on('change', function (e) {
       // e.data.action - insertLines|insertText|removeLines|removeText

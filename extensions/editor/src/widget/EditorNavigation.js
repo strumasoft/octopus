@@ -24,7 +24,8 @@ Widget.EditorNavigation = function (dirs, parent) {
           {{?? dirs[i].mode == "file"
             <li class="{{dirs[i].mode}}">
               <div id="{{dirs[i].guid}}" class="nowrap" 
-              onclick='Widget.EditorNavigation.openFile("{{dirs[i].path}}", "{{dirs[i].guid}}")'>
+              onclick='Widget.EditorNavigation.openFile("{{dirs[i].path}}", "{{dirs[i].guid}}")'
+              ondblclick='Widget.EditorHeader.editFile()'>
                 <i class="fa fa-file-o"></i>
                 <span class="navigationName">{{dirs[i].name}}</span>
               </div>

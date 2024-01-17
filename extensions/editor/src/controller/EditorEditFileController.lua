@@ -25,30 +25,26 @@ local initJSTemplate = [[
   var vars = {}
 
   var editor = new Widget.Editor({id: "editor"})
-  var editorSearchResult = new Widget.EditorSearchResult({{files}})
-  var editorSearchHeader = new Widget.EditorSearchHeader("{{title}}")
+  var editorSearchHeader = new Widget.EditorSearchHeader("{{title}} &nbsp;&nbsp;&nbsp;&nbsp; {{fileName}}")
 
   var editorSearchTemplate = new Widget.EditorSearchTemplate({
-    searchResult: editorSearchResult.html,
     editor: editor.html,
     header: editorSearchHeader.html
   })
 
   Widget.setHtmlToPage(editorSearchTemplate.html);
 
-  editor.init()
-  $("#directoryNavigation").css("max-height", Widget.EditorTemplate.maxHeight())
+  editor.init((window.innerHeight - Widget.EditorHeader.height()) + "px")
   vars.searchEditor = editor
   
   Widget.EditorSearchHeader.toggle();
+  Widget.EditorNavigation.openFile("{{fileName}}", Widget.guid())
 ]]
 
 
 local function process ()
   local directoryName = param.directoryName
   local fileName = param.fileName
-
-  local files = {fileName}
 
   local paths = util.split(fileName, "/")
   local title = paths[#paths]
@@ -59,7 +55,7 @@ local function process ()
     externalCSS = externalCSS,
     initJS = parse(initJSTemplate, {
       title = fileutil.escapeCommandlineSpecialCharacters(title), 
-      files = json.encode(files)
+      fileName = fileName
     })
   })
 end
