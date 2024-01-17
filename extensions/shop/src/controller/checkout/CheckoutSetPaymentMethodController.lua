@@ -15,22 +15,22 @@ local cartService = require "cartService"
 
 
 local function process (db, data)
-	local op = db:operators()
+  local op = db:operators()
 
 
-	local locale = localeService.getLocale(db)
-	data.locale = locale
+  local locale = localeService.getLocale(db)
+  data.locale = locale
 
 
-	if util.isNotEmpty(param.paymentMethod) then
-		local paymentMethod = db:findOne({paymentMethod = {id = op.equal(param.paymentMethod)}})
+  if util.isNotEmpty(param.paymentMethod) then
+    local paymentMethod = db:findOne({paymentMethod = {id = op.equal(param.paymentMethod)}})
 
-		local cart = cartService.getCart(db)
-		cart.paymentMethod = paymentMethod
-		db:update({cart = cart})
-	else
-		exception("paymentMethod is empty")
-	end
+    local cart = cartService.getCart(db)
+    cart.paymentMethod = paymentMethod
+    db:update({cart = cart})
+  else
+    exception("paymentMethod is empty")
+  end
 end
 
 
@@ -41,8 +41,8 @@ db:close()
 
 
 if status then
-	return ngx.redirect(property.shopUrl .. property.checkoutReviewOrderUrl)
+  return ngx.redirect(property.shopUrl .. property.checkoutReviewOrderUrl)
 else
-	exceptionHandler.toCookie(err)
-	return ngx.redirect(property.shopUrl .. property.checkoutPaymentMethodUrl)
+  exceptionHandler.toCookie(err)
+  return ngx.redirect(property.shopUrl .. property.checkoutPaymentMethodUrl)
 end

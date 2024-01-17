@@ -15,28 +15,28 @@ local cartService = require "cartService"
 
 
 local function process (db, data)
-	local op = db:operators()
+  local op = db:operators()
 
 
-	local locale = localeService.getLocale(db)
-	data.locale = locale
+  local locale = localeService.getLocale(db)
+  data.locale = locale
 
 
-	local cart = cartService.getCart(db)
-	local user = userService.authenticatedUser(db)
-	if user then
-		local function addAddressTransaction ()
-			local address = util.parseForm(util.urldecode(ngx.req.get_body_data()))
-			address.user = user
-			address.carts = {cart}
-			db:add({address = address})
+  local cart = cartService.getCart(db)
+  local user = userService.authenticatedUser(db)
+  if user then
+    local function addAddressTransaction ()
+      local address = util.parseForm(util.urldecode(ngx.req.get_body_data()))
+      address.user = user
+      address.carts = {cart}
+      db:add({address = address})
 
-			user.addresses = nil -- refresh
-		end
+      user.addresses = nil -- refresh
+    end
 
-		local status, res = pcall(db.transaction, db, addAddressTransaction)
-		if not status then exception("user=" .. user.id .. " => " .. res) end
-	end
+    local status, res = pcall(db.transaction, db, addAddressTransaction)
+    if not status then exception("user=" .. user.id .. " => " .. res) end
+  end
 end
 
 
@@ -47,8 +47,8 @@ db:close()
 
 
 if status then
-	return ngx.redirect(property.shopUrl .. property.checkoutDeliveryMethodUrl)
+  return ngx.redirect(property.shopUrl .. property.checkoutDeliveryMethodUrl)
 else
-	exceptionHandler.toCookie(err)
-	return ngx.redirect(property.shopUrl .. property.checkoutAddressUrl)
+  exceptionHandler.toCookie(err)
+  return ngx.redirect(property.shopUrl .. property.checkoutAddressUrl)
 end

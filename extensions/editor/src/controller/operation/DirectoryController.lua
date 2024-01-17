@@ -6,16 +6,16 @@ local directory = require "Directory"
 
 
 local function process ()
-	local dir = param.d
-	if dir == nil then dir = "/" end
+  local dir = param.d
+  if dir == nil then dir = "/" end
 
-	return json.encode(directory.sortedEntries(dir))
+  return json.encode(directory.sortedEntries(dir))
 end
 
 
 local status, res = pcall(process)
 if status then
-	if res then ngx.say(res) end
+  if res then ngx.say(res) end
 else
-	exit(res)
+  exit(res)
 end

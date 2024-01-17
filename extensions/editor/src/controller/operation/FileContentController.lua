@@ -18,25 +18,25 @@ ngx.header.content_type = 'text/plain'
 
 
 local function process ()
-	local fileName = param.f
+  local fileName = param.f
 
-	local paths = util.split(fileName, "/")
-	local name = paths[#paths]
+  local paths = util.split(fileName, "/")
+  local name = paths[#paths]
 
-	local extensions, hasExtension = util.split(name, ".")
-	local extension = extensions[#extensions]
+  local extensions, hasExtension = util.split(name, ".")
+  local extension = extensions[#extensions]
 
-	if hasExtension and notPlainTextExtensions:findQuery(" " .. extension .. " ", 1, true, true) then
-		return "File is not plain text!"
-	else
-		return editor.fileContent(fileName)
-	end
+  if hasExtension and notPlainTextExtensions:findQuery(" " .. extension .. " ", 1, true, true) then
+    return "File is not plain text!"
+  else
+    return editor.fileContent(fileName)
+  end
 end
 
 
 local status, res = pcall(process)
 if status then
-	if res then ngx.say(res) end
+  if res then ngx.say(res) end
 else
-	exit(res)
+  exit(res)
 end

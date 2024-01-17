@@ -14,19 +14,19 @@ local cartService = require "cartService"
 
 
 local function process (db, data)
-	local locale = localeService.getLocale(db)
-	data.locale = locale
+  local locale = localeService.getLocale(db)
+  data.locale = locale
 
 
-	local cart = cartService.getCart(db)
-	if cart.productEntries then
-		data.redirectUrl = property.shopUrl .. property.checkoutAddressesUrl
-		return
-	else
-		exceptionHandler.toCookie("cart does not have products")
-		data.redirectUrl = property.shopUrl .. property.cartUrl
-		return
-	end
+  local cart = cartService.getCart(db)
+  if cart.productEntries then
+    data.redirectUrl = property.shopUrl .. property.checkoutAddressesUrl
+    return
+  else
+    exceptionHandler.toCookie("cart does not have products")
+    data.redirectUrl = property.shopUrl .. property.cartUrl
+    return
+  end
 end
 
 
@@ -37,8 +37,8 @@ db:close()
 
 
 if status and data.redirectUrl then
-	return ngx.redirect(data.redirectUrl)
+  return ngx.redirect(data.redirectUrl)
 else
-	exceptionHandler.toCookie(err)
-	return ngx.redirect(property.shopUrl .. property.cartUrl)
+  exceptionHandler.toCookie(err)
+  return ngx.redirect(property.shopUrl .. property.cartUrl)
 end

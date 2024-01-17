@@ -13,17 +13,17 @@ local data = {to = to}
 
 
 ngx.say(parse(require("BaselineHtmlTemplate"), {
-	title = "Login",
-	externalJS = [[
-		<script type="text/javascript" src="/baseline/static/js/init-shop.js"></script>
-	]],
-	initJS = parse([[
-		var vars = {}
+  title = "Login",
+  externalJS = [[
+    <script type="text/javascript" src="/baseline/static/js/init-shop.js"></script>
+  ]],
+  initJS = parse([[
+    var vars = {}
 
-		Widget.setContainerToPage([
-			[
-				{size: "6u", medium: "8u", small: "12u", widget: new Widget.LoginForm({to: {{to}}})}
-			]
-		]);
-	]], json.encodeProperties(data))
+    Widget.setContainerToPage([
+      [
+        {size: "6u", medium: "8u", small: "12u", widget: new Widget.LoginForm({to: {{to}}})}
+      ]
+    ]);
+  ]], json.encodeProperties(data))
 }))
