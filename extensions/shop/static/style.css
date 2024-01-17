@@ -1,57 +1,57 @@
 /* call us */
 
 .eshop-phone {
-	font-size: 40px;
-	color: #36c2b9;
+  font-size: 40px;
+  color: #36c2b9;
 }
 
 .eshop-call-us h2 {
-	color: #36c2b9;
-	margin: 0 0 -0.1em 0;
+  color: #36c2b9;
+  margin: 0 0 -0.1em 0;
 }
 
 .eshop-call-us p {
-	font-family: "Lato", Arial, sans-serif;
-	font-size: 14px;
-	color: #bbb;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  color: #bbb;
 }
 
 /* search */
 .add-on {
-	border-radius: 0px 4px 4px 0px;
-	background: #36c2b9;
-	border: none;
-	padding: 0.17em 1.3em 5px 20px;
-	font-size: 30px;
-	height: auto;
-	width: 50px;
-	color: white;
+  border-radius: 0px 4px 4px 0px;
+  background: #36c2b9;
+  border: none;
+  padding: 0.17em 1.3em 5px 20px;
+  font-size: 30px;
+  height: auto;
+  width: 50px;
+  color: white;
 }
 
 input.search-field {
-	border-radius: 0px 4px 4px 0px;
-	border-radius: 4px 0px 0px 4px;
+  border-radius: 0px 4px 4px 0px;
+  border-radius: 4px 0px 0px 4px;
 }
 
 /* basket */
 .eshop-items {
-	background: #36c2b9;
-	width: 190px;
+  background: #36c2b9;
+  width: 190px;
 }
 
 .eshop-items a {
-	color: white; 
-	font-size: 15px;
-	font-weight: bold;
-	line-height: 25px;
-	text-decoration: none;
-	display: inline-block;
-	font-weight: bold;
-	padding: 10px 8px 10px 12px;
-	text-transform: uppercase;
+  color: white; 
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 25px;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: bold;
+  padding: 10px 8px 10px 12px;
+  text-transform: uppercase;
 }
 
 /* addToCart */
 .addToCart {
-	margin-bottom: 50px;
+  margin-bottom: 50px;
 }

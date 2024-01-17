@@ -1,25 +1,25 @@
 .directory {
-	color: {{baseline_color2}};
-	cursor: pointer;
+  color: {{baseline_color2}};
+  cursor: pointer;
 }
 
 .file {
-	color: {{baseline_color2}};
-	cursor: pointer;
+  color: {{baseline_color2}};
+  cursor: pointer;
 }
 
 .unknown {
-	color: red;
-	cursor: pointer;
+  color: red;
+  cursor: pointer;
 }
 
 ul.no-bullets
 {
-	list-style-type: none;
-	padding-left: 0em;
-	margin: 0em;
+  list-style-type: none;
+  padding-left: 0em;
+  margin: 0em;
 }
 
 .nowrap {
-	white-space: nowrap;
+  white-space: nowrap;
 }

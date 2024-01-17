@@ -1,58 +1,58 @@
 ins {
-	background-color: #c6ffc6;
-	text-decoration: none;
+  background-color: #c6ffc6;
+  text-decoration: none;
 }
 
 del {
-	background-color: #ffc6c6;
-	text-decoration: none;
+  background-color: #ffc6c6;
+  text-decoration: none;
 }
 
 #diffoutput {
-	margin: 15px; 
+  margin: 15px; 
 }
 
 #diffComparatorTabs {
-	margin: 15px; 
+  margin: 15px; 
 }
 
 .diffbox {
-	padding: 15px;
-	margin: 0px 5px 15px 5px;
+  padding: 15px;
+  margin: 0px 5px 15px 5px;
 
-	color: {{baseline_color2}};
-	font-size: 14px;
-	font-weight: normal;
-	line-height: 16px;
+  color: {{baseline_color2}};
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 16px;
 
-	background: {{baseline_color1}};
-	border-radius: 6px;
-	border: solid 1px {{baseline_color2}};
+  background: {{baseline_color1}};
+  border-radius: 6px;
+  border: solid 1px {{baseline_color2}};
 
-	overflow-x: scroll;
+  overflow-x: scroll;
 }
 
 #listbox {
-	padding-top: 10px;
-	margin: 5px;
-	
-	background: {{baseline_color1}};
-	border-radius: 6px;
-	border: solid 1px {{baseline_color2}};
+  padding-top: 10px;
+  margin: 5px;
+  
+  background: {{baseline_color1}};
+  border-radius: 6px;
+  border: solid 1px {{baseline_color2}};
 
-	overflow-x: scroll;
+  overflow-x: scroll;
 }
 
 .repolog {
-	margin: 0 0 0 0;
-	color: {{baseline_color2}};
+  margin: 0 0 0 0;
+  color: {{baseline_color2}};
 }
 
 table.diff tbody td {
-	color: {{baseline_color2}};
-	font-size: 14px;
+  color: {{baseline_color2}};
+  font-size: 14px;
 }
 
 table.diff {
-	white-space: pre-wrap;
+  white-space: pre-wrap;
 }
