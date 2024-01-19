@@ -25,7 +25,7 @@ local initJSTemplate = [[
   var vars = {}
 
   var editor = new Widget.Editor({id: "editor"})
-  var editorSearchHeader = new Widget.EditorSearchHeader("{{title}} &nbsp;&nbsp;&nbsp;&nbsp; {{fileName}}")
+  var editorSearchHeader = new Widget.EditorSearchHeader("{{title}}")
 
   var editorSearchTemplate = new Widget.EditorSearchTemplate({
     editor: editor.html,

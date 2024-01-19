@@ -83,6 +83,13 @@ Widget.RepositoryStatusHeader = function (title) {
       Widget.RepositoryStatusHeader.compare()
     }
   })
+  
+  document.addEventListener('keydown', function (event) {
+    if (event.ctrlKey && event.key === 'e') {
+      event.preventDefault()
+      Widget.RepositoryStatusHeader.editFile()
+    }
+  })
 }
 
 Widget.RepositoryStatusHeader.prototype = {

@@ -141,9 +141,15 @@ Widget.EditorHeader = function (title) {
   */}, data)
 
   document.addEventListener('keydown', function (event) {
-    if (event.ctrlKey && event.key === ' ') {
+    if (event.ctrlKey && event.key === 'p') {
       event.preventDefault()
       Widget.EditorHeader.search()
+    }
+  })
+  document.addEventListener('keydown', function (event) {
+    if (event.ctrlKey && event.key === 'e') {
+      event.preventDefault()
+      Widget.EditorHeader.editFile()
     }
   })
 }

@@ -41,6 +41,13 @@ Widget.EditorSearchHeader = function (title) {
       </nav>
     </header>
   */}, data)
+  
+  document.addEventListener('keydown', function (event) {
+    if (event.ctrlKey && event.key === 'e') {
+      event.preventDefault()
+      Widget.EditorSearchHeader.editFile()
+    }
+  })
 }
 
 Widget.EditorSearchHeader.prototype = {
