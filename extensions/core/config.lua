@@ -22,6 +22,12 @@ config.module = {
   {name = "utf8data", script = "utf8data.lua"},
   {name = "util", script = "util.lua"},
   {name = "uuid", script = "uuid.lua"},
+
+  {name = "resty.md5", script = "resty/md5.lua"},
+  {name = "resty.rsa", script = "resty/rsa.lua"},
+  {name = "resty.sha", script = "resty/sha.lua"},
+  {name = "resty.sha1", script = "resty/sha1.lua"},
+  {name = "resty.sha256", script = "resty/sha256.lua"},
 }
 
 config.javascript = {
