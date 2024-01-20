@@ -28,7 +28,7 @@ return {
     port        =   rdbms_port,
     user        =   rdbms_user,
     password    =   rdbms_password,
-    database    =   "demo",
+    database    =   rdbms_db,
     compact     =   false
   },
 

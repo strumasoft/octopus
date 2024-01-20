@@ -13,7 +13,8 @@ Widget.EditorNavigation = function (dirs, parent) {
           {{?? dirs[i].mode == "directory"
             <li class="{{dirs[i].mode}}">
               <div id="{{dirs[i].guid}}" class="nowrap" 
-              onclick='Widget.EditorNavigation.directoryEntries("{{dirs[i].path}}", "{{dirs[i].guid}}", "{{dirs[i].childrenGuid}}")'>
+              onclick='Widget.EditorNavigation.directoryEntries("{{dirs[i].path}}", "{{dirs[i].guid}}", "{{dirs[i].childrenGuid}}")'
+              ondblclick='Widget.EditorNavigation.openNewWindow("{{dirs[i].path}}")'>
                 <i class="fa fa-folder-open"></i>
                 <span class="navigationName">{{dirs[i].name}}</span>
               </div>
@@ -102,6 +103,13 @@ Widget.EditorNavigation.directoryEntries = function (directoryName, guid, childr
       $('#' + childrenGuid).html(subdirs.html)
     })
     .error(Widget.errorHandler)
+}
+
+Widget.EditorNavigation.openNewWindow = function (directoryName) {
+  var newSessionUrl = Widget.EditorHeader.newSessionUrl(
+    property.editorUrl + property.editorHomeUrl, 
+    {directoryName: encodeURIComponent(directoryName)})
+  window.open(newSessionUrl)
 }
 
 Widget.EditorNavigation.selectFileName = function (guid) {
