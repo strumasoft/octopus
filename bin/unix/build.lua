@@ -72,7 +72,6 @@ http {
   init_by_lua_block {
     require "resty.core"
     collectgarbage("collect")
-    require "cdefinitions"
     require = require "autowire"
   }
 
