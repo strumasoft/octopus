@@ -16,11 +16,11 @@ local function f ()
   end
 end
 
-local status, res = pcall(db.transaction, db, f)
+local ok, res = pcall(db.transaction, db, f)
 db:close()
 
 
-if status then
+if ok then
   ngx.say("Delete done!")
 else
   exit(res)

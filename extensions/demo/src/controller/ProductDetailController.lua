@@ -22,8 +22,8 @@ end
 
 
 local data = {}
-local status, err = pcall(process, data)
-if not status then 
+local ok, err = pcall(process, data)
+if not ok then 
   data.error = {err}
 end
 

@@ -8,13 +8,13 @@ local userService = require "userService"
 -- security --
 if property.shopRequireSecurity then
   local db = database.connect()
-  local status, res = pcall(userService.loggedIn, db)
+  local ok, res = pcall(userService.loggedIn, db)
   db:close()
 
   -- remove cache --
   ngx.ctx = {}
 
-  if not status or not res then
+  if not ok or not res then
     if util.isNotEmpty(ngx.var.args) then
       ngx.redirect(property.shopUrl .. property.loginUrl .. ngx.var.uri .. "?" .. ngx.var.args)
       ngx.exit(ngx.HTTP_OK)

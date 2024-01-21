@@ -15,8 +15,8 @@ local function process ()
 end
 
 
-local status, res = pcall(process)
-if status then
+local ok, res = pcall(process)
+if ok then
   if res then ngx.say(res) end
 else
   exit(res)

@@ -34,19 +34,19 @@ local function process (db, data)
       user.addresses = nil -- refresh
     end
 
-    local status, res = pcall(db.transaction, db, addAddressTransaction)
-    if not status then exception("user=" .. user.id .. " => " .. res) end
+    local ok, res = pcall(db.transaction, db, addAddressTransaction)
+    if not ok then exception("user=" .. user.id .. " => " .. res) end
   end
 end
 
 
 local data = {}
 local db = database.connect()
-local status, err = pcall(process, db, data)
+local ok, err = pcall(process, db, data)
 db:close()
 
 
-if status then
+if ok then
   return ngx.redirect(property.shopUrl .. property.checkoutDeliveryMethodUrl)
 else
   exceptionHandler.toCookie(err)

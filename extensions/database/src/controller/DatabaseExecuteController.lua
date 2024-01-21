@@ -25,13 +25,11 @@ if property.forbidDirectSqlQuery then
   db.query = nil
 end
 
-local status, res, typeName = pcall(f, {db = db, op = op})
+local ok, res, typeName = pcall(f, {db = db, op = op})
 db:close()
 
 
--- write response
-
-if status then
+if ok then
   if type(res) == "table" then
     if #res > 0 then
       local results = {}

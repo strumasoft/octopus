@@ -8,13 +8,13 @@ local userService = require "userService"
 -- security --
 if property.shopRequireSecurity then
   local db = database.connect()
-  local status, res = pcall(userService.loggedIn, db)
+  local ok, res = pcall(userService.loggedIn, db)
   db:close()
 
   -- remove cache --
   ngx.ctx = {}
 
-  if not status or not res then
+  if not ok or not res then
     ngx.status = ngx.HTTP_FORBIDDEN
     ngx.say("ERROR: user not logged in")
     ngx.exit(ngx.HTTP_OK)

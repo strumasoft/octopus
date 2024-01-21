@@ -19,11 +19,11 @@ local function f ()
   end
 end
 
-local status, res = pcall(db.transaction, db, f)
+local ok, res = pcall(db.transaction, db, f)
 db:close()
 
 
-if status then
+if ok then
   ngx.say(json.encode({info = "Save done!", id = res}))
 else
   exit(res)

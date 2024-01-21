@@ -173,8 +173,8 @@ writers = {
       elseif dInfo.what ~= "Lua" then
         file:write("nil --[[non-lua function not supported]]");
       else
-        local r, s = pcall(string.dump,item);
-        if r then
+        local ok, s = pcall(string.dump,item);
+        if ok then
           file:write(string.format("loadstring(%q)", s));
         else
           file:write("nil --[[function could not be dumped]]");

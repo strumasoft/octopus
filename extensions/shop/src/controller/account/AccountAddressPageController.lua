@@ -43,9 +43,9 @@ end
 
 local data = {}
 local db = database.connect()
-local status, err = pcall(process, db, data)
+local ok, err = pcall(process, db, data)
 db:close()
-if not status then 
+if not ok then 
   exceptionHandler.toData(data, err)
 end
 

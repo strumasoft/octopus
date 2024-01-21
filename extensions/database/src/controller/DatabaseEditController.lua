@@ -13,9 +13,9 @@ if util.isNotEmpty(typeName) then
     local db = database.connect()
     local op = db:operators()
 
-    local status, res = pcall(db.find, db, {[typeName] = {id = op.equal(id)}})
+    local ok, res = pcall(db.find, db, {[typeName] = {id = op.equal(id)}})
 
-    if status then
+    if ok then
       if #res == 1 then
         local type = types[typeName]
 

@@ -36,11 +36,11 @@ end
 
 local data = {}
 local db = database.connect()
-local status, err = pcall(process, db, data)
+local ok, err = pcall(process, db, data)
 db:close()
 
 
-if status then
+if ok then
   return ngx.redirect(property.shopUrl .. property.checkoutPaymentMethodUrl)
 else
   exceptionHandler.toCookie(err)

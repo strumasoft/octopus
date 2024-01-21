@@ -183,8 +183,8 @@ local function calculateCart (db, cart)
   end
 
 
-  local status, res = pcall(db.transaction, db, calculateCartTransaction)
-  if not status then exception("cart=" .. cart.id .. " => " .. res) end
+  local ok, res = pcall(db.transaction, db, calculateCartTransaction)
+  if not ok then exception("cart=" .. cart.id .. " => " .. res) end
 
   return cart
 end

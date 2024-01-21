@@ -56,11 +56,11 @@ end
 
 local data = {}
 local db = database.connect()
-local status, err = pcall(process, db, data)
+local ok, err = pcall(process, db, data)
 db:close()
 
 
-if status then
+if ok then
   if data.redirectUrl then
     return ngx.redirect(data.redirectUrl)
   else

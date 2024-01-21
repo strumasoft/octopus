@@ -14,10 +14,10 @@ if util.isNotEmpty(parameters.email)
   and (parameters.password == parameters.repeatPassword)
 then
   local db = database.connect()
-  local status, res = pcall(userService.registerAndSetToken, db, parameters.email, parameters.password)
+  local ok, res = pcall(userService.registerAndSetToken, db, parameters.email, parameters.password)
   db:close()
 
-  if status then
+  if ok then
     ngx.say("successful register")
   else
     ngx.say("unsuccessful register")

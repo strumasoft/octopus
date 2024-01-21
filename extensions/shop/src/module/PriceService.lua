@@ -137,8 +137,8 @@ local function convertSinglePrice (db, price)
 
     local country = countryService.getCountry(db)
 
-    local status, netUser = pcall(userService.loggedIn, db, {}, {"netUser"})
-    if not status then netUser = false end
+    local ok, netUser = pcall(userService.loggedIn, db, {}, {"netUser"})
+    if not ok then netUser = false end
 
     local vatRate = getVATRate(db, {}, country) -- no product
 
@@ -163,8 +163,8 @@ end
 local function convertProductsPrices (db, products)
   local country = countryService.getCountry(db)
 
-  local status, netUser = pcall(userService.loggedIn, db, {}, {"netUser"})
-  if not status then netUser = false end
+  local ok, netUser = pcall(userService.loggedIn, db, {}, {"netUser"})
+  if not ok then netUser = false end
 
   if products and country then
     if #products > 0 then
@@ -182,8 +182,8 @@ end
 local function convertCartPrices (db, cart)
   local country = countryService.getCountry(db)
 
-  local status, netUser = pcall(userService.loggedIn, db, {}, {"netUser"})
-  if not status then netUser = false end
+  local ok, netUser = pcall(userService.loggedIn, db, {}, {"netUser"})
+  if not ok then netUser = false end
 
   if country and cart.productEntries then
     for i=1,#cart.productEntries do
@@ -202,8 +202,8 @@ local function calculateProductPrice (db, product, price)
   if product and price then
     local country = countryService.getCountry(db)
 
-    local status, netUser = pcall(userService.loggedIn, db, {}, {"netUser"})
-    if not status then netUser = false end
+    local ok, netUser = pcall(userService.loggedIn, db, {}, {"netUser"})
+    if not ok then netUser = false end
 
     local vatRate = getVATRate(db, product, country)
 
