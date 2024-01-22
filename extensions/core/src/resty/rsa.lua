@@ -9,7 +9,7 @@ local ffi_new = ffi.new
 local ffi_gc = ffi.gc
 local ffi_copy = ffi.copy
 local ffi_str = ffi.string
-local C = ffi.load("ssl.so.3")
+local C = ffi.load("ssl.so.1.1")
 local tab_concat = table.concat
 local setmetatable = setmetatable
 

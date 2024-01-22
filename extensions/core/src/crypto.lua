@@ -170,22 +170,22 @@ end
 
 -- https://www.openssl.org/docs/manmaster/man3/SHA1.html
 local function sha1 (str)
-  return encodeHex(hashString(str, "SHA1", 20))
-  --return hashString(str, "SHA1", 20)
+  --return encodeHex(hashString(str, "SHA1", 20))
+  return hashString(str, "SHA1", 20)
 end
 
 
 -- https://www.openssl.org/docs/manmaster/man3/SHA256.html
 local function sha256 (str)
-  return encodeHex(hashString(str, "SHA256", 32))
-  --return hashString(str, "SHA256", 32)
+  --return encodeHex(hashString(str, "SHA256", 32))
+  return hashString(str, "SHA256", 32)
 end
 
 
 -- https://www.openssl.org/docs/manmaster/man3/MD5.html
 local function md5 (str)
-  return encodeHex(hashString(str, "MD5", 16))
-  --return hashString(str, "MD5", 16)
+  --return encodeHex(hashString(str, "MD5", 16))
+  return hashString(str, "MD5", 16)
 end
 
 
