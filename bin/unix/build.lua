@@ -35,13 +35,15 @@ profiles.prod = {
   profile = "prod", hosts = hostNames,
   port = 8787, securePort = 38787, luaCodeCache = "on",
   requireSecurity = false, sessionTimeout = 14400,
-  rdbms = "mysql", rdbms_host = "127.0.0.1", rdbms_port = "3306", rdbms_user = "demo", rdbms_password = "demo", rdbms_db = "demo",
+  rdbms = "mysql", rdbms_driver = "resty.", rdbms_host = "127.0.0.1", 
+  rdbms_port = "3306", rdbms_user = "demo", rdbms_password = "demo", rdbms_db = "demo",
 }
 profiles.test = {
   profile = "test", hosts = hostNames,
   port = 8787, securePort = 38787, luaCodeCache = "off",
   requireSecurity = false, sessionTimeout = 3600,
-  rdbms = "mysql", rdbms_host = "127.0.0.1", rdbms_port = "3306", rdbms_user = "demo", rdbms_password = "demo", rdbms_db = "demo",
+  rdbms = "mysql", rdbms_driver = "resty.", rdbms_host = "127.0.0.1", 
+  rdbms_port = "3306", rdbms_user = "demo", rdbms_password = "demo", rdbms_db = "demo",
 }
 
 

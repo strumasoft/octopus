@@ -163,29 +163,11 @@ end
 
 
 local function generateOverrideTypesTable (siteConfig)
-  if not hasExtension(siteConfig, "orm") then return end
-  
-
-  local function hasMany (type, property)
-    if property then
-      return {type = type .. "." .. property, has = "many"}
-    else
-      return {type = type, has = "many"}
-    end
-  end
-
-  local function hasOne (type, property)
-    if property then
-      return {type = type .. "." .. property, has = "one"}
-    else
-      return {type = type, has = "one"}
-    end
-  end
-
-
   local persistence = require "persistence"
   local eval = require "eval"
   local util = require "util"
+  local luaorm = require "rocky.luaorm"
+  local typedef = require "rocky.typedef"
 
   local modules = {}
 
@@ -201,7 +183,7 @@ local function generateOverrideTypesTable (siteConfig)
         local module = config.type[j]
 
         local scriptFileName = extensionDir .. "/src/" .. module
-        local types = eval.file(scriptFileName, {hasMany = hasMany, hasOne = hasOne})
+        local types = eval.file(scriptFileName, typedef)
 
         for typeKey, typeValue in pairs(types) do 
           if modules[typeKey] then
@@ -216,75 +198,8 @@ local function generateOverrideTypesTable (siteConfig)
     end
   end
 
-
-  -- put types in the standart format & add length to string --
-  local tableConfig = require("db.api." .. siteConfig.databaseConnection.rdbms)
-  for name,t in pairs(modules) do
-    for k,v in pairs(t) do
-      if type(v) ~= "table" then
-        if v == "string" then
-          t[k] = {type = "string", length = tableConfig.stringLength}
-        else
-          if v ~= "id" and v ~= "integer" and v ~= "float" and v ~= "boolean" and v ~= "string" then
-            t[k] = {type = v, has = "one"}
-          else
-            t[k] = {type = v}
-          end
-        end
-      elseif v.type == "string" and not v.length then
-        v.length = tableConfig.stringLength
-      end
-    end
-
-    -- add unique ID
-    t.id = {type = "id"}
-  end
-
-
-  -- create relations --
-  local relations = {}
-  for name,t in pairs(modules) do
-    if name ~= "_" then
-      for k,v in pairs(t) do
-        local property = t[k]
-        if property.type ~= "id" and property.type ~= "integer" and property.type ~= "float" and property.type ~= "boolean" and property.type ~= "string" then
-          local from = name .. "." .. k
-          local to = property.type
-
-          -- check relation declaration
-          if property.type:find(".", 1, true) then
-            local typeAndProperty = util.split(property.type, ".")
-            if modules[typeAndProperty[1]] then
-              local reference = modules[typeAndProperty[1]][typeAndProperty[2]]
-              if not reference or reference.type ~= from then 
-                error("properties " .. from .. " and " .. to .. " are not linked!")
-              end
-            else
-              error("type " .. typeAndProperty[1] .. " does not exists!")
-            end
-          else
-            if not modules[property.type] then
-              error("type " .. property.type .. " does not exists!")
-            end
-          end
-
-          -- create relation
-          if from < to then
-            relations[from .. "-" .. to] = {id = {type = "id"}, key = {type = "string", length = 36}, value = {type = "string", length = 36}}
-          else
-            relations[to .. "-" .. from] = {id = {type = "id"}, key = {type = "string", length = 36}, value = {type = "string", length = 36}}
-          end
-        end
-      end
-    end
-  end
-
-
-  -- copy relations to types
-  for k,v in pairs(relations) do
-    modules[k] = v
-  end
-
+  assert(siteConfig.databaseConnection.rdbms, "no databaseConnection.rdbms set, check site's config.lua")
+  local modules = luaorm.build(modules, siteConfig.databaseConnection.rdbms)
 
   -- persist types --
   persistence.store(siteConfig.octopusHostDir .. "/build/src/type.lua", modules)

@@ -2,7 +2,7 @@ return {
   extensions = {
     {octopusExtensionsDir, "core"}, 
     {octopusExtensionsDir, "baseline"}, 
-    {octopusExtensionsDir, "orm"}, 
+    --{octopusExtensionsDir, "orm"}, -- luaorm is part of 'core'
     {octopusExtensionsDir, "security"}, 
     {octopusExtensionsDir, "editor"}, 
     {octopusExtensionsDir, "repository"}, 
@@ -24,12 +24,18 @@ return {
   
   databaseConnection = {
     rdbms       =   rdbms,
+    driver      =   rdbms_driver,
     host        =   rdbms_host,
     port        =   rdbms_port,
     user        =   rdbms_user,
     password    =   rdbms_password,
     database    =   rdbms_db,
-    compact     =   false
+    compact     =   false,
+    usePreparedStatement = false,
+    debugDB = true,
+    charset = "utf8",
+    max_packet_size = 1024 * 1024,
+    ssl = false
   },
 
   globalParameters = {
