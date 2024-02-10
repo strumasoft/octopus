@@ -91,7 +91,7 @@ local function _to_cstring(data)
   return {data, "\0"}
 end
 
-function _send_packet(self, data, len, typ)
+local function _send_packet(self, data, len, typ)
   local sock = self.sock
   local packet
   if typ then
@@ -109,7 +109,7 @@ function _send_packet(self, data, len, typ)
   return sock:send(packet)
 end
 
-function _parse_error_packet(packet)
+local function _parse_error_packet(packet)
   local pos = 1
   local flg, value, msg
   msg = {}
@@ -132,7 +132,7 @@ function _parse_error_packet(packet)
   return msg
 end
 
-function _recv_packet(self)
+local function _recv_packet(self)
   -- receive type
   local sock = self.sock
   local typ, err = sock:receive(1)
@@ -156,7 +156,7 @@ function _recv_packet(self)
   return data, typ
 end
 
-function _compute_token(self, user, password, salt)
+local function _compute_token(self, user, password, salt)
   local token1 = ngx.md5(password .. user)
   local token2 = ngx.md5(token1 .. salt)
   return "md5" .. token2
@@ -313,7 +313,7 @@ function _M.close(self)
   return sock:close()
 end
 
-function send_query(self, query)
+local function send_query(self, query)
   if self.state ~= STATE_CONNECTED then
     return nil, "cannot send query in the current context: "
           .. (self.state or "nil")
@@ -330,9 +330,8 @@ function send_query(self, query)
   self.state = STATE_COMMAND_SENT
   return bytes, err
 end
-_M.send_query = send_query
 
-function read_result(self)
+local function read_result(self)
   if self.state ~= STATE_COMMAND_SENT then
     return nil, "cannot read result in the current context: " .. self.state
   end
@@ -432,7 +431,6 @@ function read_result(self)
   end   
   return res, err
 end
-_M.read_result = read_result
 
 function _M.query(self, query)
   local bytes, err = send_query(self, query)
@@ -443,7 +441,7 @@ function _M.query(self, query)
   return read_result(self)
 end
 
-function escape_string(str)
+local function escape_string(str)
   local new = string.gsub(str, "['\\]", "%0%0")
   return new
 end
