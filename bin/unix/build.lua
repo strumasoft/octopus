@@ -45,6 +45,10 @@ profiles.test = {
   rdbms = "mysql", rdbms_driver = "resty.", rdbms_host = "127.0.0.1", 
   rdbms_port = "3306", rdbms_user = "demo", rdbms_password = "demo", rdbms_db = "demo",
 }
+local ok, _profiles = pcall(require, "profiles")
+if ok then
+  for k,v in pairs(_profiles) do profiles[k] = v end
+end
 
 
 local buildProfile = arg[1]

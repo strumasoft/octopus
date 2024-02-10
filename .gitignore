@@ -25,3 +25,4 @@ bin/unix/scgi_params.default
 bin/unix/uwsgi_params
 bin/unix/uwsgi_params.default
 bin/unix/win-utf
+bin/unix/profiles.lua
