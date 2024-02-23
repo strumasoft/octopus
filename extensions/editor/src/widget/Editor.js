@@ -176,6 +176,12 @@ Widget.Editor.prototype = {
     }
 
     this.aceEditor.getSession().setMode(mode)
+    
+    if (mode == "ace/mode/makefile") {
+      this.aceEditor.getSession().setOptions({ tabSize: 2, useSoftTabs: false });
+    } else {
+      this.aceEditor.getSession().setOptions({ tabSize: 2, useSoftTabs: true });
+    }
   }, 
   
   setFontSize: function (x) {
