@@ -33,7 +33,7 @@ config.module = {
 
   {name = "rocky.crypto", script = "rocky/crypto.lua"},
   {name = "rocky.luaorm", script = "rocky/luaorm.lua"},
-  {name = "rocky.openrestyssl", script = "rocky/openrestyssl.lua"},
+  {name = "rocky.ngxssl", script = "rocky/ngxssl.lua"},
   {name = "rocky.postgresql", script = "rocky/postgresql.lua"},
   {name = "rocky.typedef", script = "rocky/typedef.lua"},
 }
