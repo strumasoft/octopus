@@ -15,7 +15,7 @@ Widget.ThreeFieldsPopup = function (data) {
       {{? password != 1
         type="text"
       }}?
-      id="{{guid1}}" placeholder="{{placeholder1}}" value="" />
+      id="{{guid1}}" placeholder="{{placeholder1}}" value="{{value1}}" />
 
     <input class="spaced-down"
       {{? password == 2
@@ -24,7 +24,7 @@ Widget.ThreeFieldsPopup = function (data) {
       {{? password != 2
         type="text"
       }}? 
-      id="{{guid2}}" placeholder="{{placeholder2}}" value="" />
+      id="{{guid2}}" placeholder="{{placeholder2}}" value="{{value2}}" />
 
     <input class="spaced-down"
       {{? password == 3
@@ -33,7 +33,7 @@ Widget.ThreeFieldsPopup = function (data) {
       {{? password != 3
         type="text"
       }}?
-      id="{{guid3}}" placeholder="{{placeholder3}}" value="" />
+      id="{{guid3}}" placeholder="{{placeholder3}}" value="{{value3}}" />
 
     <button class="button" 
       onclick='vars.threeFieldsPopup.delete()'>

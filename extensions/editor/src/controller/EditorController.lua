@@ -9,10 +9,14 @@ local fileutil = require "fileutil"
 
 
 local directoryName = param.directoryName
-local dirs, parent, title
+local dirs, parent, title, isGIT
 
 if directoryName then
   dirs = directory.sortedEntries(directoryName)
+
+  for _,v in pairs(dirs) do 
+    if v.name == ".git" and v.mode == "directory" then isGIT = true end
+  end
 
   local paths = util.split(directoryName, "/")
   parent = {path = directoryName, name = paths[#paths], mode = "directory"}
@@ -51,6 +55,10 @@ ngx.say(parse(require("BaselineHtmlTemplate"), {
   initJS = parse([[
     var vars = {}
 
+    {{? isGIT
+    vars.repository = {repository: "GIT"}
+    }}?
+
     var editor = new Widget.Editor({id: "editor"})
     var editorNavigation = new Widget.EditorNavigation({{dirs}}, {{parent}})
     var editorHeader = new Widget.EditorHeader("{{title}}")
@@ -66,6 +74,7 @@ ngx.say(parse(require("BaselineHtmlTemplate"), {
     editor.init()
     editorNavigation.init()
   ]], {
+    isGIT = isGIT,
     title = fileutil.escapeCommandlineSpecialCharacters(title),
     dirs = json.encode(dirs),
     parent = json.encode(parent)

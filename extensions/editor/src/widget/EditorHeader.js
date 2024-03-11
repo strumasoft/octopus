@@ -309,11 +309,19 @@ Widget.EditorHeader.openNewWindow = function () {
 //
 
 Widget.EditorHeader.setRepository = function () {
+  var prevRepository = {}
+  if (vars.repository) {
+    prevRepository = vars.repository
+  }
+
   var repositoryPopup = new Widget.ThreeFieldsPopup({
     info:"Set repository credentials.", 
     placeholder1: "Repository Name", 
+    value1: prevRepository.repository,
     placeholder2: "User Name", 
+    value2: prevRepository.username,
     placeholder3: "Password", 
+    value3: prevRepository.password,
     password: 3,
     proceed: function (guid1, guid2, guid3) {
       var repository = $("#" + guid1).val()
@@ -322,29 +330,31 @@ Widget.EditorHeader.setRepository = function () {
 
       this.delete()
 
-      if (!isEmpty(repository) && !isEmpty(username) && !isEmpty(password)) {
-        vars.repository = {
-          repository: repository,
-          username: username,
-          password: password
-        }
-
-        var infoPopup = new Widget.InfoPopup({info: "repository set!"})
-      } else {
-        var infoPopup = new Widget.InfoPopup({info: "repository, username and password are required!"})
+      vars.repository = {
+        repository: repository,
+        username: username,
+        password: password
       }
   }}) 
 }
 
 Widget.EditorHeader.getRepository = function () {
+  var urlRepository = getURLParameter("repository") || ""
+  var urlUsername = getURLParameter("username") || ""
+  var urlPassword = getURLParameter("password") || ""
+
   var repository
   if (vars.repository) {
-    repository = vars.repository
+    repository = {
+      repository: vars.repository.repository || urlRepository,
+      username: vars.repository.username || urlUsername,
+      password: vars.repository.password || urlPassword
+    }
   } else {
     repository = {
-      repository: getURLParameter("repository") || "",
-      username: getURLParameter("username") || "",
-      password: getURLParameter("password") || ""
+      repository: urlRepository,
+      username: urlUsername,
+      password: urlPassword
     }
   }
 
@@ -354,19 +364,22 @@ Widget.EditorHeader.getRepository = function () {
 Widget.EditorHeader.isRepositorySet = function () {
   var repository = Widget.EditorHeader.getRepository()
 
+  if ("GIT" === repository.repository) {
+    return true
+  }
+
   return (!isEmpty(repository.repository) && !isEmpty(repository.username) && !isEmpty(repository.password))
 }
 
-Widget.EditorHeader.newSessionUrl = function (controller, data, noHiddenData) {
+Widget.EditorHeader.newSessionUrl = function (controller, data, noRepository) {
   var url = controller + "?session=new"
 
-  if (noHiddenData) {
-    // do not include hidden data
-  } else {
-    // include repository
+  if (!noRepository) {
     var repository = Widget.EditorHeader.getRepository() 
     for (var key in repository) {
-      url += "&" + key + "=" + repository[key]
+      if (!isEmpty(repository[key])) {
+        url += "&" + key + "=" + repository[key]
+      }
     }
   }
 
