@@ -452,9 +452,10 @@ Widget.EditorHeader.repositoryLogHistory = function () {
 }
 
 Widget.EditorHeader.repositoryCommitHistory = function () {
-  if (getURLParameter("repository") == "SVN") {
+  var repository = Widget.EditorHeader.getRepository()
+  if (repository?.repository == "SVN") {
     Widget.EditorHeader.repositoryCommitHistorySVN()
-  } else if (getURLParameter("repository") == "GIT") {
+  } else if (repository?.repository == "GIT") {
     Widget.EditorHeader.repositoryCommitHistoryGIT()
   }
 }
