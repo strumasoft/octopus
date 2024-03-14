@@ -8,7 +8,7 @@ local editor = require "Editor"
 local function process ()
   local path = param.path
 
-  if util.isNotEmpty(param.repository) and util.isNotEmpty(param.username) and util.isNotEmpty(param.password) then
+  if util.isNotEmpty(param.repository) then
     local repository = require(param.repository)
 
     local username = param.username

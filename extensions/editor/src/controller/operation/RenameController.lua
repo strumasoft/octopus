@@ -9,7 +9,7 @@ local function process ()
   local oldName = param.oldName
   local newName = param.newName
 
-  if util.isNotEmpty(param.repository) and util.isNotEmpty(param.username) and util.isNotEmpty(param.password) then
+  if util.isNotEmpty(param.repository) then
     local repository = require(param.repository)
 
     local username = param.username
