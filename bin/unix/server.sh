@@ -80,18 +80,28 @@ function nginx_install {
   download_archive $lua_nginx_module tar.gz $lua_nginx_module_url
 
 
-  # install PCRE
+  # PCRE
   pcre=pcre
   pcre_version=8.45
-  pcre_url=https://netix.dl.sourceforge.net/project/pcre/pcre/$pcre_version/pcre-$pcre_version.tar.gz
+  pcre_url=https://unlimited.dl.sourceforge.net/project/pcre/pcre/$pcre_version/pcre-$pcre_version.tar.gz
   download_archive $pcre tar.gz $pcre_url
 
 
-  # install zlib
+  # zlib
   zlib=zlib
   zlib_version=1.3.1
   zlib_url=https://github.com/madler/zlib/archive/refs/tags/v$zlib_version.tar.gz
   download_archive $zlib tar.gz $zlib_url
+
+
+  # install LuaJIT
+  luajit=luajit2
+  luajit_version=2.1-20231117
+  luajit_url=https://github.com/openresty/luajit2/archive/refs/tags/v$luajit_version.tar.gz
+  download_archive $luajit tar.gz $luajit_url
+  cd $destination_folder/$luajit-$luajit_version
+  make
+  make install PREFIX=$luajit_install
 
 
   # install lfs
@@ -104,16 +114,6 @@ function nginx_install {
   cat $nginx_install/config/lfs.config > config
   make
   make install
-
-
-  # install LuaJIT
-  luajit=luajit2
-  luajit_version=2.1-20231117
-  luajit_url=https://github.com/openresty/luajit2/archive/refs/tags/v$luajit_version.tar.gz
-  download_archive $luajit tar.gz $luajit_url
-  cd $destination_folder/$luajit-$luajit_version
-  make
-  make install PREFIX=$luajit_install
 
 
   # install nginx
