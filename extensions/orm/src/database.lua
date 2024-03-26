@@ -1,3 +1,5 @@
+-- @deprecated > use luaorm > https://github.com/strumasoft/luaorm
+
 local common = require("db.api.common")
 local uuid = require "uuid"
 local exception = require "exception"

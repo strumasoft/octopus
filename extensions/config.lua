@@ -2,7 +2,7 @@ return {
   extensions = {
     {octopusExtensionsDir, "core"}, 
     {octopusExtensionsDir, "baseline"}, 
-    --{octopusExtensionsDir, "orm"}, -- luaorm is part of 'core'
+    --{octopusExtensionsDir, "orm"}, -- @deprecated > use luaorm > https://github.com/strumasoft/luaorm
     {octopusExtensionsDir, "security"}, 
     {octopusExtensionsDir, "editor"}, 
     {octopusExtensionsDir, "repository"}, 

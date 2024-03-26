@@ -6,7 +6,7 @@ config.property = {
 }
 
 config.module = {
-  {name = "database", script = "database.lua"},
+  {name = "database", script = "database.lua"}, -- @deprecated > use luaorm > https://github.com/strumasoft/luaorm
   {name = "db.api.common", script = "db/api/common.lua"},
   {name = "db.api.mysql", script = "db/api/mysql.lua"},
   {name = "db.api.postgres", script = "db/api/postgres.lua"},
