@@ -1,6 +1,20 @@
 ### Introduction
 
-**luaorm** let's you define types and persist their instances to the underlying database, currently it supports two databases: MySQL (via [lua-resty-mysql](https://github.com/openresty/lua-resty-mysql)) and PostgreSQL (via [postgresql.lua](https://github.com/strumasoft/luaorm/blob/main/rocky/postgresql.lua)) which is a refactored version of the [pgmoon PostgreSQL driver](https://github.com/leafo/pgmoon) without external dependencies. **luaorm** can be used as an ORM for OpenResty, checkout [octopus](https://github.com/strumasoft/octopus/blob/master/extensions/core/src/database.lua) as a reference, but it can be also used as an ORM for native Lua scripts, outside of containers and servers, with or without TLS encryption, see the example [tests](https://github.com/strumasoft/luaorm/tree/main/test). The persistence layer maps each Lua object to a database table row, it can connect, search, add, update, delete, execute transactions and finally close the connection to the database. All queries performed by the persistence layer can be executed as plain SQL or as prepared statements by setting the property **usePreparedStatement** to **true**.
+**luaorm** let's you define types and persist their instances to the underlying database, currently it supports two databases: MySQL (via [lua-resty-mysql](https://github.com/openresty/lua-resty-mysql)) and PostgreSQL (via [postgresql.lua](https://github.com/strumasoft/luaorm/blob/main/rocky/postgresql.lua)) which is a refactored version of the [pgmoon PostgreSQL driver](https://github.com/leafo/pgmoon) with less external dependencies. **luaorm** can be used as an ORM for [OpenResty](https://github.com/openresty), check the integration in  [Octopus](https://github.com/strumasoft/octopus/blob/master/extensions/core/src/database.lua), but it can be also used as an ORM for native Lua scripts, outside of containers and servers, with or without TLS encryption, see the example [tests](https://github.com/strumasoft/luaorm/tree/main/test). The persistence layer maps each Lua object to a database table row, it can connect, search, add, update, delete, execute transactions and finally close the connection to the database. All queries performed by the persistence layer can be executed as plain SQL or as prepared statements by setting the property **usePreparedStatement** to **true**.
+
+
+### Dependencies
+Inside [OpenResty](https://github.com/openresty) or [Octopus](https://github.com/strumasoft/octopus) the **luaorm** depends only on OpenSSL
+```bash
+sudo apt install openssl libssl-dev
+```
+Outside of containers, when **luaorm** is run from native Lua scripts it depends from OpenSSL, luasocket and luasec, see the example [tests](https://github.com/strumasoft/luaorm/tree/main/test)
+```bash
+sudo apt install openssl libssl-dev
+sudo apt install luarocks
+sudo luarocks install luasocket
+sudo luarocks install luasec
+```
 
 
 ### Type system
@@ -53,7 +67,7 @@ return {
 }
 ```
 
-Types are arbitrarily defined. They have names (**country**, **price**, **product**) and properties. New properties can be added to some type or existing ones can be redefined from every extension. Built-in types are **id**, **integer**, **float**, **boolean** and **string**. You do not need to define a property for unique identification, **octopus** automatically creates one for you called **id** that has the type **id**. For every type a table is created and all properties that have a built-in type are directly mapped to columns in that table. Every property that has a custom type is mapped to a new table with a name aggregated from both names of the relation and holds the 2 primary keys.
+Custom types are arbitrarily defined. They consist of properties and linkage to the corresponding property type which can be other custom type or built-in type. Built-in types are **id**, **integer**, **float**, **boolean** and **string**. You do not need to define a property for unique identification, **luaorm** automatically creates one for you called **id** that has the type **id**. For every type a table is created and all properties that have a built-in type are directly mapped to columns in that table. Every property that has a custom type is mapped to a new table with a name aggregated from both names of the relation and holds the 2 primary keys.
 
 Cardinality of both ends of the relation can be **one** or **many**, so all 4 table cardinalities are supported: **one-to-one**, **one-to-many**, **many-to-one** and **many-to-many**.
 
