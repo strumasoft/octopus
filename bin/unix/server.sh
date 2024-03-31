@@ -100,7 +100,7 @@ function nginx_install {
   luajit_url=https://github.com/openresty/luajit2/archive/refs/tags/v$luajit_version.tar.gz
   download_archive $luajit tar.gz $luajit_url
   cd $destination_folder/$luajit-$luajit_version
-  make
+  make -j$(nproc)
   make install PREFIX=$luajit_install
 
 
@@ -127,7 +127,7 @@ function nginx_install {
     --with-http_ssl_module \
     --add-module=../$ngx_devel_kit-$ngx_devel_kit_version \
     --add-module=../$lua_nginx_module-$lua_nginx_module_version
-  make -j2
+  make -j$(nproc)
   make install
 
 
