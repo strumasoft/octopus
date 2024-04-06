@@ -123,6 +123,17 @@ db:close()
 
 Call `local op = db:operators()` to get **select** operators like `op.equal("foo")` or `op.like("%bar%")`.
 
+- `op.equal("foo")`
+- `op.notEqual("foo")`
+- `op.greaterThan(5)`
+- `op.lessThan(10)`
+- `op.greaterThanOrEqual(11)`
+- `op.lessThanOrEqual(33)`
+- `op.like("%bar%")`
+- `op.between(5, 10)`
+- `op.inside("id1", "id2", "id3", "idN")`
+- `orderBy = {op.asc("code"), op.desc("id")}`
+
 ---
 
 **db:query(sql, doNotThrow)** - execute query, return response or throw exception
