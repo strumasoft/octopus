@@ -1,4 +1,7 @@
--- Copyright (C) 2024, StrumaSoft
+-- Copyright (C) 2015-2024, StrumaSoft
+-- 
+-- https://github.com/strumasoft/octopus/blob/master/extensions/orm/src/database.lua
+-- https://github.com/strumasoft/octopus/wiki/Object-relational-mapping
 --
 -- Requires: 
 --   OpenSSL
