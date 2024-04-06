@@ -18,12 +18,20 @@ export LUAJIT_BIN=$luajit_install/bin
 export LUAJIT_LIB=$luajit_install/lib
 export LUAJIT_INC=$luajit_install/include/luajit-2.1
 
+export GITHUB=https://codeload.github.com
 
 function download_archive {
   file_name="$destination_folder/$1.$2"
   url=$3
 
+  echo "[DOWNLOAD] $url -> $file_name"
   wget -c -O "$file_name" $url
+
+  if [ ! -s "$file_name" ]; then
+    echo "[ERROR DOWNLOAD] $url -> $file_name"
+    exit 1
+  fi
+
   tar -xzf "$file_name" -C $destination_folder
 }
 
@@ -34,7 +42,7 @@ function download_repo_and_install {
   version=$3
   folder=$4
   install_dir=$5
-  download_archive $repo tar.gz "https://github.com/$owner/$repo/archive/refs/tags/v$version.tar.gz"
+  download_archive $repo tar.gz "$GITHUB/$owner/$repo/tar.gz/refs/tags/v$version"
   cp -R "$destination_folder/$repo-$version/$folder"/* $install_dir
 }
 
@@ -69,14 +77,14 @@ function nginx_install {
   # ngx_devel_kit
   ngx_devel_kit=ngx_devel_kit
   ngx_devel_kit_version=0.3.3
-  ngx_devel_kit_url=https://github.com/vision5/ngx_devel_kit/archive/refs/tags/v$ngx_devel_kit_version.tar.gz
+  ngx_devel_kit_url=$GITHUB/vision5/ngx_devel_kit/tar.gz/refs/tags/v$ngx_devel_kit_version
   download_archive $ngx_devel_kit tar.gz $ngx_devel_kit_url
 
 
   # lua-nginx-module
   lua_nginx_module=lua-nginx-module
   lua_nginx_module_version=0.10.26
-  lua_nginx_module_url=https://github.com/openresty/lua-nginx-module/archive/refs/tags/v$lua_nginx_module_version.tar.gz
+  lua_nginx_module_url=$GITHUB/openresty/lua-nginx-module/tar.gz/refs/tags/v$lua_nginx_module_version
   download_archive $lua_nginx_module tar.gz $lua_nginx_module_url
 
 
@@ -90,14 +98,14 @@ function nginx_install {
   # zlib
   zlib=zlib
   zlib_version=1.3.1
-  zlib_url=https://github.com/madler/zlib/archive/refs/tags/v$zlib_version.tar.gz
+  zlib_url=$GITHUB/madler/zlib/tar.gz/refs/tags/v$zlib_version
   download_archive $zlib tar.gz $zlib_url
 
 
   # install LuaJIT
   luajit=luajit2
   luajit_version=2.1-20231117
-  luajit_url=https://github.com/openresty/luajit2/archive/refs/tags/v$luajit_version.tar.gz
+  luajit_url=$GITHUB/openresty/luajit2/tar.gz/refs/tags/v$luajit_version
   download_archive $luajit tar.gz $luajit_url
   cd $destination_folder/$luajit-$luajit_version
   make -j$(nproc)
@@ -108,7 +116,7 @@ function nginx_install {
   # config/lfs.config
   lfs=luafilesystem
   lfs_version=1_8_0
-  lfs_url=https://github.com/keplerproject/luafilesystem/archive/refs/tags/v$lfs_version.tar.gz
+  lfs_url=$GITHUB/keplerproject/luafilesystem/tar.gz/refs/tags/v$lfs_version
   download_archive $lfs tar.gz $lfs_url
   cd $destination_folder/$lfs-$lfs_version
   cat $nginx_install/config/lfs.config > config
