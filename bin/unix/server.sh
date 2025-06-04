@@ -1,27 +1,28 @@
 #! /bin/bash
 
-
 ### prerequisites ###
 # sudo apt-get install libssl-dev gcc g++ build-essential libtool zlib1g
 
+## install ##
+# bash server.sh install 2>&1 | less
 
-# cd /octopus/bin/unix
-current_dir=$(pwd)
+# cd octopus/bin/unix
+working_dir=$(pwd)
 
-export destination_folder="$current_dir/downloads"
-export luajit_install="$current_dir/luajit"
-export lib_dir="$current_dir/lib"
-export ace_dir="$current_dir/../../extensions/baseline/static/ace"
-export nginx_install="$current_dir"
+export download_dir="$working_dir/downloads"
+export luajit_install_dir="$working_dir/luajit"
+export lib_dir="$working_dir/lib"
+export ace_dir="$working_dir/../../extensions/baseline/static/ace"
+export nginx_install_dir="$working_dir"
 
-export LUAJIT_BIN=$luajit_install/bin
-export LUAJIT_LIB=$luajit_install/lib
-export LUAJIT_INC=$luajit_install/include/luajit-2.1
+export LUAJIT_BIN=$luajit_install_dir/bin
+export LUAJIT_LIB=$luajit_install_dir/lib
+export LUAJIT_INC=$luajit_install_dir/include/luajit-2.1
 
 export GITHUB=https://codeload.github.com
 
 function download_archive {
-  file_name="$destination_folder/$1.$2"
+  file_name="$download_dir/$1.$2"
   url=$3
 
   echo "[DOWNLOAD] $url -> $file_name"
@@ -32,7 +33,7 @@ function download_archive {
     exit 1
   fi
 
-  tar -xzf "$file_name" -C $destination_folder
+  tar -xzf "$file_name" -C $download_dir
 }
 
 
@@ -43,7 +44,7 @@ function download_repo_and_install {
   folder=$4
   install_dir=$5
   download_archive $repo tar.gz "$GITHUB/$owner/$repo/tar.gz/refs/tags/v$version"
-  cp -R "$destination_folder/$repo-$version/$folder"/* $install_dir
+  cp -R "$download_dir/$repo-$version/$folder"/* $install_dir
 }
 
 
@@ -51,10 +52,10 @@ function nginx_install {
   # make new dirs
   rm -rf logs
   mkdir logs
-  rm -rf $destination_folder
-  mkdir $destination_folder
-  rm -rf $luajit_install
-  mkdir $luajit_install
+  rm -rf $download_dir
+  mkdir $download_dir
+  rm -rf $luajit_install_dir
+  mkdir $luajit_install_dir
   rm -rf $lib_dir
   mkdir $lib_dir
   rm -rf $ace_dir
@@ -93,7 +94,7 @@ function nginx_install {
   pcre_version=pcre2-10.44
   pcre_url=$GITHUB/PCRE2Project/pcre2/tar.gz/refs/tags/$pcre_version
   download_archive $pcre tar.gz $pcre_url
-  cd $destination_folder/$pcre-$pcre_version
+  cd $download_dir/$pcre-$pcre_version
   ./autogen.sh
 
 
@@ -109,9 +110,9 @@ function nginx_install {
   luajit_version=2.1-20250117
   luajit_url=$GITHUB/openresty/luajit2/tar.gz/refs/tags/v$luajit_version
   download_archive $luajit tar.gz $luajit_url
-  cd $destination_folder/$luajit-$luajit_version
+  cd $download_dir/$luajit-$luajit_version
   make -j$(nproc)
-  make install PREFIX=$luajit_install
+  make install PREFIX=$luajit_install_dir
 
 
   # install lfs
@@ -135,11 +136,11 @@ EOF
 
 
   # install nginx
-  cd "$destination_folder/$nginx-$nginx_version"
-  ./configure --prefix=$nginx_install \
-    --sbin-path=$nginx_install/nginx \
-    --conf-path=$nginx_install/nginx.conf \
-    --pid-path=$nginx_install/nginx.pid \
+  cd "$download_dir/$nginx-$nginx_version"
+  ./configure --prefix=$nginx_install_dir \
+    --sbin-path=$nginx_install_dir/nginx \
+    --conf-path=$nginx_install_dir/nginx.conf \
+    --pid-path=$nginx_install_dir/nginx.pid \
     --with-pcre=../$pcre-$pcre_version \
     --with-pcre-jit \
     --with-zlib=../$zlib-$zlib_version \
@@ -151,7 +152,7 @@ EOF
 
 
   # return back to woring directory
-  cd "$current_dir"
+  cd "$working_dir"
 }
 
 
