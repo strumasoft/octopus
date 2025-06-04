@@ -62,14 +62,14 @@ function nginx_install {
 
 
   # libraries
-  download_repo_and_install ajaxorg ace-builds 1.32.3 src-min $ace_dir
-  download_repo_and_install openresty lua-resty-core 0.1.28 lib $lib_dir
-  download_repo_and_install openresty lua-resty-lrucache 0.13 lib $lib_dir
+  download_repo_and_install ajaxorg ace-builds 1.42.0 src-min $ace_dir
+  download_repo_and_install openresty lua-resty-core 0.1.31 lib $lib_dir
+  download_repo_and_install openresty lua-resty-lrucache 0.15 lib $lib_dir
 
 
   # nginx
   nginx=nginx
-  nginx_version=1.25.3
+  nginx_version=1.27.2
   nginx_url=http://nginx.org/download/nginx-$nginx_version.tar.gz
   download_archive $nginx tar.gz $nginx_url
 
@@ -83,16 +83,18 @@ function nginx_install {
 
   # lua-nginx-module
   lua_nginx_module=lua-nginx-module
-  lua_nginx_module_version=0.10.26
+  lua_nginx_module_version=0.10.28
   lua_nginx_module_url=$GITHUB/openresty/lua-nginx-module/tar.gz/refs/tags/v$lua_nginx_module_version
   download_archive $lua_nginx_module tar.gz $lua_nginx_module_url
 
 
   # PCRE
-  pcre=pcre
-  pcre_version=8.45
-  pcre_url=https://unlimited.dl.sourceforge.net/project/pcre/pcre/$pcre_version/pcre-$pcre_version.tar.gz
+  pcre=pcre2
+  pcre_version=pcre2-10.44
+  pcre_url=$GITHUB/PCRE2Project/pcre2/tar.gz/refs/tags/$pcre_version
   download_archive $pcre tar.gz $pcre_url
+  cd $destination_folder/$pcre-$pcre_version
+  ./autogen.sh
 
 
   # zlib
@@ -104,7 +106,7 @@ function nginx_install {
 
   # install LuaJIT
   luajit=luajit2
-  luajit_version=2.1-20231117
+  luajit_version=2.1-20250117
   luajit_url=$GITHUB/openresty/luajit2/tar.gz/refs/tags/v$luajit_version
   download_archive $luajit tar.gz $luajit_url
   cd $destination_folder/$luajit-$luajit_version
@@ -113,13 +115,21 @@ function nginx_install {
 
 
   # install lfs
-  # config/lfs.config
   lfs=luafilesystem
   lfs_version=1_8_0
   lfs_url=$GITHUB/keplerproject/luafilesystem/tar.gz/refs/tags/v$lfs_version
   download_archive $lfs tar.gz $lfs_url
-  cd $destination_folder/$lfs-$lfs_version
-  cat $nginx_install/config/lfs.config > config
+  cd $download_dir/$lfs-$lfs_version
+cat <<'EOF' > config
+LUA_LIBDIR=$(LUAJIT_LIB)
+LUA_INC= $(LUAJIT_INC)
+LIB_OPTION= -shared
+LIBNAME= $T.so.$V
+WARN= -O2 -Wall -fPIC -W -Waggregate-return -Wcast-align -Wmissing-prototypes -Wnested-externs -Wshadow -Wwrite-strings -pedantic
+INCS= -I$(LUA_INC)
+CFLAGS= $(WARN) $(INCS)
+CC= gcc
+EOF
   make
   make install
 
@@ -131,6 +141,7 @@ function nginx_install {
     --conf-path=$nginx_install/nginx.conf \
     --pid-path=$nginx_install/nginx.pid \
     --with-pcre=../$pcre-$pcre_version \
+    --with-pcre-jit \
     --with-zlib=../$zlib-$zlib_version \
     --with-http_ssl_module \
     --add-module=../$ngx_devel_kit-$ngx_devel_kit_version \
