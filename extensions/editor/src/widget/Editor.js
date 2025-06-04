@@ -19,7 +19,7 @@ Widget.Editor.prototype = {
     var aceEditor = ace.edit(this.data.id)
     this.aceEditor = aceEditor
 
-    aceEditor.setTheme("ace/theme/chrome")
+    this.setTheme(localStorage.getItem("isDark") === "true");
     aceEditor.getSession().setMode("ace/mode/text")
 
     aceEditor.setShowPrintMargin(false)
@@ -56,6 +56,14 @@ Widget.Editor.prototype = {
 
   getValue: function () {
     return this.aceEditor.getValue()
+  },
+
+  setTheme: function (isDark) {
+    if (isDark) {
+      this.aceEditor.setTheme("ace/theme/monokai")
+    } else {
+      this.aceEditor.setTheme("ace/theme/chrome")
+    }
   },
 
   setMode: function (e) {

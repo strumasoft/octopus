@@ -2,6 +2,10 @@
   color: {{baseline_color2}};
 }
 
+#menu.dark {
+  color: {{baseline_color1}};
+}
+
 .hand {
   cursor: pointer;
 }

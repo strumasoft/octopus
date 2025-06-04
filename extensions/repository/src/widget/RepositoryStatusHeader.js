@@ -1,5 +1,11 @@
 Widget.RepositoryStatusHeader = function (title) {
   var data = {title: title}
+  if (localStorage.getItem("isDark") === "true") {
+    data.theme = "fa-moon-o";
+    setTimeout(() => Widget.EditorHeader.theme(true), 50);
+  } else {
+    data.theme = "fa-sun-o";
+  }
 
   this.data = data
   this.html = parse(function(){/*!
@@ -7,6 +13,12 @@ Widget.RepositoryStatusHeader = function (title) {
       <h1><div id="menu" class="hand">{{title}}</div></h1>
       <nav id="nav">
         <ul>
+          <!-- Theme -->
+          <li><div id="theme" class="hand" 
+            onclick='Widget.EditorHeader.theme();'>
+            <i class="fa {{theme}}"></i></div>
+          </li>
+  
           <!-- Commit -->
           <li><div id="commitAction" class="hand" 
             onclick='Widget.RepositoryStatusHeader.commit();'>

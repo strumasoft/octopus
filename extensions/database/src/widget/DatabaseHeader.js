@@ -1,5 +1,11 @@
 Widget.DatabaseHeader = function (data) {
   data.color = property.baseline_color2
+  if (localStorage.getItem("isDark") === "true") {
+    data.theme = "fa-moon-o";
+    setTimeout(() => Widget.EditorHeader.theme(true), 50);
+  } else {
+    data.theme = "fa-sun-o";
+  }
   
   this.data = data
   this.html = parse(function(){/*!
@@ -7,6 +13,12 @@ Widget.DatabaseHeader = function (data) {
       <h1><div id="dbmenu" class="hand">Database</div></h1>
       <nav id="nav">
         <ul>
+          <!-- Theme -->
+          <li><div id="theme" class="hand" 
+            onclick='Widget.EditorHeader.theme();'>
+            <i class="fa {{theme}}"></i></div>
+          </li>
+          
           <!-- Login -->
           <li><div id="login" class="hand" 
             onclick='Widget.DatabaseHeader.login();'>
@@ -14,7 +26,7 @@ Widget.DatabaseHeader = function (data) {
           </li>
 
           <!-- Open New Window -->
-          <li><a id="openNewWindowAction" class="hand" style="color: {{color}};"
+          <li><a id="openNewWindowAction" class="hand" 
             href="" target="_blank">
             <i class="fa fa-share"></i></a>
           </li>

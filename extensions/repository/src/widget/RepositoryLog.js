@@ -1,11 +1,14 @@
 Widget.RepositoryLog = function () {
   var data = {}
+  if (localStorage.getItem("isDark") === "true") {
+    data.clazz = "dark";
+  }
 
   this.data = data
   this.html = parse(function(){/*!
     <div>
       <div class="diffComparator">
-        <pre id="repositoryLogContent" class="diffbox"></pre>
+        <pre id="repositoryLogContent" class="diffbox {{clazz}}"></pre>
       </div>
     </div>
   */}, data)

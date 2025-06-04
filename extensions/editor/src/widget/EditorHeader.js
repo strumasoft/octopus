@@ -1,11 +1,23 @@
 Widget.EditorHeader = function (title) {
   var data = {title: title, color: property.baseline_color2}
+  if (localStorage.getItem("isDark") === "true") {
+    data.theme = "fa-moon-o";
+    setTimeout(() => Widget.EditorHeader.theme(true), 50);
+  } else {
+    data.theme = "fa-sun-o";
+  }
 
   this.data = data
   this.html = parse(function(){/*!
     <header id="header" class="skel-layers-fixed">
       <nav id="nav">
         <ul>
+          <!-- Theme -->
+          <li><div id="theme" class="hand" 
+            onclick='Widget.EditorHeader.theme();'>
+            <i class="fa {{theme}}"></i></div>
+          </li>
+
           <!-- Login -->
           <li><div id="login" class="hand" 
             onclick='Widget.EditorHeader.login();'>
@@ -13,19 +25,19 @@ Widget.EditorHeader = function (title) {
           </li>
 
           <!-- Database -->
-          <li><a id="database" class="hand" style="color: {{color}};"
+          <li><a id="database" class="hand" 
             href="{{@ property.databaseUrl + property.databaseHomeUrl}}" target="_blank">
             <i class="fa fa-database"></i></a>
           </li>
 
           <!-- Comapre -->
-          <li><a id="compare" class="hand" style="color: {{color}};"
+          <li><a id="compare" class="hand" 
             href="{{@ property.editorUrl + property.compareUrl}}" target="_blank">
             <i class="fa fa-files-o"></i></a>
           </li>
 
           <!-- Cryptography -->
-          <li><a id="cryptography" class="hand" style="color: {{color}};"
+          <li><a id="cryptography" class="hand" 
             href="{{@ property.editorUrl + property.cryptographyUrl}}" target="_blank">
             <i class="fa fa-key"></i></a>
           </li>
@@ -43,7 +55,7 @@ Widget.EditorHeader = function (title) {
           </li>
 
           <!-- Open New Window -->
-          <li><a id="openNewWindowAction" class="hand" style="color: {{color}};"
+          <li><a id="openNewWindowAction" class="hand" 
             href="javascript:;" target="_blank"
             onclick='Widget.EditorHeader.openNewWindow();'>
             <i class="fa fa-share"></i></a>
@@ -54,12 +66,12 @@ Widget.EditorHeader = function (title) {
             onclick='Widget.EditorHeader.setRepository();'>
             <i class="fa fa-eye"></i> <i class="fa fa-user"></i></div>
           </li>
-          <li><a id="repositoryFileHistoryAction" class="hand" style="color: {{color}};" 
+          <li><a id="repositoryFileHistoryAction" class="hand"  
             href="javascript:;" target="_blank"
             onclick='return Widget.EditorHeader.repositoryFileHistory();'>
             <i class="fa fa-eye"></i> <i class="fa fa-file-o"></i></a>
           </li>
-          <li><a id="repositoryStatusAction" class="hand" style="color: {{color}};" 
+          <li><a id="repositoryStatusAction" class="hand"  
             href="javascript:;" target="_blank"
             onclick='return Widget.EditorHeader.repositoryStatus();'>
             <i class="fa fa-eye"></i> <i class="fa fa-folder-open"></i></a>
@@ -160,6 +172,41 @@ Widget.EditorHeader.prototype = {
 
 Widget.EditorHeader.height = function () {
   return $('#header').height()
+}
+
+
+//
+// theme
+//
+
+Widget.EditorHeader.theme = function (automatic) {
+  let isDark = localStorage.getItem("isDark") === "true";
+  if (!automatic) {
+    isDark = !isDark;
+    localStorage.setItem("isDark", isDark);
+  }
+  if (isDark) {
+    $("#theme").html('<i class="fa fa-moon-o"></i>');
+    $("#main").addClass("dark");
+    $("#menu").addClass("dark");
+    $("#header").addClass("dark");
+    $("#directoryNavigation").addClass("dark");
+    $("#listbox").addClass("dark");
+    $(".diffbox").addClass("dark");
+    $("#diffoutput").addClass("dark");
+  } else {
+    $("#theme").html('<i class="fa fa-sun-o"></i>');
+    $("#main").removeClass("dark");
+    $("#menu").removeClass("dark");
+    $("#header").removeClass("dark");
+    $("#directoryNavigation").removeClass("dark");
+    $("#listbox").removeClass("dark");
+    $(".diffbox").removeClass("dark");
+    $("#diffoutput").removeClass("dark");
+  }
+  if (typeof editor !== "undefined" && editor) {
+    editor.setTheme(isDark)
+  }
 }
 
 

@@ -3,9 +3,25 @@
   cursor: pointer;
 }
 
+#directoryNavigation.dark .directory {
+  color: {{baseline_color1}};
+}
+
+#listbox.dark .directory {
+  color: {{baseline_color1}};
+}
+
 .file {
   color: {{baseline_color2}};
   cursor: pointer;
+}
+
+#directoryNavigation.dark .file {
+  color: {{baseline_color1}};
+}
+
+#listbox.dark .file {
+  color: {{baseline_color1}};
 }
 
 .unknown {

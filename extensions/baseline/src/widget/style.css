@@ -808,6 +808,21 @@
     border-bottom: 6px solid {{baseline_color08}};
   }
 
+  #header.dark {
+    background: {{baseline_color2}};
+    color: {{baseline_color1}};
+  }
+
+  #directoryNavigation.dark {
+    background: {{baseline_color2}};
+    color: {{baseline_color1}};
+  }
+
+  #listbox.dark {
+    background: {{baseline_color2}};
+    color: {{baseline_color1}};
+  }
+
     #header h1 {
       color: {{baseline_color1}};
       height: inherit;
@@ -851,14 +866,14 @@
             -o-transition: color 0.2s ease-in-out;
             -ms-transition: color 0.2s ease-in-out;
             transition: color 0.2s ease-in-out;
-            color: {{baseline_color02}};
+            color: {{baseline_color2}};
             display: inline-block;
             text-decoration: none;
           }
 
-            #header nav > ul > li a:hover {
-              color: {{baseline_color1}};
-            }
+          #header.dark nav > ul > li a {
+            color: {{baseline_color1}};
+          }
 
           #header nav > ul > li:first-child {
             margin-left: 0;
@@ -914,6 +929,11 @@
 
   #main {
     padding: 4em 0;
+  }
+
+  #main.dark {
+    background: {{baseline_color2}};
+    color: {{baseline_color1}};
   }
 
 /* Footer */

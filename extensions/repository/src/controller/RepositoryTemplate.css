@@ -3,9 +3,17 @@ ins {
   text-decoration: none;
 }
 
+.diffbox.dark ins {
+  color: {{baseline_color2}};
+}
+
 del {
   background-color: #ffc6c6;
   text-decoration: none;
+}
+
+.diffbox.dark del {
+  color: {{baseline_color2}};
 }
 
 #diffoutput {
@@ -32,6 +40,11 @@ del {
   overflow-x: scroll;
 }
 
+.diffbox.dark {
+  color: {{baseline_color1}};
+  background: {{baseline_color2}};
+}
+
 #listbox {
   padding-top: 10px;
   margin: 5px;
@@ -43,14 +56,39 @@ del {
   overflow-x: scroll;
 }
 
+#listbox.dark {
+  background: {{baseline_color2}};
+  border: solid 1px {{baseline_color1}};
+}
+
 .repolog {
   margin: 0 0 0 0;
   color: {{baseline_color2}};
 }
 
+#listbox.dark .repolog {
+  color: {{baseline_color1}};
+}
+
 table.diff tbody td {
   color: {{baseline_color2}};
   font-size: 14px;
+}
+
+#diffoutput.dark table.diff tbody td {
+  color: {{baseline_color1}};
+}
+
+#diffoutput.dark table.diff tbody td.insert {
+  color: {{baseline_color2}};
+}
+
+#diffoutput.dark table.diff tbody td.delete {
+  color: {{baseline_color2}};
+}
+
+#diffoutput.dark table.diff tbody td.replace {
+  color: {{baseline_color2}};
 }
 
 table.diff {

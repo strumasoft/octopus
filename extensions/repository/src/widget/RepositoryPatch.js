@@ -12,11 +12,15 @@ Widget.RepositoryPatch.prototype = {
 }
 
 Widget.RepositoryPatch.setContent = function (contents) {
-  var html = ""
+  let clazz = "";
+  if (localStorage.getItem("isDark") === "true") {
+    clazz = "dark";
+  }
 
+  var html = ""
   for (var i = 0; i < contents.length; i++) {
     html = html 
-      + '<div class="diffComparator"><pre class="diffbox">' 
+      + '<div class="diffComparator"><pre class="diffbox ' + clazz + '">' 
       + Widget.decoratePatch(Widget.createHTML(contents[i])) 
       + "</pre></div>"
   }
