@@ -44,6 +44,91 @@ local initJSTemplate = [[
 ]]
 
 
+-- LuaJIT file:read("*all") doubles a buffer up to LJ_MAX_BUF (just under 2 GiB).
+-- The last size that still fits is 1 GiB, so a larger file raises "not enough memory".
+local READ_ALL_LIMIT = 1024 * 1024 * 1024
+local CHUNK_SIZE = 1024 * 1024
+
+
+local function isMemoryError (err)
+  return type(err) == "string" and err:find("not enough memory", 1, true)
+end
+
+
+local function streamContainsQuery (path, query, isPlainString, isIgnoreCase)
+  local file = editor.open(path)
+  local found = false
+
+  local ok, err = pcall(function ()
+    if not isPlainString then
+      -- A pattern may span a chunk boundary; this still finds matches that fit in one chunk.
+      while true do
+        local chunk = file:read(CHUNK_SIZE)
+        if not chunk then break end
+        if chunk:findQuery(query, 1, false, isIgnoreCase) then
+          found = true
+          return
+        end
+      end
+      return
+    end
+
+    local needle = query
+    local ascii = true
+    if isIgnoreCase then
+      require "utf8"
+      ascii = string.isascii(query)
+      needle = ascii and string.lower(query) or string.utf8lower(query)
+    end
+    if needle == "" then
+      found = true
+      return
+    end
+
+    local overlap = #needle - 1
+    local carry = ""
+    while true do
+      local chunk = file:read(CHUNK_SIZE)
+      if not chunk then break end
+      if isIgnoreCase then
+        chunk = ascii and string.lower(chunk) or string.utf8lower(chunk)
+      end
+      local data = carry .. chunk
+      if data:find(needle, 1, true) then
+        found = true
+        return
+      end
+      if overlap > 0 and #data > overlap then
+        carry = data:sub(-overlap)
+      else
+        carry = ""
+      end
+    end
+  end)
+
+  file:close()
+  if not ok then error(err) end
+  return found
+end
+
+
+local function fileContainsQuery (path, size, query, isPlainString, isIgnoreCase)
+  if size and size >= READ_ALL_LIMIT then
+    return streamContainsQuery(path, query, isPlainString, isIgnoreCase)
+  end
+
+  local ok, content = pcall(editor.fileContent, path)
+  if not ok then
+    if isMemoryError(content) then
+      return streamContainsQuery(path, query, isPlainString, isIgnoreCase)
+    end
+    error(content)
+  end
+
+  return content and content:findQuery(query, 1, isPlainString, isIgnoreCase)
+end
+
+
 local function aggregateAllFilesContainingQuery (files, directoryName, query, filter, isPlainString, isFileName, isIgnoreCase, counter)
   for entry, attr in pairs(directory.entries(directoryName)) do
     if attr.mode == "file" then
@@ -54,8 +139,7 @@ local function aggregateAllFilesContainingQuery (files, directoryName, query, fi
             files[#files + 1] = path
           end
         else
-          local content = editor.fileContent(path)
-          if content:findQuery(query, 1, isPlainString, isIgnoreCase) then
+          if fileContainsQuery(path, attr.size, query, isPlainString, isIgnoreCase) then
             files[#files + 1] = path
           end
 
@@ -82,11 +166,15 @@ local function replaceQuery (files, directoryName, query, replace, isPlainString
         editor.rename(oldName, newName)
       end
     else
-      local content = editor.fileContent(files[i])
-      local newContent = content:replaceQuery(query, replace, isPlainString, isIgnoreCase)
+      local ok, content = pcall(editor.fileContent, files[i])
+      if not ok then
+        if not isMemoryError(content) then error(content) end
+      elseif content then
+        local newContent = content:replaceQuery(query, replace, isPlainString, isIgnoreCase)
 
-      if newContent then
-        editor.save(files[i], newContent)
+        if newContent then
+          editor.save(files[i], newContent)
+        end
       end
     end
   end

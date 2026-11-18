@@ -123,7 +123,7 @@ end
 -- fileContent
 --
 
-function m.fileContent (fileName)
+function m.open (fileName)
   if fileName then
     fileutil.noBackDirectory(fileName)
 
@@ -133,13 +133,18 @@ function m.fileContent (fileName)
       exception(err)
     end
 
-    local content = file:read("*all")
-    file:close()
-
-    return content
+    return file
   else
     exception("fileName is empty")
   end
+end
+
+
+function m.fileContent (fileName)
+  local file = m.open(fileName)
+  local content = file:read("*all")
+  file:close()
+  return content
 end
 
 
